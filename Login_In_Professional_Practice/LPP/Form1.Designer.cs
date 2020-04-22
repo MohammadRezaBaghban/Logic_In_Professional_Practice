@@ -31,6 +31,7 @@
             this.lb1 = new System.Windows.Forms.Label();
             this.TbProposition = new System.Windows.Forms.TextBox();
             this.BtnParse = new System.Windows.Forms.Button();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // lb1
@@ -39,9 +40,9 @@
             this.lb1.Location = new System.Drawing.Point(11, 27);
             this.lb1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lb1.Name = "lb1";
-            this.lb1.Size = new System.Drawing.Size(389, 40);
+            this.lb1.Size = new System.Drawing.Size(395, 40);
             this.lb1.TabIndex = 0;
-            this.lb1.Text = "Abstract Proposition Formula";
+            this.lb1.Text = "Abstract Proposition Formula:";
             // 
             // TbProposition
             // 
@@ -56,14 +57,26 @@
             this.BtnParse.Name = "BtnParse";
             this.BtnParse.Size = new System.Drawing.Size(248, 54);
             this.BtnParse.TabIndex = 2;
-            this.BtnParse.Text = "Parse";
+            this.BtnParse.Text = "ParseRecursively Recursively";
             this.BtnParse.UseVisualStyleBackColor = true;
+            this.BtnParse.Click += new System.EventHandler(this.BtnParse_Click);
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 38;
+            this.listBox1.Location = new System.Drawing.Point(1337, 24);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(316, 270);
+            this.listBox1.TabIndex = 3;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(15F, 38F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.ClientSize = new System.Drawing.Size(1817, 639);
+            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.BtnParse);
             this.Controls.Add(this.TbProposition);
             this.Controls.Add(this.lb1);
@@ -81,6 +94,7 @@
         private System.Windows.Forms.Label lb1;
         private System.Windows.Forms.TextBox TbProposition;
         private System.Windows.Forms.Button BtnParse;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 
