@@ -17,11 +17,19 @@ namespace LPP
     public static class ParsingModule
     {
 
-        public  static List<char> elements = new List<char>();
-        public static int nodeCounter;
         private static readonly BinaryTree bt = new BinaryTree();
+        public static List<char> elements = new List<char>();
+        public static char[] Connectives = new char[] { '~', '>', '=', '&', '|' };
+        public static int nodeCounter;
 
-        public static CompositeComponent ParseInput(string input)
+        /// <summary>
+        /// Parse the input formula and generate binary tree out of it
+        /// </summary>
+        /// It will parse the given formula recursively to extract formula elements
+        /// Generate the binary tree out of the given formula
+        ///  <param name="input">prefix abstract proposition formula</param>
+        /// <returns>The root of generate BinaryTree</returns>
+        public static Component ParseInput(string input)
         {
             EraseParsedList();
             ParseInputRecursively(ref input);
@@ -71,7 +79,7 @@ namespace LPP
                         case '&':
                         case '|':
                             elements.Add(expression[0]);
-                            EatMethod(ref expression,2);
+                            EatMethod(ref expression, 2);
                             string a1 = expression.Substring(0, expression.IndexOf(')') + 1);
                             expression = expression.Remove(0, a1.Length);
                             ParseInputRecursively(ref a1);
@@ -90,6 +98,12 @@ namespace LPP
             }
         }
 
+
+        /// <summary>
+        /// Interact with BinaryTree instance to generate a binary tree based on element
+        /// </summary>
+        /// <param name="input">list of elements in the binary tree</param>
+        /// <returns>The root of binary tree</returns>
         private static Composite_Pattern.Component GenerateBinaryTree(List<char> input)
         {
             Component root = bt._root;
@@ -136,11 +150,8 @@ namespace LPP
                         case '~':
                             root = bt.InsertNode(root, new NegationConnective());
                             break;
-
                     }
                 }
-                
-
             }
             nodeCounter = 0;
             return bt._root;
@@ -180,10 +191,6 @@ namespace LPP
 
         private static characterType CharacterType(char character)
         {
-            var Connectives = new char[] {
-                '~','>','=','&','|'
-            };
-
             // If the character is Propositional Variables or true/false  
             if (Char.IsUpper(character) || character == '0' || character == '1')
             {

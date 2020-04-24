@@ -31,7 +31,8 @@
             this.lb1 = new System.Windows.Forms.Label();
             this.TbProposition = new System.Windows.Forms.TextBox();
             this.BtnParse = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.PropositionalVariables = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // lb1
@@ -61,22 +62,32 @@
             this.BtnParse.UseVisualStyleBackColor = true;
             this.BtnParse.Click += new System.EventHandler(this.BtnParse_Click);
             // 
-            // listBox1
+            // label1
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 38;
-            this.listBox1.Location = new System.Drawing.Point(1337, 24);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(316, 270);
-            this.listBox1.TabIndex = 3;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(11, 95);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(307, 40);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Propositional Variables";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // PropositionalVariables
+            // 
+            this.PropositionalVariables.FormattingEnabled = true;
+            this.PropositionalVariables.Location = new System.Drawing.Point(425, 89);
+            this.PropositionalVariables.Name = "PropositionalVariables";
+            this.PropositionalVariables.Size = new System.Drawing.Size(121, 46);
+            this.PropositionalVariables.TabIndex = 5;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(15F, 38F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.ClientSize = new System.Drawing.Size(1817, 639);
-            this.Controls.Add(this.listBox1);
+            this.ClientSize = new System.Drawing.Size(1326, 639);
+            this.Controls.Add(this.PropositionalVariables);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.BtnParse);
             this.Controls.Add(this.TbProposition);
             this.Controls.Add(this.lb1);
@@ -94,7 +105,8 @@
         private System.Windows.Forms.Label lb1;
         private System.Windows.Forms.TextBox TbProposition;
         private System.Windows.Forms.Button BtnParse;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox PropositionalVariables;
     }
 }
 

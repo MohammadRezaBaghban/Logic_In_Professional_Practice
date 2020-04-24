@@ -21,25 +21,26 @@ namespace LPP
         {
             string userInput = TbProposition.Text.Trim();
 
-            if (userInput.Length < 4)
+            try
             {
-                try
+                if (userInput.Length < 4)
                 {
                     throw new LPPException("Format of input is not correct");
                 }
-                catch(Exception ex)
+                else
                 {
-                    MessageBox.Show($"{ex.Message}");
-                    TbProposition.Text = "";
+                    PropositionalVariables.Items.Clear();
+                    var rootOfBinaryTree = ParsingModule.ParseInput(userInput);
+                    var items = ParsingModule.elements.Except(ParsingModule.Connectives).Distinct().ToList();
+                    items.ForEach(x => PropositionalVariables.Items.Add(x));
                 }
             }
-            else
+            catch (Exception ex)
             {
-                listBox1.Items.Clear();
-                var rootOfBinaryTree = ParsingModule.ParseInput(userInput);
-                var items = ParsingModule.elements;
-                items.ForEach(x=> listBox1.Items.Add(x));
+                MessageBox.Show($"{ex.Message}");
+
             }
+
         }
     }
 }
