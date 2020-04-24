@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
+using LPP.Composite_Pattern;
+using LPP.Composite_Pattern.Node;
+using LPP.NodeComponents;
+using Component = LPP.Composite_Pattern.Component;
 
 namespace LPP
 {
@@ -12,13 +17,16 @@ namespace LPP
     public static class ParsingModule
     {
 
-        public  static List<string> elements = new List<string>();
-        private static int nodeCount;
+        public  static List<char> elements = new List<char>();
+        public static int nodeCounter;
+        private static readonly BinaryTree bt = new BinaryTree();
 
-        public static void ParseInput(string input)
+        public static CompositeComponent ParseInput(string input)
         {
             EraseParsedList();
             ParseInputRecursively(ref input);
+            GenerateBinaryTree(elements);
+            return bt._root;
         }
 
 
@@ -50,7 +58,7 @@ namespace LPP
                 }
                 else if (CharacterType(expression[0]) == characterType.PropositionalVariable)
                 {
-                    elements.Add(expression[0].ToString());
+                    elements.Add(expression[0]);
                     EatMethod(ref expression);
                     return ParseInputRecursively(ref expression);
                 }
@@ -62,7 +70,7 @@ namespace LPP
                         case '=':
                         case '&':
                         case '|':
-                            elements.Add(expression[0].ToString());
+                            elements.Add(expression[0]);
                             EatMethod(ref expression,2);
                             string a1 = expression.Substring(0, expression.IndexOf(')') + 1);
                             expression = expression.Remove(0, a1.Length);
@@ -72,7 +80,7 @@ namespace LPP
                             ParseInputRecursively(ref a2);
                             return ParseInputRecursively(ref expression);
                         case '~':
-                            elements.Add(expression[0].ToString());
+                            elements.Add(expression[0]);
                             EatMethod(ref expression, 2);
                             return ParseInputRecursively(ref expression);
                         default:
@@ -80,6 +88,62 @@ namespace LPP
                     }
                 }
             }
+        }
+
+        private static Composite_Pattern.Component GenerateBinaryTree(List<char> input)
+        {
+            Component root = bt._root;
+            for (int i = 0; i <= input.Count - 1; i++)
+            {
+                if (CharacterType(input[i]) == characterType.PropositionalVariable)
+                {
+                    switch (input[i])
+                    {
+                        // Values
+                        case '0':
+                            bt.InsertNode(root, new TrueFalse(false));
+                            break;
+                        case '1':
+                            bt.InsertNode(root, new TrueFalse(true));
+                            break;
+
+                        //Variables                    
+                        default:
+                            bt.InsertNode(root, new PropositionalVariable(input[i]));
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (input[i])
+                    {
+                        //Two Operands Connectives
+                        case '>':
+                            root = bt.InsertNode(root, new ImplicationConnective());
+                            break;
+                        case '=':
+                            root = bt.InsertNode(root, new Bi_ImplicationConnective());
+                            break;
+                        case '&':
+                            root = bt.InsertNode(root, new ConjuctionConnective());
+                            break;
+                        case '|':
+                            root = bt.InsertNode(root, new DisjunctionConnective());
+                            break;
+
+
+                        //One Operand Connective
+                        case '~':
+                            root = bt.InsertNode(root, new NegationConnective());
+                            break;
+
+                    }
+                }
+                
+
+            }
+            nodeCounter = 0;
+            return bt._root;
         }
 
         /// <summary>
@@ -103,7 +167,6 @@ namespace LPP
             }
         }
 
-
         /// <summary>
         /// Clear previous parsed formula and its associated binary tree
         /// </summary>
@@ -111,7 +174,7 @@ namespace LPP
         private static void EraseParsedList()
         {
             elements.Clear();
-            nodeCount = 0;
+            nodeCounter = 0;
             //bt._root = null;
         }
 

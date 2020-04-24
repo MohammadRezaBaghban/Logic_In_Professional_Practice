@@ -36,9 +36,9 @@ namespace LPP
             else
             {
                 listBox1.Items.Clear();
-                ParsingModule.ParseInput(userInput);
+                var rootOfBinaryTree = ParsingModule.ParseInput(userInput);
                 var items = ParsingModule.elements;
-                listBox1.Items.AddRange(items.ToArray());
+                items.ForEach(x=> listBox1.Items.Add(x));
             }
         }
     }
