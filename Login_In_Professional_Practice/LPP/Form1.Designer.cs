@@ -43,21 +43,21 @@
             this.lb1.Location = new System.Drawing.Point(11, 27);
             this.lb1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lb1.Name = "lb1";
-            this.lb1.Size = new System.Drawing.Size(236, 23);
+            this.lb1.Size = new System.Drawing.Size(395, 40);
             this.lb1.TabIndex = 0;
             this.lb1.Text = "Abstract Proposition Formula:";
             // 
             // TbProposition
             // 
-            this.TbProposition.Location = new System.Drawing.Point(252, 21);
+            this.TbProposition.Location = new System.Drawing.Point(411, 20);
             this.TbProposition.Name = "TbProposition";
-            this.TbProposition.Size = new System.Drawing.Size(613, 29);
+            this.TbProposition.Size = new System.Drawing.Size(613, 45);
             this.TbProposition.TabIndex = 1;
             this.TbProposition.Text = ">(|(H,>(T,Y)),=(B,&(0,C))";
             // 
             // BtnParse
             // 
-            this.BtnParse.Location = new System.Drawing.Point(890, 13);
+            this.BtnParse.Location = new System.Drawing.Point(1041, 21);
             this.BtnParse.Name = "BtnParse";
             this.BtnParse.Size = new System.Drawing.Size(154, 43);
             this.BtnParse.TabIndex = 2;
@@ -70,7 +70,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(11, 95);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(183, 23);
+            this.label1.Size = new System.Drawing.Size(307, 40);
             this.label1.TabIndex = 4;
             this.label1.Text = "Propositional Variables";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -78,25 +78,25 @@
             // PropositionalVariables
             // 
             this.PropositionalVariables.FormattingEnabled = true;
-            this.PropositionalVariables.Location = new System.Drawing.Point(252, 89);
+            this.PropositionalVariables.Location = new System.Drawing.Point(411, 93);
             this.PropositionalVariables.Name = "PropositionalVariables";
-            this.PropositionalVariables.Size = new System.Drawing.Size(121, 29);
+            this.PropositionalVariables.Size = new System.Drawing.Size(121, 46);
             this.PropositionalVariables.TabIndex = 5;
             // 
             // PbBinaryGraph
             // 
-            this.PbBinaryGraph.Location = new System.Drawing.Point(615, 89);
+            this.PbBinaryGraph.Location = new System.Drawing.Point(766, 95);
             this.PbBinaryGraph.Name = "PbBinaryGraph";
-            this.PbBinaryGraph.Size = new System.Drawing.Size(429, 492);
+            this.PbBinaryGraph.Size = new System.Drawing.Size(429, 519);
             this.PbBinaryGraph.TabIndex = 6;
             this.PbBinaryGraph.TabStop = false;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(15F, 38F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.ClientSize = new System.Drawing.Size(1060, 639);
+            this.ClientSize = new System.Drawing.Size(1220, 639);
             this.Controls.Add(this.PbBinaryGraph);
             this.Controls.Add(this.PropositionalVariables);
             this.Controls.Add(this.label1);

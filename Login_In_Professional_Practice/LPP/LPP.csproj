@@ -65,7 +65,8 @@
     <Compile Include="Composite Pattern\Component.cs" />
     <Compile Include="Composite Pattern\CompositeComponent.cs" />
     <Compile Include="Composite Pattern\SingleComponent.cs" />
-    <Compile Include="NodeStructure\IVisitor.cs" />
+    <Compile Include="Visitor Pattern\Infix_Generator.cs" />
+    <Compile Include="Visitor Pattern\IVisitor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
