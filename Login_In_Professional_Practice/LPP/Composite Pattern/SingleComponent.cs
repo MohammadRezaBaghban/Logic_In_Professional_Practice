@@ -10,17 +10,10 @@ namespace LPP.Composite_Pattern
     {
         //Fields
         public bool IsPropositionalVariable;
-        public override string GraphVizFormula
-        {
-            get => $"node{NodeNumber} [ label = \"{Symbol}\" ]";
-        }
+        public override string GraphVizFormula => $"node{NodeNumber} [ label = \"{Symbol}\" ]";
 
         //Methods
-        public override void Evaluate(IVisitor visitor)
-        {
-
-        }
-
+        public abstract override void Evaluate(IVisitor visitor);
         public override string ToString() => $"Variable {Symbol} - Value: {Data}";
     }
 }

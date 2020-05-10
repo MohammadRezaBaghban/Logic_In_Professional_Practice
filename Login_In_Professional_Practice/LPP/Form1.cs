@@ -9,19 +9,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LPP.Visitor_Pattern;
 
 namespace LPP
 {
     public partial class Form1 : Form
     {
+        private readonly InfixFormula_Generator _formulaFormulaGenerator;
         public Form1()
         {
             InitializeComponent();
+            _formulaFormulaGenerator = new InfixFormula_Generator();
         }
 
         private void BtnParse_Click(object sender, EventArgs e)
         {
-            string userInput = TbProposition.Text.Trim();
+            string userInput = TbPrefixFormula.Text.Trim();
 
             try
             {
@@ -34,10 +37,12 @@ namespace LPP
                     PropositionalVariables.Items.Clear();
 
                     var rootOfBinaryTree = ParsingModule.ParseInput(userInput);
-                    var items = ParsingModule.elements.Except(ParsingModule.Connectives).Distinct().ToList();
-
+                    
                     GenerateGraphVizBinaryGraph(rootOfBinaryTree.GraphVizFormula, PbBinaryGraph);
+                    _formulaFormulaGenerator.Calculate(rootOfBinaryTree);
+                    TbInfixFormula.Text = rootOfBinaryTree.InFixFormula;
 
+                    var items = ParsingModule.elements.Except(ParsingModule.Connectives).Distinct().ToList();
                     items.ForEach(x => PropositionalVariables.Items.Add(x));
                     PropositionalVariables.SelectedIndex = 0;
                 }

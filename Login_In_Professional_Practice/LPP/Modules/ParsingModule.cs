@@ -23,7 +23,7 @@ namespace LPP
         public static int nodeCounter;
 
         /// <summary>
-        /// Parse the input formula and generate binary tree out of it
+        /// Parse the input formula and generate binary tree object out of it
         /// </summary>
         /// It will parse the given formula recursively to extract formula elements
         /// Generate the binary tree out of the given formula

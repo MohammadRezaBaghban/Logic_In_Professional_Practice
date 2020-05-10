@@ -43,8 +43,4 @@ namespace LPP.NodeComponents
             + $" | LeftNode: {LeftNode.GetType().Name}";
 
     }
-
-    public interface IVisitor
-    {
-    }
 }
