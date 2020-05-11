@@ -63,19 +63,19 @@ namespace LPP.Visitor_Pattern
         {
             if (visitable.LeftNode is CompositeComponent && visitable.RightNode is CompositeComponent)
             {
-                visitable.InFixFormula = $"({visitable.LeftNode.InFixFormula}) {connective} ({visitable.RightNode.InFixFormula})";
+                visitable.InFixFormula = $"({visitable.LeftNode.InFixFormula}){connective}({visitable.RightNode.InFixFormula})";
             }
             else if (visitable.LeftNode is CompositeComponent)
             {
-                visitable.InFixFormula = $"({visitable.LeftNode.InFixFormula}) {connective} {visitable.RightNode.InFixFormula}";
+                visitable.InFixFormula = $"({visitable.LeftNode.InFixFormula}){connective}{visitable.RightNode.InFixFormula}";
             }
             else if (visitable.RightNode is CompositeComponent)
             {
-                visitable.InFixFormula = $"{visitable.LeftNode.InFixFormula} {connective} ({visitable.RightNode.InFixFormula})";
+                visitable.InFixFormula = $"{visitable.LeftNode.InFixFormula}{connective}({visitable.RightNode.InFixFormula})";
             }
             else
             {
-                visitable.InFixFormula = $"{visitable.LeftNode.InFixFormula} {connective} {visitable.RightNode.InFixFormula}";
+                visitable.InFixFormula = $"{visitable.LeftNode.InFixFormula}{connective}{visitable.RightNode.InFixFormula}";
             }
         }
     }

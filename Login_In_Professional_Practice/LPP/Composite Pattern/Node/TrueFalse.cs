@@ -13,7 +13,7 @@ namespace LPP.Composite_Pattern.Node
         {
             Data = data;
             Symbol = (data) ? '1' : '0';
-            InFixFormula = (data) ? "T" : "F";
+            InFixFormula = (data) ? "True" : "False";
             NodeNumber = ++ParsingModule.nodeCounter;
         }
 

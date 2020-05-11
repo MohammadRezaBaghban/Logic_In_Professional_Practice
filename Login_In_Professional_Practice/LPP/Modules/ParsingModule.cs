@@ -12,7 +12,6 @@ namespace LPP
 {
     /// <summary>
     /// A static class for the sake of parsing user input
-    ///
     /// </summary>
     public static class ParsingModule
     {

@@ -4,9 +4,11 @@ using LPP.NodeComponents;
 
 namespace LPP
 {
+    /// <summary>
+    /// A class who is responsible for creating BinaryTree from object structure.
+    /// </summary>
     public class BinaryTree
     {
-
         public CompositeComponent _root;
 
         public Component InsertNode(Component root, Component node)
@@ -24,8 +26,7 @@ namespace LPP
             }
         }
 
-
-        public Component InsertCompositeNode(Component root, Component newNode)
+        private Component InsertCompositeNode(Component root, Component newNode)
         {
             if (root == null)
             {
@@ -66,12 +67,12 @@ namespace LPP
                             root.RightNode = newNode;
                             root.RightNode.Parent = root;
                         }
+                        else
                         {
                             if (root.Parent != null)
                             {
                                 return InsertNode(root.Parent, newNode);
                             }
-
                         }
                     }
                     else
@@ -145,16 +146,15 @@ namespace LPP
                     }
                     else
                     {
-                        if (root.RightNode == null)
-                        {
-                            root.RightNode = newNode;
-                            root.RightNode.Parent = root;
-                        }
-                        else if (root.LeftNode == null)
+                        if (root.LeftNode == null)
                         {
                             root.LeftNode = newNode;
                             root.LeftNode.Parent = root;
-
+                        }
+                        else if(root.RightNode == null)
+                        {
+                            root.RightNode = newNode;
+                            root.RightNode.Parent = root;
                         }
                         else
                         {
@@ -171,7 +171,7 @@ namespace LPP
             }
         }
 
-        internal Component InsertSingleNode(Component root, SingleComponent singleNode)
+        private Component InsertSingleNode(Component root, SingleComponent singleNode)
         {
 
             //Try to put the signle node on the left side of tree as much as possible
