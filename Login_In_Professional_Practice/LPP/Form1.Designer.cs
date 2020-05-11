@@ -44,7 +44,7 @@
             // lb1
             // 
             this.lb1.AutoSize = true;
-            this.lb1.Location = new System.Drawing.Point(25, 47);
+            this.lb1.Location = new System.Drawing.Point(11, 32);
             this.lb1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lb1.Name = "lb1";
             this.lb1.Size = new System.Drawing.Size(235, 40);
@@ -53,17 +53,17 @@
             // 
             // TbPrefixFormula
             // 
-            this.TbPrefixFormula.Location = new System.Drawing.Point(265, 47);
+            this.TbPrefixFormula.Location = new System.Drawing.Point(208, 26);
             this.TbPrefixFormula.Name = "TbPrefixFormula";
-            this.TbPrefixFormula.Size = new System.Drawing.Size(613, 45);
+            this.TbPrefixFormula.Size = new System.Drawing.Size(310, 45);
             this.TbPrefixFormula.TabIndex = 1;
             this.TbPrefixFormula.Text = ">(|(H,>(T,Y)),=(B,&(0,C))";
             // 
             // BtnParse
             // 
-            this.BtnParse.Location = new System.Drawing.Point(884, 47);
+            this.BtnParse.Location = new System.Drawing.Point(524, 26);
             this.BtnParse.Name = "BtnParse";
-            this.BtnParse.Size = new System.Drawing.Size(182, 166);
+            this.BtnParse.Size = new System.Drawing.Size(107, 103);
             this.BtnParse.TabIndex = 2;
             this.BtnParse.Text = "Parse Recursively";
             this.BtnParse.UseVisualStyleBackColor = true;
@@ -72,33 +72,34 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(25, 173);
+            this.label1.Location = new System.Drawing.Point(11, 97);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(307, 40);
+            this.label1.Size = new System.Drawing.Size(313, 40);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Propositional Variables";
+            this.label1.Text = "Propositional Variables:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // PropositionalVariables
             // 
             this.PropositionalVariables.FormattingEnabled = true;
-            this.PropositionalVariables.Location = new System.Drawing.Point(757, 167);
+            this.PropositionalVariables.Location = new System.Drawing.Point(397, 97);
             this.PropositionalVariables.Name = "PropositionalVariables";
             this.PropositionalVariables.Size = new System.Drawing.Size(121, 46);
             this.PropositionalVariables.TabIndex = 5;
             // 
             // PbBinaryGraph
             // 
-            this.PbBinaryGraph.Location = new System.Drawing.Point(666, 300);
+            this.PbBinaryGraph.Location = new System.Drawing.Point(359, 153);
             this.PbBinaryGraph.Name = "PbBinaryGraph";
-            this.PbBinaryGraph.Size = new System.Drawing.Size(429, 519);
+            this.PbBinaryGraph.Size = new System.Drawing.Size(290, 228);
+            this.PbBinaryGraph.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PbBinaryGraph.TabIndex = 6;
             this.PbBinaryGraph.TabStop = false;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(25, 110);
+            this.label2.Location = new System.Drawing.Point(11, 65);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(205, 40);
             this.label2.TabIndex = 7;
@@ -108,9 +109,9 @@
             // TbInfixFormula
             // 
             this.TbInfixFormula.Enabled = false;
-            this.TbInfixFormula.Location = new System.Drawing.Point(265, 111);
+            this.TbInfixFormula.Location = new System.Drawing.Point(208, 63);
             this.TbInfixFormula.Name = "TbInfixFormula";
-            this.TbInfixFormula.Size = new System.Drawing.Size(613, 45);
+            this.TbInfixFormula.Size = new System.Drawing.Size(310, 45);
             this.TbInfixFormula.TabIndex = 8;
             // 
             // groupBox1
@@ -124,7 +125,7 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1083, 257);
+            this.groupBox1.Size = new System.Drawing.Size(637, 135);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Abstract Proposition";
@@ -135,7 +136,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(15F, 38F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.ClientSize = new System.Drawing.Size(1119, 846);
+            this.ClientSize = new System.Drawing.Size(656, 494);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.PbBinaryGraph);
             this.Font = new System.Drawing.Font("Segoe UI", 12.14286F);

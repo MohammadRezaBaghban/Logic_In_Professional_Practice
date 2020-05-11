@@ -41,6 +41,7 @@ namespace LPP
                     GenerateGraphVizBinaryGraph(rootOfBinaryTree.GraphVizFormula, PbBinaryGraph);
                     _formulaFormulaGenerator.Calculate(rootOfBinaryTree);
                     TbInfixFormula.Text = rootOfBinaryTree.InFixFormula;
+                    TbInfixFormula.Enabled = true;
 
                     var items = ParsingModule.elements.Except(ParsingModule.Connectives).Distinct().ToList();
                     items.ForEach(x => PropositionalVariables.Items.Add(x));

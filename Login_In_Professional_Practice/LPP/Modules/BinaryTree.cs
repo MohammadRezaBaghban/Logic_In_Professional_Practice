@@ -78,15 +78,15 @@ namespace LPP
                     else
                     {
                         //For the sake of having more balanced binary graph
-                        if (root.RightNode == null)
-                        {
-                            root.RightNode = newNode;
-                            root.RightNode.Parent = root;
-                        }
-                        else if (root.LeftNode == null)
+                        if (root.LeftNode == null)
                         {
                             root.LeftNode = newNode;
                             root.LeftNode.Parent = root;
+                        }
+                        else if (root.RightNode == null)
+                        {
+                            root.RightNode = newNode;
+                            root.RightNode.Parent = root;
                         }
                         else
                         {
@@ -174,7 +174,7 @@ namespace LPP
         private Component InsertSingleNode(Component root, SingleComponent singleNode)
         {
 
-            //Try to put the signle node on the left side of tree as much as possible
+            //Try to put the single node on the left side of tree as much as possible
             if (root is NegationConnective)
             {
                 if (root.LeftNode == null)
