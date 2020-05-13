@@ -31,6 +31,7 @@ namespace LPP
             if (root == null)
             {
                 this._root = (CompositeComponent)newNode;
+                this._root.PropositionalVariables = new PropositionalVariables();
                 return _root;
             }
 
