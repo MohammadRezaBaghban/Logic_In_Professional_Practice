@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +8,7 @@ namespace LPP.NodeComponents
 {
     public class CompositeComponent : Component
     {
+        public PropositionalVariables PropositionalVariables = null;
 
         public override string GraphVizFormula
         {

@@ -28,7 +28,7 @@ namespace LPP
         /// Generate the binary tree out of the given formula
         ///  <param name="input">prefix abstract proposition formula</param>
         /// <returns>The root of generate BinaryTree</returns>
-        public static Component ParseInput(string input)
+        public static CompositeComponent ParseInput(string input)
         {
             EraseParsedList();
             ParseInputRecursively(ref input);
@@ -109,9 +109,10 @@ namespace LPP
             Component root = bt._root;
             for (int i = 0; i <= input.Count - 1; i++)
             {
-                if (CharacterType(input[i]) == characterType.PropositionalVariable)
+                char currentCharacter = input[i];
+                if (CharacterType(currentCharacter) == characterType.PropositionalVariable)
                 {
-                    switch (input[i])
+                    switch (currentCharacter)
                     {
                         // Values
                         case '0':
@@ -123,13 +124,23 @@ namespace LPP
 
                         //Variables                    
                         default:
-                            bt.InsertNode(root, new PropositionalVariable(input[i]));
+                            var propositionVariable = bt._root.PropositionalVariables.GetPropositionalVariable(currentCharacter);
+                            if (propositionVariable == null)
+                            {
+                                propositionVariable = new PropositionalVariable(currentCharacter);
+                                bt._root.PropositionalVariables.AddPropsitionalVaraiable(propositionVariable);
+                                bt.InsertNode(root, propositionVariable);
+                            }
+                            else
+                            {
+                                bt.InsertNode(root, propositionVariable);
+                            }
                             break;
                     }
                 }
                 else
                 {
-                    switch (input[i])
+                    switch (currentCharacter)
                     {
                         //Two Operands Connectives
                         case '>':

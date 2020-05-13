@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LPP.Composite_Pattern.Node;
 using LPP.Visitor_Pattern;
 
 namespace LPP
@@ -43,8 +44,7 @@ namespace LPP
                     TbInfixFormula.Text = rootOfBinaryTree.InFixFormula;
                     TbInfixFormula.Enabled = true;
 
-                    var items = ParsingModule.elements.Except(ParsingModule.Connectives).Distinct().ToList();
-                    items.ForEach(x => PropositionalVariables.Items.Add(x));
+                    rootOfBinaryTree.PropositionalVariables.GetPropositionalVariables().ToList().ForEach(p=> PropositionalVariables.Items.Add(p.Symbol));
                     PropositionalVariables.SelectedIndex = 0;
                 }
             }

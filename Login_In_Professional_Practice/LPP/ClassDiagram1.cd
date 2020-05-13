@@ -19,13 +19,6 @@
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
-    <NestedTypes>
-      <Enum Name="LPP.ParsingModule.characterType">
-        <TypeIdentifier>
-          <NewMemberFileName>Modules\ParsingModule.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAIBAAAAACAIABAAAAACAAEgAAQAAAAAA=</HashCode>
       <FileName>Modules\ParsingModule.cs</FileName>
@@ -67,7 +60,7 @@
   <Class Name="LPP.NodeComponents.CompositeComponent">
     <Position X="6.5" Y="4.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <HashCode>AAAAAAAAAAACAAAEAAAAAgAAAAAAAAAAAAAAAAABAAA=</HashCode>
       <FileName>Composite Pattern\CompositeComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -116,9 +109,10 @@
   <Class Name="LPP.Composite_Pattern.Node.PropositionalVariable">
     <Position X="11.25" Y="7" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAgAAAAAAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>Composite Pattern\Node\PropositionalVariable.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="LPP.Composite_Pattern.Node.TrueFalse">
     <Position X="13.5" Y="7" Width="2" />

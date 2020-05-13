@@ -53,6 +53,7 @@
     <Compile Include="Composite Pattern\Node\NegationConnective.cs" />
     <Compile Include="Composite Pattern\Node\PropositionalVariable.cs" />
     <Compile Include="Composite Pattern\Node\TrueFalse.cs" />
+    <Compile Include="Composite Pattern\PropositionalVariables.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
