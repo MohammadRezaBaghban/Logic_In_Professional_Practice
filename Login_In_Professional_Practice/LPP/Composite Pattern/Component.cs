@@ -19,7 +19,6 @@
 
         public virtual string GraphVizFormula { get; }
 
-        public abstract void Evaluate(IVisitor visitor);
     }
 
 
