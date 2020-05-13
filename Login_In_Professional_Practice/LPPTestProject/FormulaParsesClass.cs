@@ -5,8 +5,10 @@ using Xunit;
 
 namespace LPPTestProject
 {
+    [Collection("Serial")]
     public class FormulaParserClass
     {
+        
         [Theory]
         [InlineData(">(&(|(~(A),D),=(A,E)),>(&(C,~(D)),B))", "(((¬A)⋁D)⋀(A⇔E))⇒((C⋀(¬D))⇒B)")]
         [InlineData(">(&(>(Q,R),>(~(Q),P)),|(P,R))", "((Q⇒R)⋀((¬Q)⇒P))⇒(P⋁R)")]
