@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Node;
+using LPP.Modules;
 using LPP.NodeComponents;
 
 namespace LPP.Visitor_Pattern
@@ -13,18 +14,21 @@ namespace LPP.Visitor_Pattern
     {
         public void Calculate(Component visitable)
         {
-            CompositeComponent compositeNode = visitable as CompositeComponent;
+            if (!(visitable is SingleComponent))
+            {
+                CompositeComponent compositeNode = visitable as CompositeComponent;
 
-            if (compositeNode is NegationConnective)
-            {
-                Calculate(compositeNode.LeftNode);
-                compositeNode.Evaluate(this);
-            }
-            else if (compositeNode != null)
-            {
-                Calculate(compositeNode.RightNode);
-                Calculate(compositeNode.LeftNode);
-                compositeNode.Evaluate(this);
+                if (compositeNode is NegationConnective)
+                {
+                    Calculate(compositeNode.LeftNode);
+                    compositeNode.Evaluate(this);
+                }
+                else if (compositeNode != null)
+                {
+                    Calculate(compositeNode.RightNode);
+                    Calculate(compositeNode.LeftNode);
+                    compositeNode.Evaluate(this);
+                }
             }
         }
 
@@ -44,6 +48,18 @@ namespace LPP.Visitor_Pattern
 
         public void Visit(NegationConnective visitable) => visitable.Data = !visitable.LeftNode.Data;
 
-        public void Visit(SingleComponent visitable) => visitable.Data = visitable.Data;
+        public void Visit(TruthTable truthTable)
+        {
+            //Traverse Each Row
+            foreach (var currentRow in truthTable.Rows)
+            {
+                for (int j = 0; j < currentRow.PropositionValues.Length; j++)
+                {
+                    truthTable.Variables[j].Data = currentRow.PropositionValues[j];
+                }
+                this.Calculate(truthTable.RootOfBinaryTree);
+                currentRow.SetValue(truthTable.RootOfBinaryTree.Data);
+            }
+        }
     }
 }
