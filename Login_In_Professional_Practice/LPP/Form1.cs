@@ -10,17 +10,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LPP.Composite_Pattern.Node;
+using LPP.Modules;
+using LPP.NodeComponents;
 using LPP.Visitor_Pattern;
 
 namespace LPP
 {
     public partial class Form1 : Form
     {
+        private CompositeComponent _rootOfBinaryTree;
+        private readonly Calculator _calculator;
         private readonly InfixFormula_Generator _formulaFormulaGenerator;
+
         public Form1()
         {
             InitializeComponent();
             _formulaFormulaGenerator = new InfixFormula_Generator();
+            _calculator = new Calculator();
         }
 
         private void BtnParse_Click(object sender, EventArgs e)
@@ -35,23 +41,24 @@ namespace LPP
                 }
                 else
                 {
-                    PropositionalVariables.Items.Clear();
+                    _rootOfBinaryTree = ParsingModule.ParseInput(userInput);
 
-                    var rootOfBinaryTree = ParsingModule.ParseInput(userInput);
-                    
-                    GenerateGraphVizBinaryGraph(rootOfBinaryTree.GraphVizFormula, PbBinaryGraph);
-                    _formulaFormulaGenerator.Calculate(rootOfBinaryTree);
-                    TbInfixFormula.Text = rootOfBinaryTree.InFixFormula;
+                    GenerateGraphVizBinaryGraph(_rootOfBinaryTree.GraphVizFormula, PbBinaryGraph);
+                    _formulaFormulaGenerator.Calculate(_rootOfBinaryTree);
+
                     TbInfixFormula.Enabled = true;
+                    TbInfixFormula.Text = _rootOfBinaryTree.InFixFormula;
+                    TbPropositionalVariables.Text = _rootOfBinaryTree
+                                                    .PropositionalVariables.GetPropositionalVariables()
+                                                    .SelectMany(x=>x.Symbol.ToString())
+                                                    .Aggregate("",(current,next) => current+next);
 
-                    rootOfBinaryTree.PropositionalVariables.GetPropositionalVariables().ToList().ForEach(p=> PropositionalVariables.Items.Add(p.Symbol));
-                    PropositionalVariables.SelectedIndex = 0;
+                    CalculateAndPrintTruthTable(_rootOfBinaryTree);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}");
-
             }
 
         }
@@ -81,6 +88,15 @@ namespace LPP
             {
                 MessageBox.Show("File was not created successfullu");
             }
+        }
+
+
+        private void CalculateAndPrintTruthTable(CompositeComponent root)
+        {
+            LbTruthTable.Items.Clear();
+            var truthTable = new TruthTable(_rootOfBinaryTree,_calculator);
+            var rowsOfTruthTable = truthTable.ToString().Split('\n').ToList();
+            rowsOfTruthTable.ForEach(row => LbTruthTable.Items.Add(row));
         }
     }
 }

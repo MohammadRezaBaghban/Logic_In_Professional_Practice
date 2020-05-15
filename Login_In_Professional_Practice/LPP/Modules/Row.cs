@@ -10,10 +10,10 @@ namespace LPP.Modules
 {
     public class Row
     {
-        public bool[] PropositionValues;
+        public bool?[] PropositionValues;
         public bool? Result { get; private set; } = null;
 
-        public Row(int numberOfVariables) => PropositionValues = new bool[numberOfVariables];
+        public Row(int numberOfVariables) => PropositionValues = new bool?[numberOfVariables];
 
         public void SetValue(bool input)
         {
@@ -22,5 +22,10 @@ namespace LPP.Modules
                 Result = input;
             }
         }
+
+        public override string ToString() => PropositionValues
+                                                 .Select(value => value == true ? "1" : "0")
+                                                 .Aggregate("", (current, v) => current + $" {v} ")
+                                                  + $" {( Result != null && (bool) Result ? " 1": " 0")}";
     }
 }

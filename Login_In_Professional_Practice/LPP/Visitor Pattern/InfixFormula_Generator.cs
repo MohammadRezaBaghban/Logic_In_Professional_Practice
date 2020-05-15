@@ -22,18 +22,21 @@ namespace LPP.Visitor_Pattern
         /// <param name="visitable">The root of abstract proposition - Main Connective</param>
         public void Calculate(Component visitable)
         {
-            CompositeComponent compositeNode = visitable as CompositeComponent;
-            
-            if (compositeNode is NegationConnective)
+            if (!(visitable is SingleComponent))
             {
-                Calculate(compositeNode.LeftNode);
-                compositeNode.Evaluate(this);
-            }
-            else if(compositeNode !=null)
-            {
-                Calculate(compositeNode.RightNode);
-                Calculate(compositeNode.LeftNode);
-                compositeNode.Evaluate(this);
+                CompositeComponent compositeNode = visitable as CompositeComponent;
+
+                if (compositeNode is NegationConnective)
+                {
+                    Calculate(compositeNode.LeftNode);
+                    compositeNode.Evaluate(this);
+                }
+                else if (compositeNode != null)
+                {
+                    Calculate(compositeNode.RightNode);
+                    Calculate(compositeNode.LeftNode);
+                    compositeNode.Evaluate(this);
+                }
             }
         }
 
@@ -48,7 +51,6 @@ namespace LPP.Visitor_Pattern
                 visitable.InFixFormula = $"¬{visitable.LeftNode.InFixFormula}";
             }
         }
-        public void Visit(SingleComponent visitable) => visitable.InFixFormula = visitable.InFixFormula;
         public void Visit(Bi_ImplicationConnective visitable) => GenerateInfixGenerator(visitable, '⇔');
         public void Visit(ImplicationConnective visitable) => GenerateInfixGenerator(visitable, '⇒');
         public void Visit(DisjunctionConnective visitable) => GenerateInfixGenerator(visitable, '⋁');

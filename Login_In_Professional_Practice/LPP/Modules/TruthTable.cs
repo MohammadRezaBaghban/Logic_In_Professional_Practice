@@ -2,6 +2,7 @@
 using System.Linq;
 using LPP.Composite_Pattern.Node;
 using LPP.NodeComponents;
+using LPP.Visitor_Pattern;
 
 namespace LPP.Modules
 {
@@ -12,7 +13,7 @@ namespace LPP.Modules
         public PropositionalVariable[] PropositionalVariables;
         public CompositeComponent RootOfBinaryTree { get; }
 
-        public TruthTable(CompositeComponent rootOfBinaryTree)
+        public TruthTable(CompositeComponent rootOfBinaryTree, Calculator calculator)
         {
             this.RootOfBinaryTree = rootOfBinaryTree;
             PropositionalVariables = rootOfBinaryTree.PropositionalVariables.GetPropositionalVariables();
@@ -25,6 +26,7 @@ namespace LPP.Modules
             }
 
             FillRows();
+            calculator.Visit(this);
         }
 
         private void FillRows()
@@ -34,20 +36,24 @@ namespace LPP.Modules
             {
                 var consequential01S = Math.Pow(2, i - 1);
 
-                var OneOrZero = false;
+                var oneOrZero = false;
                 for (var j = 0; j < Rows.Length; j++)
                 {
-                    Rows[j].PropositionValues[columnIndex] = OneOrZero;
+                    Rows[j].PropositionValues[columnIndex] = oneOrZero;
                     if ((j + 1) % consequential01S == 0)
                     {
-                        OneOrZero = !OneOrZero;
+                        oneOrZero = !oneOrZero;
                     }
                 }
                 columnIndex++;
             }
         }
 
-        
-
+        public override string ToString()
+        {
+            var headOfTruthTable = PropositionalVariables.Aggregate(" ", (current, variable) => current + $"{variable.Symbol}  ") + " v";
+            var rowsOfTruthTable = Rows.Aggregate("", (current, row) => current + $"\n{row.ToString()}");
+            return headOfTruthTable + rowsOfTruthTable;
+        }
     }
 }
