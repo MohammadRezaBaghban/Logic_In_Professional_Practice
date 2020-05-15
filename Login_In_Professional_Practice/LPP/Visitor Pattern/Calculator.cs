@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LPP.Composite_Pattern;
+﻿using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Node;
 using LPP.Modules;
 using LPP.NodeComponents;
@@ -53,9 +48,9 @@ namespace LPP.Visitor_Pattern
             //Traverse Each Row
             foreach (var currentRow in truthTable.Rows)
             {
-                for (int j = 0; j < currentRow.PropositionValues.Length; j++)
+                for (var j = 0; j < currentRow.PropositionValues.Length; j++)
                 {
-                    truthTable.PropositionalVariables[j].Data = currentRow.PropositionValues[j];
+                    truthTable.PropositionalVariables[j].Data = (bool) currentRow.PropositionValues[j];
                 }
                 this.Calculate(truthTable.RootOfBinaryTree);
                 currentRow.SetValue(truthTable.RootOfBinaryTree.Data);
