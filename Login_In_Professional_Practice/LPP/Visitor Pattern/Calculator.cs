@@ -55,7 +55,7 @@ namespace LPP.Visitor_Pattern
             {
                 for (int j = 0; j < currentRow.PropositionValues.Length; j++)
                 {
-                    truthTable.Variables[j].Data = currentRow.PropositionValues[j];
+                    truthTable.PropositionalVariables[j].Data = currentRow.PropositionValues[j];
                 }
                 this.Calculate(truthTable.RootOfBinaryTree);
                 currentRow.SetValue(truthTable.RootOfBinaryTree.Data);
