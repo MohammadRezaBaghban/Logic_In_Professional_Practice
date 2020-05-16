@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LPP.Composite_Pattern.Node;
 using LPP.NodeComponents;
@@ -55,5 +56,17 @@ namespace LPP.Modules
             var rowsOfTruthTable = Rows.Aggregate("", (current, row) => current + $"\n{row.ToString()}");
             return headOfTruthTable + rowsOfTruthTable;
         }
+
+        public string GetHexadecimalHashCode() => Convert.ToInt64(GetHashCode().ToString(), 2).ToString("X");
+
+        public override int GetHashCode()
+            =>   Convert.ToInt32(Rows
+                .Reverse()
+                .Aggregate("", (current, next) => current + binaryValue(next.Result).ToString())
+                );
+                
+                
+        
+        private int binaryValue(bool? input) => (input != null && (bool) input) ? 1 : 0;
     }
 }

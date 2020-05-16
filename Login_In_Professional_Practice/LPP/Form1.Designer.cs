@@ -36,9 +36,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.TbInfixFormula = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.TbPropositionalVariables = new System.Windows.Forms.TextBox();
             this.LbTruthTable = new System.Windows.Forms.ListBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.TbPropositionalVariables = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.TbTruthTableHashCode = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.PbBinaryGraph)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -110,6 +112,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.TbTruthTableHashCode);
+            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.TbPropositionalVariables);
             this.groupBox1.Controls.Add(this.TbPrefixFormula);
             this.groupBox1.Controls.Add(this.TbInfixFormula);
@@ -124,6 +128,13 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Abstract Proposition";
             this.groupBox1.UseCompatibleTextRendering = true;
+            // 
+            // TbPropositionalVariables
+            // 
+            this.TbPropositionalVariables.Location = new System.Drawing.Point(208, 96);
+            this.TbPropositionalVariables.Name = "TbPropositionalVariables";
+            this.TbPropositionalVariables.Size = new System.Drawing.Size(100, 29);
+            this.TbPropositionalVariables.TabIndex = 9;
             // 
             // LbTruthTable
             // 
@@ -144,12 +155,21 @@
             this.label3.Text = "Truth Table";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // TbPropositionalVariables
+            // label4
             // 
-            this.TbPropositionalVariables.Location = new System.Drawing.Point(208, 97);
-            this.TbPropositionalVariables.Name = "TbPropositionalVariables";
-            this.TbPropositionalVariables.Size = new System.Drawing.Size(100, 29);
-            this.TbPropositionalVariables.TabIndex = 9;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(320, 99);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(92, 23);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "HashCode:";
+            // 
+            // TbTruthTableHashCode
+            // 
+            this.TbTruthTableHashCode.Location = new System.Drawing.Point(418, 96);
+            this.TbTruthTableHashCode.Name = "TbTruthTableHashCode";
+            this.TbTruthTableHashCode.Size = new System.Drawing.Size(100, 29);
+            this.TbTruthTableHashCode.TabIndex = 11;
             // 
             // Form1
             // 
@@ -186,6 +206,8 @@
         private System.Windows.Forms.ListBox LbTruthTable;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox TbPropositionalVariables;
+        private System.Windows.Forms.TextBox TbTruthTableHashCode;
+        private System.Windows.Forms.Label label4;
     }
 }
 

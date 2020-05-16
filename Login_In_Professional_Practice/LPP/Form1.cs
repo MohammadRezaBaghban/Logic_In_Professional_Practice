@@ -86,7 +86,7 @@ namespace LPP
             }
             else
             {
-                MessageBox.Show("File was not created successfullu");
+                MessageBox.Show(@"File was not created successfully");
             }
         }
 
@@ -96,6 +96,7 @@ namespace LPP
             LbTruthTable.Items.Clear();
             var truthTable = new TruthTable(_rootOfBinaryTree,_calculator);
             var rowsOfTruthTable = truthTable.ToString().Split('\n').ToList();
+            TbTruthTableHashCode.Text = $"{truthTable.GetHexadecimalHashCode()}";
             rowsOfTruthTable.ForEach(row => LbTruthTable.Items.Add(row));
         }
     }
