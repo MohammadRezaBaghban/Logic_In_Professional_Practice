@@ -1,24 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Node;
-using LPP.NodeComponents;
 using LPP.Visitor_Pattern;
 
 namespace LPP.Modules
 {
     public class TruthTable
     {
-        public Row[] Rows;
+        public readonly Row[] Rows;
         public int NumberOfVariables { get; }
-        public PropositionalVariable[] PropositionalVariables;
+        public PropositionalVariable[] DistinctPropositionalVariables;
         public CompositeComponent RootOfBinaryTree { get; }
 
         public TruthTable(CompositeComponent rootOfBinaryTree, Calculator calculator)
         {
             this.RootOfBinaryTree = rootOfBinaryTree;
-            PropositionalVariables = rootOfBinaryTree.PropositionalVariables.GetPropositionalVariables();
-            NumberOfVariables = PropositionalVariables.Length;
+            DistinctPropositionalVariables = rootOfBinaryTree.PropositionalVariables.Get_Distinct_PropositionalVariables();
+            NumberOfVariables = DistinctPropositionalVariables.Length;
             
             Rows = new Row[(int)Math.Pow(2, NumberOfVariables)];
             for (var i = 0; i < Rows.Length; i++)
@@ -29,6 +28,8 @@ namespace LPP.Modules
             FillRows();
             calculator.Visit(this);
         }
+
+        private int binaryValue(bool? input) => (input != null && (bool) input) ? 1 : 0;
 
         private void FillRows()
         {
@@ -52,21 +53,26 @@ namespace LPP.Modules
 
         public override string ToString()
         {
-            var headOfTruthTable = PropositionalVariables.Aggregate(" ", (current, variable) => current + $"{variable.Symbol}  ") + " v";
-            var rowsOfTruthTable = Rows.Aggregate("", (current, row) => current + $"\n{row.ToString()}");
+            var headOfTruthTable = DistinctPropositionalVariables.Aggregate(" ", (current, variable) => current + $"{variable.Symbol}  ") + " v";
+            var rowsOfTruthTable = Rows.Aggregate("", (current, row) => current + $"\n{row}");
             return headOfTruthTable + rowsOfTruthTable;
         }
 
-        public string GetHexadecimalHashCode() => Convert.ToInt64(GetHashCode().ToString(), 2).ToString("X");
+        public void SetValue_Of_Propositional_Variables(PropositionalVariable variable, bool value)
+        {
+            RootOfBinaryTree
+                .PropositionalVariables
+                .SetValue_Of_Propositional_Variables(symbol: variable.Symbol, value: value);
+        }
 
         public override int GetHashCode()
             =>   Convert.ToInt32(Rows
                 .Reverse()
                 .Aggregate("", (current, next) => current + binaryValue(next.Result).ToString())
                 );
-                
-                
-        
-        private int binaryValue(bool? input) => (input != null && (bool) input) ? 1 : 0;
+
+        public string GetHexadecimalHashCode() => Convert.ToInt64(GetHashCode().ToString(), 2).ToString("X");
+
+
     }
 }
