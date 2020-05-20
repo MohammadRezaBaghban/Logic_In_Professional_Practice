@@ -6,7 +6,7 @@ using LPP.Composite_Pattern;
 
 namespace LPP.NodeComponents
 {
-    public class CompositeComponent : Component
+    public abstract class CompositeComponent : Component
     {
         public PropositionalVariables PropositionalVariables = null;
 
@@ -30,10 +30,7 @@ namespace LPP.NodeComponents
             }
         }
 
-        public override void Evaluate(Composite_Pattern.IVisitor visitor)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void Evaluate(Composite_Pattern.IVisitor visitor);
 
         public override string ToString() =>
             $"Object Type: {this.GetType().Name}"

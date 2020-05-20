@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using LPP.Composite_Pattern.Node;
 
 namespace LPP.NodeComponents
@@ -27,7 +28,7 @@ namespace LPP.NodeComponents
         public PropositionalVariable[] GetPropositionalVariables()
         {
             var list = new PropositionalVariable[propositionalVariables.Count];
-            propositionalVariables.CopyTo(list);
+            propositionalVariables.OrderBy(x => x.Symbol).ToList().CopyTo(list);
             return list;
         }
 

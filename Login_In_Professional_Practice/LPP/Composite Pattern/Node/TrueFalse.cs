@@ -16,7 +16,5 @@ namespace LPP.Composite_Pattern.Node
             InFixFormula = (data) ? "True" : "False";
             NodeNumber = ++ParsingModule.nodeCounter;
         }
-
-        public override void Evaluate(IVisitor visitor) => visitor.Visit(this);
     }
 }

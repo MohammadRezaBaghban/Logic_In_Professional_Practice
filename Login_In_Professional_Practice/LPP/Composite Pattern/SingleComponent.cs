@@ -13,7 +13,6 @@ namespace LPP.Composite_Pattern
         public override string GraphVizFormula => $"node{NodeNumber} [ label = \"{Symbol}\" ]";
 
         //Methods
-        public abstract override void Evaluate(IVisitor visitor);
         public override string ToString() => $"Variable {Symbol} - Value: {Data}";
     }
 }

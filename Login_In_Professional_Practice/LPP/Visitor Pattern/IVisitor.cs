@@ -11,6 +11,5 @@ namespace LPP.Composite_Pattern
         void Visit(DisjunctionConnective visitable);
         void Visit(ConjuctionConnective visitable);
         void Visit(NegationConnective visitable);
-        void Visit(SingleComponent visitable);
     }
 }
