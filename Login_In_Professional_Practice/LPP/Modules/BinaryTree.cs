@@ -1,6 +1,5 @@
 ﻿using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Node;
-using LPP.NodeComponents;
 
 namespace LPP
 {

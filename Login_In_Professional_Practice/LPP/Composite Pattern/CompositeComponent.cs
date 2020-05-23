@@ -1,10 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LPP.Composite_Pattern;
-
-namespace LPP.NodeComponents
+﻿namespace LPP.Composite_Pattern
 {
     public abstract class CompositeComponent : Component
     {
@@ -30,7 +24,7 @@ namespace LPP.NodeComponents
             }
         }
 
-        public abstract void Evaluate(Composite_Pattern.IVisitor visitor);
+        public abstract void Evaluate(IVisitor visitor);
 
         public override string ToString() =>
             $"Object Type: {this.GetType().Name}"

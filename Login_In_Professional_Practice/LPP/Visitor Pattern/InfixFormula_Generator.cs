@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using LPP.Composite_Pattern;
+﻿using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Node;
-using LPP.NodeComponents;
 using IVisitor = LPP.Composite_Pattern.IVisitor;
 
 namespace LPP.Visitor_Pattern
@@ -14,7 +7,7 @@ namespace LPP.Visitor_Pattern
     /// <summary>
     /// A concrete Visitor class for generating infix formula from the root of main connective of the abstract proposition
     /// </summary>
-    public class InfixFormula_Generator:IVisitor
+    public class InfixFormulaGenerator:IVisitor
     {
         /// <summary>
         /// Recursive Traversing Method for calculating the InFix formula of abstract Proposition. 
@@ -54,7 +47,7 @@ namespace LPP.Visitor_Pattern
         public void Visit(Bi_ImplicationConnective visitable) => GenerateInfixGenerator(visitable, '⇔');
         public void Visit(ImplicationConnective visitable) => GenerateInfixGenerator(visitable, '⇒');
         public void Visit(DisjunctionConnective visitable) => GenerateInfixGenerator(visitable, '⋁');
-        public void Visit(ConjuctionConnective visitable) => GenerateInfixGenerator(visitable, '⋀');
+        public void Visit(ConjunctionConnective visitable) => GenerateInfixGenerator(visitable, '⋀');
 
         /// <summary>
         /// Method for create more intuitive infix formula based on the type of left and right node.

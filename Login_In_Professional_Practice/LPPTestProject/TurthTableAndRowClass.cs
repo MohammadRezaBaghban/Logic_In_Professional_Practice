@@ -5,7 +5,8 @@ using Xunit;
 
 namespace LPPTestProject
 {
-    public class TurthTableAndRowClass
+    [Collection("Serial")]
+    public class TruthTableAndRowClass
     {
 
         [Theory]
@@ -15,7 +16,7 @@ namespace LPPTestProject
         [InlineData("&(>(P,Q),>(Q,P))", "1001", "9")]
         [InlineData("&(P,Q)", "1000", "8")]
         [InlineData("|(P,Q)", "1110", "E")]
-        public void Calculator_TruthTable_HashCodeBeEqualAsExpected(string prefixInput, string intHashCode, string HexaHashCode)
+        public void Calculator_TruthTable_HashCodeBeEqualAsExpected(string prefixInput, string intHashCode, string hexaHashCode)
         {
             //Arrange
             var calculator = new Calculator();
@@ -27,7 +28,7 @@ namespace LPPTestProject
 
             //Assert
             Assert.Equal(truthTable.GetHashCode().ToString(), intHashCode);
-            Assert.Equal(truthTable.GetHexadecimalHashCode(), HexaHashCode);
+            Assert.Equal(truthTable.GetHexadecimalHashCode(), hexaHashCode);
         }
 
     }

@@ -1,11 +1,9 @@
-﻿using LPP.NodeComponents;
-
-namespace LPP.Composite_Pattern.Node
+﻿namespace LPP.Composite_Pattern.Node
 {
-    public class ConjuctionConnective : CompositeComponent
+    public class ConjunctionConnective : CompositeComponent
     {
 
-        public ConjuctionConnective() => Symbol = '&';
+        public ConjunctionConnective() => Symbol = '&';
 
         public override void Evaluate(IVisitor c) => c.Visit(this);
 

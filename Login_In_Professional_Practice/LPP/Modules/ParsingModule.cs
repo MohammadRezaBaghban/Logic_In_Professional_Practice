@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Linq.Expressions;
 using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Node;
-using LPP.NodeComponents;
 using Component = LPP.Composite_Pattern.Component;
 
-namespace LPP
+namespace LPP.Modules
 {
     /// <summary>
     /// A static class for the sake of parsing user input
@@ -16,10 +13,10 @@ namespace LPP
     public static class ParsingModule
     {
 
-        private static readonly BinaryTree bt = new BinaryTree();
-        public static List<char> elements = new List<char>();
+        private static readonly BinaryTree Bt = new BinaryTree();
+        public static List<char> Elements = new List<char>();
         public static char[] Connectives = new char[] { '~', '>', '=', '&', '|' };
-        public static int nodeCounter;
+        public static int NodeCounter;
 
         /// <summary>
         /// Parse the input formula and generate binary tree object out of it
@@ -32,15 +29,14 @@ namespace LPP
         {
             EraseParsedList();
             ParseInputRecursively(ref input);
-            GenerateBinaryTree(elements);
-            return bt._root;
+            GenerateBinaryTree(Elements);
+            return Bt._root;
         }
 
 
         /// <summary>
         /// Parse an input in the format of string and extract the list of formula elements
         /// </summary>
-        /// <param name="userInput">Abstract Proposition Formula</param>
         /// <returns>return string excluding processed section</returns>
         private static string ParseInputRecursively(ref string expression)
         {
@@ -66,7 +62,7 @@ namespace LPP
                 }
                 else if (CharacterType(expression[0]) == characterType.PropositionalVariable)
                 {
-                    elements.Add(expression[0]);
+                    Elements.Add(expression[0]);
                     EatMethod(ref expression);
                     return ParseInputRecursively(ref expression);
                 }
@@ -78,7 +74,7 @@ namespace LPP
                         case '=':
                         case '&':
                         case '|':
-                            elements.Add(expression[0]);
+                            Elements.Add(expression[0]);
                             EatMethod(ref expression, 2);
                             string a1 = expression.Substring(0, expression.IndexOf(')') + 1);
                             expression = expression.Remove(0, a1.Length);
@@ -88,7 +84,7 @@ namespace LPP
                             ParseInputRecursively(ref a2);
                             return ParseInputRecursively(ref expression);
                         case '~':
-                            elements.Add(expression[0]);
+                            Elements.Add(expression[0]);
                             EatMethod(ref expression, 2);
                             return ParseInputRecursively(ref expression);
                         default:
@@ -104,37 +100,29 @@ namespace LPP
         /// </summary>
         /// <param name="input">list of elements in the binary tree</param>
         /// <returns>The root of binary tree</returns>
-        private static Composite_Pattern.Component GenerateBinaryTree(List<char> input)
+        private static Component GenerateBinaryTree(List<char> input)
         {
-            Component root = bt._root;
-            for (int i = 0; i <= input.Count - 1; i++)
+            Component root = Bt._root;
+            for (var i = 0; i <= input.Count - 1; i++)
             {
-                char currentCharacter = input[i];
+                var currentCharacter = input[i];
                 if (CharacterType(currentCharacter) == characterType.PropositionalVariable)
                 {
                     switch (currentCharacter)
                     {
                         // Values
                         case '0':
-                            bt.InsertNode(root, new TrueFalse(false));
+                            Bt.InsertNode(root, new TrueFalse(false));
                             break;
                         case '1':
-                            bt.InsertNode(root, new TrueFalse(true));
+                            Bt.InsertNode(root, new TrueFalse(true));
                             break;
 
                         //Variables                    
                         default:
-                            var propositionVariable = bt._root.PropositionalVariables.GetPropositionalVariable(currentCharacter);
-                            if (propositionVariable == null)
-                            {
-                                propositionVariable = new PropositionalVariable(currentCharacter);
-                                bt._root.PropositionalVariables.AddPropsitionalVaraiable(propositionVariable);
-                                bt.InsertNode(root, propositionVariable);
-                            }
-                            else
-                            {
-                                bt.InsertNode(root, propositionVariable);
-                            }
+                            var propositionVariable = new PropositionalVariable(currentCharacter);
+                            Bt._root.PropositionalVariables.AddPropositionalVariable(propositionVariable);
+                            Bt.InsertNode(root, propositionVariable);
                             break;
                     }
                 }
@@ -144,47 +132,47 @@ namespace LPP
                     {
                         //Two Operands Connectives
                         case '>':
-                            root = bt.InsertNode(root, new ImplicationConnective());
+                            root = Bt.InsertNode(root, new ImplicationConnective());
                             break;
                         case '=':
-                            root = bt.InsertNode(root, new Bi_ImplicationConnective());
+                            root = Bt.InsertNode(root, new Bi_ImplicationConnective());
                             break;
                         case '&':
-                            root = bt.InsertNode(root, new ConjuctionConnective());
+                            root = Bt.InsertNode(root, new ConjunctionConnective());
                             break;
                         case '|':
-                            root = bt.InsertNode(root, new DisjunctionConnective());
+                            root = Bt.InsertNode(root, new DisjunctionConnective());
                             break;
 
 
                         //One Operand Connective
                         case '~':
-                            root = bt.InsertNode(root, new NegationConnective());
+                            root = Bt.InsertNode(root, new NegationConnective());
                             break;
                     }
                 }
             }
-            nodeCounter = 0;
-            return bt._root;
+            NodeCounter = 0;
+            return Bt._root;
         }
 
         /// <summary>
         /// A 3 modes string removal method
         /// </summary>
         /// <param name="input">Source string which removal wants to be applied</param>
-        /// <param name="Count">Remove till first occurence of a given character OR for specified number of characters</param>
+        /// <param name="count">Remove till first occurence of a given character OR for specified number of characters</param>
         /// <returns></returns>
-        private static void EatMethod(ref string input, int Count = 0)
+        private static void EatMethod(ref string input, int count = 0)
         {
             if (!String.IsNullOrEmpty(input))
             {
-                if (Count == 0)
+                if (count == 0)
                 {
                     input = input.Remove(0, 1);
                 }
                 else
                 {
-                    input = input.Remove(0, Count);
+                    input = input.Remove(0, count);
                 }
             }
         }
@@ -195,9 +183,9 @@ namespace LPP
         /// Should be called before any external call of ParseInputRecursively
         private static void EraseParsedList()
         {
-            elements.Clear();
-            nodeCounter = 0;
-            bt._root = null;
+            Elements.Clear();
+            NodeCounter = 0;
+            Bt._root = null;
         }
 
         private static characterType CharacterType(char character)

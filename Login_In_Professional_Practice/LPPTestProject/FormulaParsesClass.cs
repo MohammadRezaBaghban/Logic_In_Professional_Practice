@@ -1,5 +1,5 @@
-﻿using System;
-using LPP;
+﻿using LPP;
+using LPP.Modules;
 using LPP.Visitor_Pattern;
 using Xunit;
 
@@ -22,7 +22,7 @@ namespace LPPTestProject
         public void InFixFormulaTesting_OnCorrectPrefixFormula_CorrectInfixFormula(string prefixInput,string infixOutput)
         {
             //Arrange
-            var formulaGenerator = new InfixFormula_Generator();
+            var formulaGenerator = new InfixFormulaGenerator();
             var rootOfComponent = ParsingModule.ParseInput(prefixInput);
 
             //Act
