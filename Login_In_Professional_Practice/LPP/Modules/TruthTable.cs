@@ -70,23 +70,31 @@ namespace LPP.Modules
                 for(int j = i + 1; j < SimplifiedRows.Count - 1; j++)
                 {
                     var nextRow = SimplifiedRows[j];
-                    if (currentRow.CompareTo(nextRow) != -1)
+                    var indexOfDifference = currentRow.CompareTo(nextRow);
+                    if (indexOfDifference != -1)
                     {
-                        Console.WriteLine(this.SimplifiedToString());
-                        Console.WriteLine("=====");
-                        Console.WriteLine(currentRow);
-                        Console.WriteLine(nextRow);
-                        SimplifiedRows.Remove(nextRow);
-                        Row.Simplify(currentRow, nextRow);
-                        Console.WriteLine(currentRow);
-                        Console.WriteLine("=====");
-                        Console.WriteLine(this.SimplifiedToString());
-                        Console.WriteLine("=====");
+                        Simplify(currentRow, nextRow, indexOfDifference);
                         i = 0;
                         break;
                     }
                 }
             }
+        }
+
+        private void Simplify(Row row1, Row row2, int indexOfDifference)
+        {
+            Console.WriteLine("=====");
+            Console.WriteLine(SimplifiedToString());
+            Console.WriteLine("=====");
+            Console.WriteLine(row1);
+            Console.WriteLine(row2);
+
+            SimplifiedRows.Remove(row2);
+            row1.PropositionValues[indexOfDifference] = null;
+
+            Console.WriteLine(row1);
+            Console.WriteLine("=====");
+            Console.WriteLine(SimplifiedToString());
         }
 
         public override string ToString()

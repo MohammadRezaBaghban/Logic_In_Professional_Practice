@@ -28,34 +28,41 @@ namespace LPP.Modules
             }
 
             var numberOfDifference = 0;
-            var indexOfDifference = 0;
+            var indexOfNullDifference = -1;
+            var indexOfDifference = -1;
             for (var i = 0; i < PropositionValues.Length && numberOfDifference < 2; i++)
             {
                 if (this.PropositionValues[i] != other.PropositionValues[i])
                 {
-                    if(this.PropositionValues[i] !=null && other.PropositionValues[i] != null)
+                    if(this.PropositionValues[i] ==null || other.PropositionValues[i] == null)
                     {
-                        indexOfDifference = i;
-                        numberOfDifference++;
+                        indexOfNullDifference = i;
+                    }
+                    else
+                    {
+                        if (this.PropositionValues[i] != null && other.PropositionValues[i] != null)
+                        {
+                            indexOfDifference = i;
+                            numberOfDifference++;
+                        }
                     }
                 }
             }
-            return numberOfDifference < 2 ? indexOfDifference : -1;
-        }
 
-        public static void Simplify(Row row1, Row row2)
-        {
-            var indexOfDifference = row1.CompareTo(row2);
-            if (indexOfDifference != -1)
+            if (numberOfDifference < 2)
             {
-                row1.PropositionValues[indexOfDifference] = null;
-                row2 = null;
+                return indexOfNullDifference != -1 ? Math.Min(indexOfNullDifference, indexOfDifference) : indexOfDifference;
             }
+            else
+            {
+                return -1;
+            }
+            
         }
 
         public override string ToString() => PropositionValues
-                                            .Select(value => value == null ? "*" : value == true ? "1" : "0")
-                                            .Aggregate("", (current, v) => current + $" {v} ")
+                                                 .Select(value => value == null ? "*" : value == true ? "1" : "0")
+                                                 .Aggregate("", (current, v) => current + $" {v} ")
                                              + $" {(Result != null && (bool)Result ? " 1" : " 0")}";
 
         public object Clone()
