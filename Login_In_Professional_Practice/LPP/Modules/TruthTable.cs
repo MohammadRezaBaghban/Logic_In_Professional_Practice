@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Node;
@@ -9,12 +10,15 @@ namespace LPP.Modules
     public class TruthTable
     {
         public readonly Row[] Rows;
+        private List<Row> SimplifiedRows;
+
         public int NumberOfVariables { get; }
         public PropositionalVariable[] DistinctPropositionalVariables;
         public CompositeComponent RootOfBinaryTree { get; }
 
         public TruthTable(CompositeComponent rootOfBinaryTree, Calculator calculator)
         {
+            this.SimplifiedRows = new List<Row>();
             this.RootOfBinaryTree = rootOfBinaryTree;
             DistinctPropositionalVariables = rootOfBinaryTree.PropositionalVariables.Get_Distinct_PropositionalVariables();
             NumberOfVariables = DistinctPropositionalVariables.Length;
@@ -27,6 +31,12 @@ namespace LPP.Modules
 
             FillRows();
             calculator.Visit(this);
+            
+            foreach (var row in Rows)
+            {
+                SimplifiedRows.Add((Row)row.Clone());
+            }
+            SimplifyRows();
         }
 
         private int binaryValue(bool? input) => (input != null && (bool) input) ? 1 : 0;
@@ -51,10 +61,45 @@ namespace LPP.Modules
             }
         }
 
+        private void SimplifyRows()
+        {
+            for (int i = 0; i < SimplifiedRows.Count; i++)
+            {
+                var currentRow = SimplifiedRows[i];
+
+                for(int j = i + 1; j < SimplifiedRows.Count - 1; j++)
+                {
+                    var nextRow = SimplifiedRows[j];
+                    if (currentRow.CompareTo(nextRow) != -1)
+                    {
+                        Console.WriteLine(this.SimplifiedToString());
+                        Console.WriteLine("=====");
+                        Console.WriteLine(currentRow);
+                        Console.WriteLine(nextRow);
+                        SimplifiedRows.Remove(nextRow);
+                        Row.Simplify(currentRow, nextRow);
+                        Console.WriteLine(currentRow);
+                        Console.WriteLine("=====");
+                        Console.WriteLine(this.SimplifiedToString());
+                        Console.WriteLine("=====");
+                        i = 0;
+                        break;
+                    }
+                }
+            }
+        }
+
         public override string ToString()
         {
             var headOfTruthTable = DistinctPropositionalVariables.Aggregate(" ", (current, variable) => current + $"{variable.Symbol}  ") + " v";
             var rowsOfTruthTable = Rows.Aggregate("", (current, row) => current + $"\n{row}");
+            return headOfTruthTable + rowsOfTruthTable;
+        }
+
+        public string SimplifiedToString()
+        {
+            var headOfTruthTable = DistinctPropositionalVariables.Aggregate(" ", (current, variable) => current + $"{variable.Symbol}  ") + " v";
+            var rowsOfTruthTable = SimplifiedRows.Aggregate("", (current, row) => current + $"\n{row}");
             return headOfTruthTable + rowsOfTruthTable;
         }
 
@@ -65,13 +110,14 @@ namespace LPP.Modules
                 .SetValue_Of_Propositional_Variables(symbol: variable.Symbol, value: value);
         }
 
+        public string GetHexadecimalHashCode() => Convert.ToInt64(GetHashCode().ToString(), 2).ToString("X");
+
         public override int GetHashCode()
             =>   Convert.ToInt32(Rows
                 .Reverse()
                 .Aggregate("", (current, next) => current + binaryValue(next.Result).ToString())
                 );
 
-        public string GetHexadecimalHashCode() => Convert.ToInt64(GetHashCode().ToString(), 2).ToString("X");
 
 
     }

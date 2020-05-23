@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using LPP.Composite_Pattern.Node;
+using LPP.Composite_Pattern;
 using LPP.Modules;
-using LPP.NodeComponents;
 using LPP.Visitor_Pattern;
 
 namespace LPP
@@ -20,12 +13,12 @@ namespace LPP
     {
         private CompositeComponent _rootOfBinaryTree;
         private readonly Calculator _calculator;
-        private readonly InfixFormula_Generator _formulaFormulaGenerator;
+        private readonly InfixFormulaGenerator _formulaFormulaGenerator;
 
         public Form1()
         {
             InitializeComponent();
-            _formulaFormulaGenerator = new InfixFormula_Generator();
+            _formulaFormulaGenerator = new InfixFormulaGenerator();
             _calculator = new Calculator();
         }
 
@@ -49,23 +42,23 @@ namespace LPP
                     TbInfixFormula.Enabled = true;
                     TbInfixFormula.Text = _rootOfBinaryTree.InFixFormula;
                     TbPropositionalVariables.Text = _rootOfBinaryTree
-                                                    .PropositionalVariables.GetPropositionalVariables()
-                                                    .SelectMany(x=>x.Symbol.ToString())
-                                                    .Aggregate("",(current,next) => current+next);
+                                                    .PropositionalVariables.Get_Distinct_PropositionalVariables()
+                                                    .SelectMany(x => x.Symbol.ToString())
+                                                    .Aggregate("", (current, next) => current + next);
 
-                    CalculateAndPrintTruthTable(_rootOfBinaryTree);
+                    CalculateAndPrintTruthTable();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}");
+                MessageBox.Show($@"{ex.Message}");
             }
 
         }
 
         private void GenerateGraphVizBinaryGraph(string input, PictureBox pictureBox)
         {
-            string text = @"graph logic {" + "\nnode[fontname = \"Arial\"]\n" + input + "\n" + "}";
+            var text = @"graph logic {" + "\nnode[fontname = \"Arial\"]\n" + input + "\n" + "}";
 
             using (FileStream fs = new FileStream("ab.dot", FileMode.Create, FileAccess.Write))
             {
@@ -77,12 +70,10 @@ namespace LPP
 
             if (File.Exists("ab.dot"))
             {
-                Process dot = new Process();
-                dot.StartInfo.FileName = "dot.exe";
-                dot.StartInfo.Arguments = "-Tpng -oab.png ab.dot";
+                var dot = new Process {StartInfo = {FileName = "dot.exe", Arguments = "-Tpng -oab.png ab.dot"}};
                 dot.Start();
                 dot.WaitForExit();
-                pictureBox.ImageLocation = "ab.png";
+                pictureBox.ImageLocation = @"ab.png";
             }
             else
             {
@@ -91,13 +82,18 @@ namespace LPP
         }
 
 
-        private void CalculateAndPrintTruthTable(CompositeComponent root)
+        private void CalculateAndPrintTruthTable()
         {
             LbTruthTable.Items.Clear();
             var truthTable = new TruthTable(_rootOfBinaryTree,_calculator);
+
             var rowsOfTruthTable = truthTable.ToString().Split('\n').ToList();
-            TbTruthTableHashCode.Text = $"{truthTable.GetHexadecimalHashCode()}";
+            var rowsOfSimplifiedTruthTable = truthTable.SimplifiedToString().Split('\n').ToList();
+
+            TbTruthTableHashCode.Text = $@"{truthTable.GetHexadecimalHashCode()}";
+
             rowsOfTruthTable.ForEach(row => LbTruthTable.Items.Add(row));
+            rowsOfSimplifiedTruthTable.ForEach(row => LbSimplifiedTruthTable.Items.Add(row));
         }
     }
 }
