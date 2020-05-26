@@ -88,8 +88,6 @@ namespace LPP
             var truthTable = new TruthTable(_rootOfBinaryTree,_calculator);
 
             var rowsOfTruthTable = truthTable.ToString().Split('\n').ToList();
-            var sim = new Simplification(truthTable.Rows); 
-            
             var rowsOfSimplifiedTruthTable = truthTable.SimplifiedToString().Split('\n').ToList();
 
             TbTruthTableHashCode.Text = $@"{truthTable.GetHexadecimalHashCode()}";

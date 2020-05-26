@@ -32,11 +32,9 @@ namespace LPP.Modules
             FillRows();
             calculator.Visit(this);
             
-            foreach (var row in Rows)
-            {
-                SimplifiedRows.Add((Row)row.Clone());
-            }
-            //SimplifyRows();
+            var simplifiedTruthTable = new Simplification(this);
+            SimplifiedRows = simplifiedTruthTable.RecursiveSimplification();
+
         }
 
         private int binaryValue(bool? input) => (input != null && (bool) input) ? 1 : 0;

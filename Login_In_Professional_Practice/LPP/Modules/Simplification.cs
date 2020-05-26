@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LPP.Modules
 {
@@ -12,53 +9,52 @@ namespace LPP.Modules
     public class Simplification
     {
         //Fields
-        private readonly int numberOfVariables;
-        private Row[] nonSimplifiedTruthTable;
-        private List<List<Row>> groupedZeros;
-        private List<List<Row>> groupedOnes;
-        private List<List<List<Row>>> simplificationStepsForOnes;
-        private List<List<List<Row>>> simplificationStepsForZeros;
+        private readonly int _numberOfVariables;
+        private readonly Row[] _nonSimplifiedTruthTable;
+        private readonly List<List<Row>> _groupedZeros;
+        private readonly List<List<Row>> _groupedOnes;
+        private readonly List<List<List<Row>>> _simplificationStepsForOnes;
+        private readonly List<List<List<Row>>> _simplificationStepsForZeros;
 
         //Constructor
-        public Simplification(Row[] truthTable)
+        public Simplification(TruthTable truthTable)
         {
-            nonSimplifiedTruthTable = truthTable;
-            groupedOnes = new List<List<Row>>();
-            groupedZeros = new List<List<Row>>();
-            simplificationStepsForOnes = new List<List<List<Row>>>();
-            simplificationStepsForZeros = new List<List<List<Row>>>();
-            numberOfVariables = truthTable[0].PropositionValues.Length;
-            RecursiveSimplification();
+            _nonSimplifiedTruthTable = truthTable.Rows;
+            _groupedOnes = new List<List<Row>>();
+            _groupedZeros = new List<List<Row>>();
+            _simplificationStepsForOnes = new List<List<List<Row>>>();
+            _simplificationStepsForZeros = new List<List<List<Row>>>();
+            _numberOfVariables = truthTable.NumberOfVariables;
         }
 
         //Methods & Functions
         private void OrderTheRows(Row[] truthTable)
 
         {
-            var RowsWithTrueValue = truthTable.Where(x => x.Result == true).ToList();
-            var RowsWithFalseValue = truthTable.Where(x => x.Result == false).ToList();
+            var rowsWithTrueValue = truthTable.Where(x => x.Result == true).ToList();
+            var rowsWithFalseValue = truthTable.Where(x => x.Result == false).ToList();
 
 
-            for (int i = 0; i <= numberOfVariables; i++)
+            for (int i = 0; i <= _numberOfVariables; i++)
             {
-                var RowsWithSpecificNumberOfOnes = RowsWithTrueValue.Where(x => x.NumberOFOnes == i)
+                var rowsWithSpecificNumberOfOnes = rowsWithTrueValue.Where(x => x.NumberOFOnes == i)
                                                                              .Select(x=>x.Clone())
                                                                              .Cast<Row>().ToList();
-                if (RowsWithSpecificNumberOfOnes.Count != 0)
-                    groupedOnes.Add(RowsWithSpecificNumberOfOnes);
+                if (rowsWithSpecificNumberOfOnes.Count != 0)
+                    _groupedOnes.Add(rowsWithSpecificNumberOfOnes);
             }
 
-            for (int i = 0; i <= numberOfVariables; i++)
+            for (int i = 0; i <= _numberOfVariables; i++)
             {
-                var RowsWithSpecificNumberOfZeros = RowsWithFalseValue.Where(x => x.NumberOFOnes == i)
+                var rowsWithSpecificNumberOfZeros = rowsWithFalseValue.Where(x => x.NumberOFOnes == i)
                                                                               .Select(x => x.Clone())
                                                                               .Cast<Row>().ToList();
-                if (RowsWithSpecificNumberOfZeros.Count!=0)
-                    groupedZeros.Add(RowsWithSpecificNumberOfZeros);
+                if (rowsWithSpecificNumberOfZeros.Count!=0)
+                    _groupedZeros.Add(rowsWithSpecificNumberOfZeros);
             }
 
-            simplificationStepsForOnes.Add(groupedOnes);
-            simplificationStepsForZeros.Add(groupedZeros);
+            _simplificationStepsForOnes.Add(_groupedOnes);
+            _simplificationStepsForZeros.Add(_groupedZeros);
         }
 
         private int MatchPair(Row row1, Row row2)
@@ -73,7 +69,7 @@ namespace LPP.Modules
             var numberOfDifference = 0;
             var indexOfDifference = -1;
             
-            for (var i = 0; i < numberOfVariables && numberOfDifference < 2; i++)
+            for (var i = 0; i < _numberOfVariables && numberOfDifference < 2; i++)
             {
                 if (row1.PropositionValues[i] != row2.PropositionValues[i])
                 {
@@ -84,27 +80,35 @@ namespace LPP.Modules
             return (numberOfDifference==1)? indexOfDifference : -1;
         }
 
-        private void RecursiveSimplification()
+        public List<Row> RecursiveSimplification()
         {
-            OrderTheRows(nonSimplifiedTruthTable);
+            OrderTheRows(_nonSimplifiedTruthTable);
 
-            var lastStep0 = simplificationStepsForZeros[simplificationStepsForZeros.Count - 1];
+            var lastStep0 = _simplificationStepsForZeros[_simplificationStepsForZeros.Count - 1];
             while (lastStep0.Count > 1)
             {
-                Simplify(lastStep0, simplificationStepsForZeros);
+                Simplify(lastStep0, _simplificationStepsForZeros);
             }
 
-            var lastStep1 = simplificationStepsForOnes[simplificationStepsForOnes.Count - 1];
+            var lastStep1 = _simplificationStepsForOnes[_simplificationStepsForOnes.Count - 1];
             while (lastStep1.Count > 1)
             {
-                Simplify(lastStep1, simplificationStepsForOnes);
-                lastStep1 = simplificationStepsForOnes[simplificationStepsForOnes.Count - 1];
+                Simplify(lastStep1, _simplificationStepsForOnes);
+                lastStep1 = _simplificationStepsForOnes[_simplificationStepsForOnes.Count - 1];
             }
 
-            
+            var rowComparer = new RowComparer();
+            var trueValues = lastStep1[0].Distinct(rowComparer).ToList();
+            var falseValues = lastStep0[0].Distinct(rowComparer).ToList();
+
+            var simplifiedRows = Enumerable.Empty<Row>().ToList();
+            simplifiedRows.AddRange(falseValues);
+            simplifiedRows.AddRange(trueValues);
+            return simplifiedRows;
+
         }
-        
-        private void Simplify(List<List<Row>> list, List<List<List<Row>>> stepList)
+
+        private void Simplify(List<List<Row>> list, ICollection<List<List<Row>>> stepList)
         {
             var nextStep = new List<List<Row>>();
             
@@ -115,9 +119,9 @@ namespace LPP.Modules
                     var nextList = new List<Row>();
                     foreach (var row in list[i])
                     {
-                        foreach (var NextRow in list[i + 1])
+                        foreach (var nextRow in list[i + 1])
                         {
-                            var index = MatchPair(row, NextRow);
+                            var index = MatchPair(row, nextRow);
                             if (index != -1)
                             {
                                 var clonedRow = (Row)row.Clone();
@@ -128,7 +132,7 @@ namespace LPP.Modules
                     }
                     if (nextList.Count != 0) nextStep.Add(nextList);
                 }
-                stepList.Add(nextStep.Distinct().ToList());
+                stepList.Add(nextStep.ToList());
             }
             else
             {

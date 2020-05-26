@@ -39,7 +39,5 @@ namespace LPP.Modules
             newRow.Result = this.Result;
             return newRow;
         }
-
-        
     }
 }
