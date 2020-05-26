@@ -13,11 +13,14 @@ namespace LPPTestProject
         [InlineData(">(&(|(~(A),D),=(A,E)),>(&(C,~(D)),B))", "(((¬A)⋁D)⋀(A⇔E))⇒((C⋀(¬D))⇒B)")]
         [InlineData(">(&(>(Q,R),>(~(Q),P)),|(P,R))", "((Q⇒R)⋀((¬Q)⇒P))⇒(P⋁R)")]
         [InlineData(">(|(A,>(B,C)),=(D,&(A,E))", "(A⋁(B⇒C))⇒(D⇔(A⋀E))")]
+        [InlineData("|(~(>(A,B)),&(A,>(C,B)))", "(¬(A⇒B))⋁(A⋀(C⇒B))")]
         [InlineData(">(>(P,Q),>(&(R,1),Q))", "(P⇒Q)⇒((R⋀True)⇒Q)")]
         [InlineData(">(=(P,Q),&(R,~(P)))", "(P⇔Q)⇒(R⋀(¬P))")]
         [InlineData(">(A,=(B,&(0,C))", "A⇒(B⇔(False⋀C))")]
+        [InlineData("|(=(A,B),&(C,A))", "(A⇔B)⋁(C⋀A)")]
         [InlineData(">(&(A,B),~(C))", "(A⋀B)⇒(¬C)")]
         [InlineData("&(|(A,~(B)),C)", "(A⋁(¬B))⋀C")]
+        [InlineData("|(|(A,B),C)", "(A⋁B)⋁C")]
 
         public void InFixFormulaTesting_OnCorrectPrefixFormula_CorrectInfixFormula(string prefixInput,string infixOutput)
         {

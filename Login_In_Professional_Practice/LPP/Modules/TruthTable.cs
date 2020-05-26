@@ -31,10 +31,6 @@ namespace LPP.Modules
 
             FillRows();
             calculator.Visit(this);
-            
-            var simplifiedTruthTable = new Simplification(this);
-            SimplifiedRows = simplifiedTruthTable.RecursiveSimplification();
-
         }
 
         private int binaryValue(bool? input) => (input != null && (bool) input) ? 1 : 0;
@@ -59,40 +55,10 @@ namespace LPP.Modules
             }
         }
 
-        //private void SimplifyRows()
-        //{
-        //    for (int i = 0; i < SimplifiedRows.Count; i++)
-        //    {
-        //        var currentRow = SimplifiedRows[i];
-
-        //        for(int j = i + 1; j < SimplifiedRows.Count - 1; j++)
-        //        {
-        //            var nextRow = SimplifiedRows[j];
-        //            var indexOfDifference = currentRow.CompareTo(nextRow);
-        //            if (indexOfDifference != -1)
-        //            {
-        //                Simplify(currentRow, nextRow, indexOfDifference);
-        //                i = 0;
-        //                break;
-        //            }
-        //        }
-        //    }
-        //}
-
-        private void Simplify(Row row1, Row row2, int indexOfDifference)
+        public void SimplifyRows()
         {
-            Console.WriteLine("=====");
-            Console.WriteLine(SimplifiedToString());
-            Console.WriteLine("=====");
-            Console.WriteLine(row1);
-            Console.WriteLine(row2);
-
-            SimplifiedRows.Remove(row2);
-            row1.PropositionValues[indexOfDifference] = null;
-
-            Console.WriteLine(row1);
-            Console.WriteLine("=====");
-            Console.WriteLine(SimplifiedToString());
+            var simplifiedTruthTable = new Simplification(this);
+            SimplifiedRows = simplifiedTruthTable.RecursiveSimplification();
         }
 
         public override string ToString()

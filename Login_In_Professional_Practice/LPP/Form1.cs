@@ -85,7 +85,9 @@ namespace LPP
         private void CalculateAndPrintTruthTable()
         {
             LbTruthTable.Items.Clear();
+            LbSimplifiedTruthTable.Items.Clear();
             var truthTable = new TruthTable(_rootOfBinaryTree,_calculator);
+            truthTable.SimplifyRows();
 
             var rowsOfTruthTable = truthTable.ToString().Split('\n').ToList();
             var rowsOfSimplifiedTruthTable = truthTable.SimplifiedToString().Split('\n').ToList();

@@ -85,27 +85,21 @@ namespace LPP.Modules
             OrderTheRows(_nonSimplifiedTruthTable);
 
             var lastStep0 = _simplificationStepsForZeros[_simplificationStepsForZeros.Count - 1];
-            while (lastStep0.Count > 1)
+            var lastStep1 = _simplificationStepsForOnes[_simplificationStepsForOnes.Count - 1];
+
+            for (int i = 0; i < _numberOfVariables; i++)
             {
                 Simplify(lastStep0, _simplificationStepsForZeros);
-            }
-
-            var lastStep1 = _simplificationStepsForOnes[_simplificationStepsForOnes.Count - 1];
-            while (lastStep1.Count > 1)
-            {
                 Simplify(lastStep1, _simplificationStepsForOnes);
+                lastStep0 = _simplificationStepsForZeros[_simplificationStepsForZeros.Count - 1];
                 lastStep1 = _simplificationStepsForOnes[_simplificationStepsForOnes.Count - 1];
             }
 
             var rowComparer = new RowComparer();
-            var trueValues = lastStep1[0].Distinct(rowComparer).ToList();
-            var falseValues = lastStep0[0].Distinct(rowComparer).ToList();
-
-            var simplifiedRows = Enumerable.Empty<Row>().ToList();
-            simplifiedRows.AddRange(falseValues);
-            simplifiedRows.AddRange(trueValues);
-            return simplifiedRows;
-
+            var trueValues = lastStep1.SelectMany(x=>x).Distinct(rowComparer);
+            var falseValues = lastStep0.SelectMany(x => x).Distinct(rowComparer);
+            
+            return falseValues.Concat(trueValues).ToList();
         }
 
         private void Simplify(List<List<Row>> list, ICollection<List<List<Row>>> stepList)
@@ -132,7 +126,7 @@ namespace LPP.Modules
                     }
                     if (nextList.Count != 0) nextStep.Add(nextList);
                 }
-                stepList.Add(nextStep.ToList());
+                if(nextStep.Count!=0) stepList.Add(nextStep.ToList());
             }
             else
             {
