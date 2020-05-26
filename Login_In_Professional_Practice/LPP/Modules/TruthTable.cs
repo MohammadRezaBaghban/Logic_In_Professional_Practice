@@ -36,7 +36,7 @@ namespace LPP.Modules
             {
                 SimplifiedRows.Add((Row)row.Clone());
             }
-            SimplifyRows();
+            //SimplifyRows();
         }
 
         private int binaryValue(bool? input) => (input != null && (bool) input) ? 1 : 0;
@@ -61,25 +61,25 @@ namespace LPP.Modules
             }
         }
 
-        private void SimplifyRows()
-        {
-            for (int i = 0; i < SimplifiedRows.Count; i++)
-            {
-                var currentRow = SimplifiedRows[i];
+        //private void SimplifyRows()
+        //{
+        //    for (int i = 0; i < SimplifiedRows.Count; i++)
+        //    {
+        //        var currentRow = SimplifiedRows[i];
 
-                for(int j = i + 1; j < SimplifiedRows.Count - 1; j++)
-                {
-                    var nextRow = SimplifiedRows[j];
-                    var indexOfDifference = currentRow.CompareTo(nextRow);
-                    if (indexOfDifference != -1)
-                    {
-                        Simplify(currentRow, nextRow, indexOfDifference);
-                        i = 0;
-                        break;
-                    }
-                }
-            }
-        }
+        //        for(int j = i + 1; j < SimplifiedRows.Count - 1; j++)
+        //        {
+        //            var nextRow = SimplifiedRows[j];
+        //            var indexOfDifference = currentRow.CompareTo(nextRow);
+        //            if (indexOfDifference != -1)
+        //            {
+        //                Simplify(currentRow, nextRow, indexOfDifference);
+        //                i = 0;
+        //                break;
+        //            }
+        //        }
+        //    }
+        //}
 
         private void Simplify(Row row1, Row row2, int indexOfDifference)
         {

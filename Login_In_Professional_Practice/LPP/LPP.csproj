@@ -55,6 +55,7 @@
     <Compile Include="Composite Pattern\Node\TrueFalse.cs" />
     <Compile Include="Composite Pattern\PropositionalVariables.cs" />
     <Compile Include="Modules\Row.cs" />
+    <Compile Include="Modules\Simplification.cs" />
     <Compile Include="Modules\TruthTable.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
