@@ -10,11 +10,11 @@ namespace LPP.Modules
     public class TruthTable
     {
         public readonly Row[] Rows;
-        private List<Row> SimplifiedRows;
+        public List<Row> SimplifiedRows;
 
         public int NumberOfVariables { get; }
-        public PropositionalVariable[] DistinctPropositionalVariables;
         public CompositeComponent RootOfBinaryTree { get; }
+        public PropositionalVariable[] DistinctPropositionalVariables;
 
         public TruthTable(CompositeComponent rootOfBinaryTree, Calculator calculator)
         {
@@ -31,6 +31,7 @@ namespace LPP.Modules
 
             FillRows();
             calculator.Visit(this);
+            SimplifyRows();
         }
 
         private int binaryValue(bool? input) => (input != null && (bool) input) ? 1 : 0;
@@ -55,10 +56,17 @@ namespace LPP.Modules
             }
         }
 
-        public void SimplifyRows()
+        private void SimplifyRows()
         {
             var simplifiedTruthTable = new Simplification(this);
             SimplifiedRows = simplifiedTruthTable.RecursiveSimplification();
+        }
+
+        public void SetValue_Of_Propositional_Variables(PropositionalVariable variable, bool value)
+        {
+            RootOfBinaryTree
+                .PropositionalVariables
+                .SetValue_Of_Propositional_Variables(symbol: variable.Symbol, value: value);
         }
 
         public override string ToString()
@@ -75,20 +83,10 @@ namespace LPP.Modules
             return headOfTruthTable + rowsOfTruthTable;
         }
 
-        public void SetValue_Of_Propositional_Variables(PropositionalVariable variable, bool value)
-        {
-            RootOfBinaryTree
-                .PropositionalVariables
-                .SetValue_Of_Propositional_Variables(symbol: variable.Symbol, value: value);
-        }
-
         public string GetHexadecimalHashCode() => Convert.ToInt64(GetHashCode().ToString(), 2).ToString("X");
 
-        public override int GetHashCode()
-            =>   Convert.ToInt32(Rows
-                .Reverse()
-                .Aggregate("", (current, next) => current + binaryValue(next.Result).ToString())
-                );
+        public override int GetHashCode() =>   Convert.ToInt32(Rows.Reverse()
+            .Aggregate("", (current, next) => current + binaryValue(next.Result).ToString()));
 
 
 

@@ -14,7 +14,6 @@ namespace LPPTestProject
         [InlineData("|(&(A,B),C)", "EA")]
         [InlineData("&(A,|(B,C))","E0")]
         [InlineData("&(>(P,Q),>(Q,P))","9")]
-        //[InlineData("~(>(~(A),|(A,B)))", "7")]
         [InlineData("~(|(~(A),|(>(A,~(A)),>(&(>(~(|(C,A)),C),C),C))))", "0")]
         [InlineData("|(|(A,B),C)","FE")]
         [InlineData("&(P,Q)", "8")]
@@ -49,7 +48,6 @@ namespace LPPTestProject
             //Act
             calculator.Calculate(rootOfComponent);
             var truthTable = new TruthTable(rootOfComponent, calculator);
-            truthTable.SimplifyRows();
 
             //Assert
             var actualSimplified = truthTable.SimplifiedToString().Replace("\n","").Replace(" ","");

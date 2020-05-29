@@ -9,7 +9,8 @@ namespace LPP
     public class BinaryTree
     {
         public CompositeComponent _root;
-
+       
+        //Methods & Functions
         public Component InsertNode(Component root, Component node)
         {
             SingleComponent singleNode = node as SingleComponent;
@@ -24,7 +25,6 @@ namespace LPP
                 return InsertCompositeNode(root, composite);
             }
         }
-
         private Component InsertCompositeNode(Component root, Component newNode)
         {
             if (root == null)
@@ -170,7 +170,6 @@ namespace LPP
                 return newNode;
             }
         }
-
         private Component InsertSingleNode(Component root, SingleComponent singleNode)
         {
 
@@ -224,5 +223,7 @@ namespace LPP
                 }
             }
         }
+
+        
     }
 }
