@@ -4,24 +4,23 @@ using System.Linq;
 using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Node;
 using LPP.Modules;
+using LPP.Visitor_Pattern;
 
 namespace LPP.Truth_Table
 {
     public static class DNF
     {
-        private static Component _dnfRoot;
         private static List<Row> _rows;
         private static char[] _variables;
 
-        public static Component ProcessDNF(List<Row> truthTableRows, char[] variables)
+        public static List<Component> ProcessDNF(List<Row> truthTableRows, char[] variables)
         {
             _rows = truthTableRows.Where(x => x.Result == true).ToList();
             DNF._variables = variables;
 
             List<Component> components = new List<Component>();
             _rows.ForEach( row => components.Add(RowProcessing(row)));
-            _dnfRoot = TruthTableDnfProcessing(components);
-            return _dnfRoot;
+            return components;
         }
 
         private static Component RowProcessing(Row row)
@@ -31,7 +30,7 @@ namespace LPP.Truth_Table
 
             if (row.PropositionValues.Count(x => x != null) > 1)
             {
-                bt.InsertNode(root, new ConjunctionConnective());
+                root = bt.InsertNode(root, new ConjunctionConnective());
                 for (var i = 0; i < row.PropositionValues.Length; i++)
                 {
                     var character = _variables[i];
@@ -50,50 +49,22 @@ namespace LPP.Truth_Table
             }
             else
             {
-                var index = Array.IndexOf(row.PropositionValues, null);
+                var index = Array.IndexOf(row.PropositionValues, row.PropositionValues.First(x=>x != null && x.Value!=null));
                 var character = _variables[index];
                 return new PropositionalVariable(character);
             }
         }
 
-        private static Component TruthTableDnfProcessing(List<Component> nodes)
+        public static string DNFFormula(List<Component> components)
         {
+            InfixFormulaGenerator formulaGenerator = new InfixFormulaGenerator();
+            List<string> normalDNF = new List<string>();
+            components.ForEach(x => {
+                formulaGenerator.Calculate(x);
+                normalDNF.Add(x.InFixFormula);
+            });
 
-            if (nodes.Count == 1)
-            { 
-                _dnfRoot = nodes[0];
-                return _dnfRoot;
-            }
-            else
-            {
-                if (_dnfRoot == null)
-                {
-                    _dnfRoot = new DisjunctionConnective();
-                }
-
-                foreach (var node in nodes)
-                {
-                    if (_dnfRoot.LeftNode == null && _dnfRoot.RightNode == null)
-                    {
-                        var newRoot = new DisjunctionConnective();
-                        newRoot.LeftNode = _dnfRoot;
-                        _dnfRoot = newRoot;
-                        _dnfRoot.RightNode = node;
-                    }
-                    else
-                    {
-                        if (_dnfRoot.RightNode == null)
-                        {
-                            _dnfRoot.RightNode = node;
-                        }
-                        else
-                        {
-                            _dnfRoot.LeftNode = node;
-                        }
-                    }
-                }
-                return _dnfRoot;
-            }
+            return string.Join(" ⋁ ", normalDNF);
         }
     }
 }

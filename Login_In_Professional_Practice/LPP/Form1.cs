@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using LPP.Composite_Pattern;
 using LPP.Modules;
+using LPP.Truth_Table;
 using LPP.Visitor_Pattern;
 
 namespace LPP
@@ -13,12 +15,12 @@ namespace LPP
     {
         private CompositeComponent _rootOfBinaryTree;
         private readonly Calculator _calculator;
-        private readonly InfixFormulaGenerator _formulaFormulaGenerator;
+        private readonly InfixFormulaGenerator _formulaGenerator;
 
         public Form1()
         {
             InitializeComponent();
-            _formulaFormulaGenerator = new InfixFormulaGenerator();
+            _formulaGenerator = new InfixFormulaGenerator();
             _calculator = new Calculator();
         }
 
@@ -34,10 +36,10 @@ namespace LPP
                 }
                 else
                 {
-                    _rootOfBinaryTree = ParsingModule.ParseInput(userInput);
+                    _rootOfBinaryTree = ParsingModule.ParseInput(userInput) as CompositeComponent;
 
                     GenerateGraphVizBinaryGraph(_rootOfBinaryTree.GraphVizFormula, PbBinaryGraph);
-                    _formulaFormulaGenerator.Calculate(_rootOfBinaryTree);
+                    _formulaGenerator.Calculate(_rootOfBinaryTree);
 
                     TbInfixFormula.Enabled = true;
                     TbInfixFormula.Text = _rootOfBinaryTree.InFixFormula;
@@ -86,13 +88,14 @@ namespace LPP
         {
             LbTruthTable.Items.Clear();
             LbSimplifiedTruthTable.Items.Clear();
-            var truthTable = new TruthTable(_rootOfBinaryTree,_calculator);
-            //truthTable.SimplifyRows();
+            var truthTable = new TruthTable(_rootOfBinaryTree);
 
             var rowsOfTruthTable = truthTable.ToString().Split('\n').ToList();
             var rowsOfSimplifiedTruthTable = truthTable.SimplifiedToString().Split('\n').ToList();
 
             TbTruthTableHashCode.Text = $@"{truthTable.GetHexadecimalHashCode()}";
+            TbNormalDNF.Text = $"{DNF.DNFFormula(truthTable.DNF_Normal_Components)}";
+            TbSimplifiedDNF.Text = $"{DNF.DNFFormula(truthTable.DNF_Simplified_Components)}";
 
             rowsOfTruthTable.ForEach(row => LbTruthTable.Items.Add(row));
             rowsOfSimplifiedTruthTable.ForEach(row => LbSimplifiedTruthTable.Items.Add(row));

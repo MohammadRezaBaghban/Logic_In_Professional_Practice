@@ -25,7 +25,7 @@ namespace LPP.Modules
         /// Generate the binary tree out of the given formula
         ///  <param name="input">prefix abstract proposition formula</param>
         /// <returns>The root of generate BinaryTree</returns>
-        public static CompositeComponent ParseInput(string input)
+        public static Component ParseInput(string input)
         {
             EraseParsedList();
             ParseInputRecursively(ref input);
@@ -121,7 +121,7 @@ namespace LPP.Modules
                         //Variables                    
                         default:
                             var propositionVariable = new PropositionalVariable(currentCharacter);
-                            Bt._root.PropositionalVariables.AddPropositionalVariable(propositionVariable);
+                            ((CompositeComponent)Bt._root).PropositionalVariables.AddPropositionalVariable(propositionVariable);
                             Bt.InsertNode(root, propositionVariable);
                             break;
                     }
