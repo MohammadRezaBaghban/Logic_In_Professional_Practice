@@ -17,6 +17,10 @@ namespace LPP.Composite_Pattern
 
         public void SetValue_Of_Propositional_Variables(char symbol, bool value) =>
             _propositionalVariables.FindAll(x => x.Symbol == symbol).ForEach(x=>x.Data=value);
+
+
+        public char[] Get_Distinct_PropositionalVariables_Chars() => 
+            Get_Distinct_PropositionalVariables().OrderBy(x => x.Symbol).Select(x => x.Symbol).ToArray();
         
 
         public PropositionalVariable[] Get_Distinct_PropositionalVariables() =>

@@ -19,7 +19,7 @@ namespace LPP.Modules
         //Constructor
         public Simplification(TruthTable truthTable)
         {
-            _nonSimplifiedTruthTable = truthTable.Rows;
+            _nonSimplifiedTruthTable = truthTable.NormalRows;
             _groupedOnes = new List<List<Row>>();
             _groupedZeros = new List<List<Row>>();
             _simplificationStepsForOnes = new List<List<List<Row>>>();

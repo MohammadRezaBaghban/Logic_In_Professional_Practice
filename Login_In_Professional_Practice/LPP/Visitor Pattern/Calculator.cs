@@ -45,7 +45,7 @@ namespace LPP.Visitor_Pattern
         public void Visit(TruthTable truthTable)
         {
             //Traverse Each Row
-            foreach (var currentRow in truthTable.Rows)
+            foreach (var currentRow in truthTable.NormalRows)
             {
                 for (var j = 0; j < currentRow.PropositionValues.Length; j++)
                 {
