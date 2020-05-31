@@ -11,7 +11,7 @@ namespace LPP.Truth_Table
 {
     public class DNF
     {
-        private DisjunctionConnective normaldnfRoot;
+        private Component dnfRoot;
         private DisjunctionConnective simplifiedDnfRoot;
 
         private List<Row> normalRows;
@@ -25,34 +25,82 @@ namespace LPP.Truth_Table
             variables = truthTable.RootOfBinaryTree.PropositionalVariables
                         .Get_Distinct_PropositionalVariables().OrderBy(x=>x.Symbol)
                         .Select(x => x.Symbol).ToArray();
-
         }
 
-        private CompositeComponent RowProcessing(Row row)
+        private Component RowProcessing(Row row)
         {
-            BinaryTree bt = new BinaryTree();
-            CompositeComponent root = bt._root;
+            var bt = new BinaryTree();
+            var root = bt._root;
 
-            bt.InsertNode(root, new ConjunctionConnective());
-
-            for(int i = 0; i < row.PropositionValues.Length; i++)
+            if (row.PropositionValues.Count(x => x != null) > 1)
             {
-                var character = variables[i];
-                if (row.PropositionValues[i] != null)
+                bt.InsertNode(root, new ConjunctionConnective());
+                for (var i = 0; i < row.PropositionValues.Length; i++)
                 {
+                    var character = variables[i];
+                    if (row.PropositionValues[i] == null) continue;
                     if (row.PropositionValues[i].Value)
                     {
                         bt.InsertNode(root, new PropositionalVariable(character));
                     }
                     else
                     {
-                        var negation = new NegationConnective();
-                        negation.LeftNode = new PropositionalVariable(character);
+                        var negation = new NegationConnective {LeftNode = new PropositionalVariable(character)};
                         bt.InsertNode(root, negation);
                     }
                 }
+                return bt._root;
             }
-            return bt._root;
+            else
+            {
+                var index = Array.IndexOf(row.PropositionValues, null);
+                var character = variables[index];
+                return new PropositionalVariable(character);
+            }
+        }
+
+        private Component TruthTableDNFProcessing(List<CompositeComponent> nodes)
+        {
+            if (nodes.Count == 1)
+            {
+                dnfRoot = nodes[0];
+                return dnfRoot;
+            }
+            else
+            {
+                foreach (var node in nodes)
+                {
+                    InsertForDNF(node);
+                }
+                return dnfRoot;
+            }
+        }
+
+        private void InsertForDNF(CompositeComponent node)
+        {
+            if (dnfRoot == null)
+            {
+                dnfRoot = new DisjunctionConnective();
+            }
+
+            if(dnfRoot.LeftNode ==null && dnfRoot.RightNode == null)
+            {
+                var newRoot = new DisjunctionConnective();
+                newRoot.LeftNode = dnfRoot;
+                dnfRoot = newRoot;
+                InsertForDNF(node);
+            }
+            else
+            {
+                if (dnfRoot.RightNode == null)
+                {
+                    dnfRoot.RightNode = node;
+                }
+                else
+                {
+                    dnfRoot.LeftNode = node;
+                }
+            }
         }
     }
 }
