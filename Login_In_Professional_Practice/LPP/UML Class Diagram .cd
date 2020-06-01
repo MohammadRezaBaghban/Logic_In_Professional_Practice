@@ -3,7 +3,7 @@
   <Class Name="LPP.Form1" Collapsed="true">
     <Position X="22.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAICACAEEBgAAACAAAACgAAACAAAACAAAAAAARA=</HashCode>
+      <HashCode>AAAEAAAiACAMEBggAASAIAACgAAACAAAACAAAAAAARA=</HashCode>
       <FileName>Form1.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -53,21 +53,21 @@
   <Class Name="LPP.Composite_Pattern.Component">
     <Position X="9.5" Y="3" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAEAABAAAAAAAAABQgAAAAAAABAAAAAAAAABCgA=</HashCode>
+      <HashCode>AAAAAAEAABAAAAAAAAABQAAAAAAAABAAAAAAAAABCgA=</HashCode>
       <FileName>Composite Pattern\Component.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LPP.NodeComponents.CompositeComponent">
     <Position X="6.5" Y="4.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAACAAAEAAAAAgAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <HashCode>AAAAAAIAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAABAAA=</HashCode>
       <FileName>Composite Pattern\CompositeComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LPP.Composite_Pattern.SingleComponent">
     <Position X="12.25" Y="4.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAAAgAAAAAAAAAIAAAAAAABAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAABAAA=</HashCode>
       <FileName>Composite Pattern\SingleComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -109,7 +109,7 @@
   <Class Name="LPP.Composite_Pattern.Node.PropositionalVariable">
     <Position X="11.25" Y="7" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAgAAAAgAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>Composite Pattern\Node\PropositionalVariable.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -117,7 +117,7 @@
   <Class Name="LPP.Composite_Pattern.Node.TrueFalse">
     <Position X="13.5" Y="7" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Composite Pattern\Node\TrueFalse.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -126,6 +126,35 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAQAAAAACAAAACAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Visitor Pattern\InfixFormula_Generator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LPP.NodeComponents.PropositionalVariables">
+    <Position X="6.5" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAACQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Composite Pattern\PropositionalVariables.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LPP.Modules.Row">
+    <Position X="4" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAFAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Modules\Row.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LPP.Modules.TruthTable">
+    <Position X="0.5" Y="0.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQEAEAAAAAEAAAAAEIIACACAAAIAAAAA=</HashCode>
+      <FileName>Modules\TruthTable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LPP.Visitor_Pattern.Calculator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="23.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Visitor Pattern\Calculator.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>

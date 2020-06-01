@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LPP.Modules;
 
 namespace LPP.Composite_Pattern.Node
 {
@@ -14,7 +10,7 @@ namespace LPP.Composite_Pattern.Node
             Data = data;
             Symbol = (data) ? '1' : '0';
             InFixFormula = (data) ? "True" : "False";
-            NodeNumber = ++ParsingModule.nodeCounter;
+            NodeNumber = ++ParsingModule.NodeCounter;
         }
     }
 }

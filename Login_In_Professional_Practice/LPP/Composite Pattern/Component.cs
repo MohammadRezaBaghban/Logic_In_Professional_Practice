@@ -1,4 +1,6 @@
-﻿namespace LPP.Composite_Pattern
+﻿using LPP.Modules;
+
+namespace LPP.Composite_Pattern
 {
     public abstract class Component
     {
@@ -9,7 +11,7 @@
         public Component RightNode;
 
         //This needs to be be adjusted
-        public int NodeNumber { get; set; } = ++ParsingModule.nodeCounter;
+        public int NodeNumber { get; set; } = ++ParsingModule.NodeCounter;
 
         public bool Data { get; set; }
 

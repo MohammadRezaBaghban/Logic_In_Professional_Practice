@@ -1,6 +1,6 @@
-﻿using LPP.Composite_Pattern;
+﻿using System.Collections.Generic;
+using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Node;
-using LPP.NodeComponents;
 
 namespace LPP
 {
@@ -9,8 +9,9 @@ namespace LPP
     /// </summary>
     public class BinaryTree
     {
-        public CompositeComponent _root;
-
+        public Component _root;
+       
+        //Methods & Functions
         public Component InsertNode(Component root, Component node)
         {
             SingleComponent singleNode = node as SingleComponent;
@@ -25,13 +26,12 @@ namespace LPP
                 return InsertCompositeNode(root, composite);
             }
         }
-
         private Component InsertCompositeNode(Component root, Component newNode)
         {
             if (root == null)
             {
-                this._root = (CompositeComponent)newNode;
-                this._root.PropositionalVariables = new PropositionalVariables();
+                this._root = newNode as CompositeComponent;
+                ((CompositeComponent)this._root).PropositionalVariables = new PropositionalVariables();
                 return _root;
             }
 
@@ -111,7 +111,6 @@ namespace LPP
                     {
                         root.LeftNode = newNode;
                         root.LeftNode.Parent = root;
-
                     }
                     else
                     {
@@ -171,9 +170,14 @@ namespace LPP
                 return newNode;
             }
         }
-
         private Component InsertSingleNode(Component root, SingleComponent singleNode)
         {
+            if (root == null)
+            {
+                this._root = singleNode;
+                this._root = _root as SingleComponent;
+                return _root;
+            }
 
             //Try to put the single node on the left side of tree as much as possible
             if (root is NegationConnective)
@@ -223,6 +227,48 @@ namespace LPP
                         return singleNode.Parent;
                     }
                 }
+            }
+        }
+        
+        public static Component DNFBinaryTree(List<Component> nodes)
+        {
+            Component _dnfRoot = null;
+
+            if (nodes.Count == 1)
+            {
+                _dnfRoot = nodes[0];
+                return _dnfRoot;
+            }
+            else
+            {
+                if (_dnfRoot == null)
+                {
+                    _dnfRoot = new DisjunctionConnective();
+                }
+
+                foreach (var node in nodes)
+                {
+                    if (_dnfRoot.LeftNode != null && _dnfRoot.RightNode != null)
+                    {
+                        var newRoot = new DisjunctionConnective();
+                        _dnfRoot.Parent = newRoot;
+                        newRoot.LeftNode = _dnfRoot;
+                        _dnfRoot = newRoot;
+                        _dnfRoot.RightNode = node;
+                    }
+                    else
+                    {
+                        if (_dnfRoot.LeftNode == null)
+                        {
+                            _dnfRoot.LeftNode = node;
+                        }
+                        else
+                        {
+                            _dnfRoot.RightNode = node;
+                        }
+                    }
+                }
+                return _dnfRoot;
             }
         }
     }

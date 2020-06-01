@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LPP.Modules;
 
 namespace LPP.Composite_Pattern.Node
 {
     public class PropositionalVariable : SingleComponent, IEquatable<PropositionalVariable>
     {
         public PropositionalVariable(char symbol) =>
-            (IsPropositionalVariable, InFixFormula, Symbol, NodeNumber) = (true, symbol.ToString(), symbol, ++ParsingModule.nodeCounter);
+            (IsPropositionalVariable, InFixFormula, Symbol, NodeNumber) = (true, symbol.ToString(), symbol, ++ParsingModule.NodeCounter);
 
         public bool Equals(PropositionalVariable other) => this.Symbol.Equals(other.Symbol);
 
@@ -22,9 +19,6 @@ namespace LPP.Composite_Pattern.Node
             return Equals((PropositionalVariable)obj);
         }
 
-        public override int GetHashCode()
-        {
-            throw new NotImplementedException();
-        }
+        public override int GetHashCode() => (int) Symbol;
     }
 }
