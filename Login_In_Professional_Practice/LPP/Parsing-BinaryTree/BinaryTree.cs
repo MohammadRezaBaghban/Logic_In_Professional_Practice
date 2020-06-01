@@ -95,6 +95,17 @@ namespace LPP
                             {
                                 return InsertNode(root.Parent, newNode);
                             }
+                            else
+                            {
+                                //Specifically be useful for DNF where tree be created from bottom to top
+                                var newRoot = new ConjunctionConnective();
+                                root.Parent = newRoot;
+                                newRoot.LeftNode = root;
+                                root = newRoot;
+                                root.RightNode = newNode;
+                                _root = root;
+                                return newNode.Parent;
+                            }
                         }
                     }
                 }
@@ -224,6 +235,13 @@ namespace LPP
                     }
                     else
                     {
+                        //Specifically be useful for DNF where tree be created from bottom to top
+                        var newRoot = new ConjunctionConnective();
+                        root.Parent = newRoot;
+                        newRoot.LeftNode = root;
+                        root = newRoot;
+                        root.RightNode = singleNode;
+                        _root = root;
                         return singleNode.Parent;
                     }
                 }

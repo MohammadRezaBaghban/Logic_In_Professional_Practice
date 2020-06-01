@@ -49,9 +49,17 @@ namespace LPP.Truth_Table
             }
             else
             {
-                var index = Array.IndexOf(row.PropositionValues, row.PropositionValues.First(x=>x != null && x.Value!=null));
-                var character = _variables[index];
-                return new PropositionalVariable(character);
+                var index = Array.IndexOf(row.PropositionValues, row.PropositionValues.FirstOrDefault(x=>x != null && x.Value!=null));
+                if (row.PropositionValues[index] != null)
+                {
+                    var character = _variables[index];
+                    return new PropositionalVariable(character);
+                }
+                else
+                {
+                    return null;
+                }
+                
             }
         }
 
@@ -60,8 +68,11 @@ namespace LPP.Truth_Table
             InfixFormulaGenerator formulaGenerator = new InfixFormulaGenerator();
             List<string> normalDNF = new List<string>();
             components.ForEach(x => {
-                formulaGenerator.Calculate(x);
-                normalDNF.Add(x.InFixFormula);
+                if (x != null)
+                {
+                    formulaGenerator.Calculate(x);
+                    normalDNF.Add(x.InFixFormula);
+                }
             });
 
             return string.Join(" ⋁ ", normalDNF);
