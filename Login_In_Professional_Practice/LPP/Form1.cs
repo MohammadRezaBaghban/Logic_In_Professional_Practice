@@ -13,6 +13,7 @@ namespace LPP
 {
     public partial class Form1 : Form
     {
+        private BinaryTree _binaryTree;
         private CompositeComponent _rootOfBinaryTree;
         private readonly Calculator _calculator;
         private readonly InfixFormulaGenerator _formulaGenerator;
@@ -36,15 +37,14 @@ namespace LPP
                 }
                 else
                 {
-                    _rootOfBinaryTree = ParsingModule.ParseInput(userInput) as CompositeComponent;
-
+                    _binaryTree = ParsingModule.ParseInput(userInput);
+                    _rootOfBinaryTree = _binaryTree.Root as CompositeComponent;
                     GenerateGraphVizBinaryGraph(_rootOfBinaryTree.GraphVizFormula, PbBinaryGraph);
                     _formulaGenerator.Calculate(_rootOfBinaryTree);
 
                     TbInfixFormula.Enabled = true;
                     TbInfixFormula.Text = _rootOfBinaryTree.InFixFormula;
-                    TbPropositionalVariables.Text = _rootOfBinaryTree
-                                                    .PropositionalVariables.Get_Distinct_PropositionalVariables()
+                    TbPropositionalVariables.Text = _binaryTree.PropositionalVariables.Get_Distinct_PropositionalVariables()
                                                     .SelectMany(x => x.Symbol.ToString())
                                                     .Aggregate("", (current, next) => current + next);
 
@@ -88,7 +88,7 @@ namespace LPP
         {
             LbTruthTable.Items.Clear();
             LbSimplifiedTruthTable.Items.Clear();
-            var truthTable = new TruthTable(_rootOfBinaryTree);
+            var truthTable = new TruthTable(_binaryTree);
 
             var rowsOfTruthTable = truthTable.ToString().Split('\n').ToList();
             var rowsOfSimplifiedTruthTable = truthTable.SimplifiedToString().Split('\n').ToList();

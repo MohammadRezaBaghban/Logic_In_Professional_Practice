@@ -30,11 +30,12 @@ namespace LPPTestProject
         {
             //Arrange
             var calculator = new Calculator();
-            var rootOfComponent = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var rootOfComponent = binaryTree.Root;
 
             //Act
             calculator.Calculate(rootOfComponent);
-            var truthTable = new TruthTable(rootOfComponent as CompositeComponent);
+            var truthTable = new TruthTable(binaryTree);
 
             //Assert
             Assert.Equal(truthTable.GetHexadecimalHashCode(), hexaHashCode);
@@ -46,11 +47,12 @@ namespace LPPTestProject
         {
             //Arrange
             var calculator = new Calculator();
-            var rootOfComponent = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var rootOfComponent = binaryTree.Root;
 
             //Act
             calculator.Calculate(rootOfComponent);
-            var truthTable = new TruthTable(rootOfComponent as CompositeComponent);
+            var truthTable = new TruthTable(binaryTree);
 
             //Assert
             var actualSimplified = DeleteCharacters(truthTable.SimplifiedToString(),new string[]{"\n"," ",});
@@ -67,11 +69,12 @@ namespace LPPTestProject
         {
             //Arrange
             var calculator = new Calculator();
-            var rootOfComponent = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var rootOfComponent = binaryTree.Root;
 
             //Act
             calculator.Calculate(rootOfComponent);
-            var truthTable = new TruthTable(rootOfComponent as CompositeComponent);
+            var truthTable = new TruthTable(binaryTree);
             normalDNF = DeleteCharacters(normalDNF, new string[] { ")", "(", " ", });
             simplifiedDNF = DeleteCharacters(simplifiedDNF, new string[] { ")", "(", " ", });
             var actualNormalDNF = DeleteCharacters(DNF.DNFFormula(truthTable.DNF_Normal_Components), new string[] { ")", "(", " ", });
@@ -81,6 +84,7 @@ namespace LPPTestProject
             Assert.Equal(normalDNF, actualNormalDNF);
             Assert.Equal(simplifiedDNF, actualSimplifiedDNF);
 
+            //Todo Refactor the binarytree creation such that it would be able to be parsed again with propositional variables
         }
 
         private string DeleteCharacters(string src, string[] chars)

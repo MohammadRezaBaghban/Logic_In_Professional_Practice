@@ -26,7 +26,7 @@ namespace LPP.Truth_Table
         private static Component RowProcessing(Row row)
         {
             var bt = new BinaryTree();
-            var root = bt._root;
+            var root = bt.Root;
 
             if (row.PropositionValues.Count(x => x != null) > 1)
             {
@@ -37,7 +37,8 @@ namespace LPP.Truth_Table
                     if (row.PropositionValues[i] == null) continue;
                     if (row.PropositionValues[i].Value)
                     {
-                        bt.InsertNode(root, new PropositionalVariable(character));
+                        var variable = new PropositionalVariable(character);
+                        bt.InsertNode(root, variable);
                     }
                     else
                     {
@@ -45,7 +46,7 @@ namespace LPP.Truth_Table
                         bt.InsertNode(root, negation);
                     }
                 }
-                return bt._root;
+                return bt.Root;
             }
             else
             {

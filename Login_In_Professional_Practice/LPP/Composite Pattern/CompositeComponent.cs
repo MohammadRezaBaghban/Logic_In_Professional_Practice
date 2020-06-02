@@ -2,8 +2,6 @@
 {
     public abstract class CompositeComponent : Component
     {
-        public PropositionalVariables PropositionalVariables = null;
-
         public override string GraphVizFormula
         {
             get

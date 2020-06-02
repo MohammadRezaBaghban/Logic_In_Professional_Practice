@@ -9,30 +9,54 @@ namespace LPP
     /// </summary>
     public class BinaryTree
     {
-        public Component _root;
-       
+        public Component Root;
+        public PropositionalVariables PropositionalVariables = null;
+        private bool _nonModifiable = false;
+
+        public BinaryTree() => PropositionalVariables = new PropositionalVariables();
+
         //Methods & Functions
         public Component InsertNode(Component root, Component node)
         {
-            SingleComponent singleNode = node as SingleComponent;
-            if (singleNode != null)
+            if (_nonModifiable ==false)
             {
-
-                return InsertSingleNode(root, singleNode);
+                SingleComponent singleNode = node as SingleComponent;
+                if (singleNode != null)
+                {
+                    if(singleNode is PropositionalVariable) 
+                        PropositionalVariables.AddPropositionalVariable(singleNode as PropositionalVariable);
+                    return InsertSingleNode(root, singleNode);
+                }
+                else
+                {
+                    CompositeComponent composite = node as CompositeComponent;
+                    return InsertCompositeNode(root, composite);
+                }
             }
             else
             {
-                CompositeComponent composite = node as CompositeComponent;
-                return InsertCompositeNode(root, composite);
+                return Root;
             }
+            
         }
+
+        public bool MakeIt_Non_Modifiable()
+        {
+            if (!_nonModifiable)
+            {
+                
+                _nonModifiable = true;
+                return _nonModifiable;
+            }
+            return true;
+        }
+
         private Component InsertCompositeNode(Component root, Component newNode)
         {
             if (root == null)
             {
-                this._root = newNode as CompositeComponent;
-                ((CompositeComponent)this._root).PropositionalVariables = new PropositionalVariables();
-                return _root;
+                this.Root = newNode as CompositeComponent;
+                return Root;
             }
 
             if (newNode is NegationConnective)
@@ -103,7 +127,7 @@ namespace LPP
                                 newRoot.LeftNode = root;
                                 root = newRoot;
                                 root.RightNode = newNode;
-                                _root = root;
+                                Root = root;
                                 return newNode.Parent;
                             }
                         }
@@ -185,9 +209,9 @@ namespace LPP
         {
             if (root == null)
             {
-                this._root = singleNode;
-                this._root = _root as SingleComponent;
-                return _root;
+                this.Root = singleNode;
+                this.Root = Root as SingleComponent;
+                return Root;
             }
 
             //Try to put the single node on the left side of tree as much as possible
@@ -241,7 +265,7 @@ namespace LPP
                         newRoot.LeftNode = root;
                         root = newRoot;
                         root.RightNode = singleNode;
-                        _root = root;
+                        Root = root;
                         return singleNode.Parent;
                     }
                 }

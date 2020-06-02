@@ -18,16 +18,17 @@ namespace LPP.Modules
         public Component DNF_Simplified_BinaryTree;
 
         public int NumberOfVariables { get; }
+        public BinaryTree binaryTree;
         public CompositeComponent RootOfBinaryTree { get; }
         public PropositionalVariable[] DistinctPropositionalVariables;
 
-        public TruthTable(CompositeComponent rootOfBinaryTree)
+        public TruthTable(BinaryTree binaryTree)
         {
+            this.binaryTree = binaryTree;
             this.SimplifiedRows = new List<Row>();
-            this.RootOfBinaryTree = rootOfBinaryTree;
-            DistinctPropositionalVariables = rootOfBinaryTree.PropositionalVariables.Get_Distinct_PropositionalVariables();
+            this.RootOfBinaryTree = binaryTree.Root as CompositeComponent;
+            DistinctPropositionalVariables = binaryTree.PropositionalVariables.Get_Distinct_PropositionalVariables();
             NumberOfVariables = DistinctPropositionalVariables.Length;
-
             FillAndCalculateRows();
             SimplifyRows();
             ProcessDNF();
@@ -71,14 +72,12 @@ namespace LPP.Modules
 
         public void SetValue_Of_Propositional_Variables(PropositionalVariable variable, bool value)
         {
-            RootOfBinaryTree
-                .PropositionalVariables
-                .SetValue_Of_Propositional_Variables(symbol: variable.Symbol, value: value);
+            binaryTree.PropositionalVariables.SetValue_Of_Propositional_Variables(symbol: variable.Symbol, value: value);
         }
 
         public void ProcessDNF()
         {
-            var variables = RootOfBinaryTree.PropositionalVariables.Get_Distinct_PropositionalVariables_Chars();
+            var variables = binaryTree.PropositionalVariables.Get_Distinct_PropositionalVariables_Chars();
             DNF_Normal_Components = DNF.ProcessDNF(NormalRows.ToList(), variables);
             DNF_Simplified_Components = DNF.ProcessDNF(SimplifiedRows, variables);
             DNF_Normal_BinaryTree = BinaryTree.DNFBinaryTree(DNF_Normal_Components);
