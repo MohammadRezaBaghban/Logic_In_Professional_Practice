@@ -1,5 +1,6 @@
 ﻿using LPP.Composite_Pattern;
-using LPP.Composite_Pattern.Node;
+using LPP.Composite_Pattern.Components;
+using LPP.Composite_Pattern.Connectives;
 using LPP.Modules;
 
 namespace LPP.Visitor_Pattern
@@ -39,6 +40,9 @@ namespace LPP.Visitor_Pattern
 
         public void Visit(ConjunctionConnective visitable) =>
             visitable.Data = visitable.LeftNode.Data && visitable.RightNode.Data;
+
+        public void Visit(NANDConnective visitable) =>
+            visitable.Data = !(visitable.LeftNode.Data && visitable.RightNode.Data);
 
         public void Visit(NegationConnective visitable) => visitable.Data = !visitable.LeftNode.Data;
 

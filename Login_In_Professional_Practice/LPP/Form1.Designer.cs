@@ -36,16 +36,18 @@
             this.label2 = new System.Windows.Forms.Label();
             this.TbInfixFormula = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.TbSimplifiedDNF = new System.Windows.Forms.TextBox();
+            this.TbNormalDNF = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.TbTruthTableHashCode = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.TbPropositionalVariables = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.LbSimplifiedTruthTable = new System.Windows.Forms.ListBox();
             this.LbTruthTable = new System.Windows.Forms.ListBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.TbNormalDNF = new System.Windows.Forms.TextBox();
-            this.TbSimplifiedDNF = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.PbBinaryGraph)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -73,7 +75,7 @@
             // 
             this.BtnParse.Location = new System.Drawing.Point(524, 26);
             this.BtnParse.Name = "BtnParse";
-            this.BtnParse.Size = new System.Drawing.Size(107, 103);
+            this.BtnParse.Size = new System.Drawing.Size(107, 143);
             this.BtnParse.TabIndex = 2;
             this.BtnParse.Text = "Parse Recursively";
             this.BtnParse.UseVisualStyleBackColor = true;
@@ -82,7 +84,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 99);
+            this.label1.Location = new System.Drawing.Point(12, 147);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(187, 23);
             this.label1.TabIndex = 4;
@@ -91,7 +93,7 @@
             // 
             // PbBinaryGraph
             // 
-            this.PbBinaryGraph.Location = new System.Drawing.Point(359, 231);
+            this.PbBinaryGraph.Location = new System.Drawing.Point(359, 289);
             this.PbBinaryGraph.Name = "PbBinaryGraph";
             this.PbBinaryGraph.Size = new System.Drawing.Size(290, 251);
             this.PbBinaryGraph.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -111,13 +113,15 @@
             // TbInfixFormula
             // 
             this.TbInfixFormula.Enabled = false;
-            this.TbInfixFormula.Location = new System.Drawing.Point(208, 63);
+            this.TbInfixFormula.Location = new System.Drawing.Point(208, 64);
             this.TbInfixFormula.Name = "TbInfixFormula";
             this.TbInfixFormula.Size = new System.Drawing.Size(310, 29);
             this.TbInfixFormula.TabIndex = 8;
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.TbSimplifiedDNF);
             this.groupBox1.Controls.Add(this.TbNormalDNF);
             this.groupBox1.Controls.Add(this.label5);
@@ -133,15 +137,47 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(637, 202);
+            this.groupBox1.Size = new System.Drawing.Size(637, 253);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Abstract Proposition";
             this.groupBox1.UseCompatibleTextRendering = true;
             // 
+            // TbSimplifiedDNF
+            // 
+            this.TbSimplifiedDNF.Location = new System.Drawing.Point(208, 216);
+            this.TbSimplifiedDNF.Name = "TbSimplifiedDNF";
+            this.TbSimplifiedDNF.Size = new System.Drawing.Size(423, 29);
+            this.TbSimplifiedDNF.TabIndex = 15;
+            // 
+            // TbNormalDNF
+            // 
+            this.TbNormalDNF.Location = new System.Drawing.Point(208, 178);
+            this.TbNormalDNF.Name = "TbNormalDNF";
+            this.TbNormalDNF.Size = new System.Drawing.Size(423, 29);
+            this.TbNormalDNF.TabIndex = 14;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 221);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(131, 23);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Simplified DNF: ";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 185);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(114, 23);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Normal DNF: ";
+            // 
             // TbTruthTableHashCode
             // 
-            this.TbTruthTableHashCode.Location = new System.Drawing.Point(418, 96);
+            this.TbTruthTableHashCode.Location = new System.Drawing.Point(418, 140);
             this.TbTruthTableHashCode.Name = "TbTruthTableHashCode";
             this.TbTruthTableHashCode.Size = new System.Drawing.Size(100, 29);
             this.TbTruthTableHashCode.TabIndex = 11;
@@ -149,7 +185,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(320, 99);
+            this.label4.Location = new System.Drawing.Point(321, 147);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(92, 23);
             this.label4.TabIndex = 10;
@@ -157,7 +193,7 @@
             // 
             // TbPropositionalVariables
             // 
-            this.TbPropositionalVariables.Location = new System.Drawing.Point(208, 96);
+            this.TbPropositionalVariables.Location = new System.Drawing.Point(208, 140);
             this.TbPropositionalVariables.Name = "TbPropositionalVariables";
             this.TbPropositionalVariables.Size = new System.Drawing.Size(100, 29);
             this.TbPropositionalVariables.TabIndex = 9;
@@ -166,7 +202,7 @@
             // 
             this.groupBox2.Controls.Add(this.LbSimplifiedTruthTable);
             this.groupBox2.Controls.Add(this.LbTruthTable);
-            this.groupBox2.Location = new System.Drawing.Point(12, 231);
+            this.groupBox2.Location = new System.Drawing.Point(12, 289);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(341, 251);
             this.groupBox2.TabIndex = 10;
@@ -191,44 +227,30 @@
             this.LbTruthTable.Size = new System.Drawing.Size(151, 214);
             this.LbTruthTable.TabIndex = 14;
             // 
-            // label3
+            // label6
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(11, 134);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(114, 23);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "Normal DNF: ";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 106);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(130, 23);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "NAND Formula:";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label5
+            // textBox1
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(11, 170);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(131, 23);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "Simplified DNF: ";
-            // 
-            // TbNormalDNF
-            // 
-            this.TbNormalDNF.Location = new System.Drawing.Point(208, 131);
-            this.TbNormalDNF.Name = "TbNormalDNF";
-            this.TbNormalDNF.Size = new System.Drawing.Size(423, 29);
-            this.TbNormalDNF.TabIndex = 14;
-            // 
-            // TbSimplifiedDNF
-            // 
-            this.TbSimplifiedDNF.Location = new System.Drawing.Point(208, 167);
-            this.TbSimplifiedDNF.Name = "TbSimplifiedDNF";
-            this.TbSimplifiedDNF.Size = new System.Drawing.Size(423, 29);
-            this.TbSimplifiedDNF.TabIndex = 15;
+            this.textBox1.Enabled = false;
+            this.textBox1.Location = new System.Drawing.Point(208, 102);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(310, 29);
+            this.textBox1.TabIndex = 17;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.ClientSize = new System.Drawing.Size(656, 494);
+            this.ClientSize = new System.Drawing.Size(656, 552);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.PbBinaryGraph);
@@ -264,6 +286,8 @@
         private System.Windows.Forms.TextBox TbNormalDNF;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label6;
     }
 }
 

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using LPP.Composite_Pattern;
+using LPP.Composite_Pattern.Components;
 using LPP.Modules;
 using LPP.Truth_Table;
 using LPP.Visitor_Pattern;

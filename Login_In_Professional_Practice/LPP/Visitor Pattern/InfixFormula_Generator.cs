@@ -1,5 +1,6 @@
 ﻿using LPP.Composite_Pattern;
-using LPP.Composite_Pattern.Node;
+using LPP.Composite_Pattern.Components;
+using LPP.Composite_Pattern.Connectives;
 using IVisitor = LPP.Composite_Pattern.IVisitor;
 
 namespace LPP.Visitor_Pattern
@@ -48,6 +49,7 @@ namespace LPP.Visitor_Pattern
         public void Visit(ImplicationConnective visitable) => GenerateInfixGenerator(visitable, '⇒');
         public void Visit(DisjunctionConnective visitable) => GenerateInfixGenerator(visitable, '⋁');
         public void Visit(ConjunctionConnective visitable) => GenerateInfixGenerator(visitable, '⋀');
+        public void Visit(NANDConnective visitable) => GenerateInfixGenerator(visitable, '%');
 
         /// <summary>
         /// Method for create more intuitive infix formula based on the type of left and right node.
