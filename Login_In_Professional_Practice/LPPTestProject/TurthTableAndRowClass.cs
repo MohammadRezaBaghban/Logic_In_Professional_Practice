@@ -25,7 +25,6 @@ namespace LPPTestProject
         [InlineData(">(A,B)", "B")]
         [InlineData("=(A,B)", "9")]
         [InlineData("~(A)", "1")]
-
         public void TruthTable_CalculateTruthTable_HashCodeBeEqualAsExpected(string prefixInput, string hexaHashCode)
         {
             //Arrange
@@ -62,10 +61,12 @@ namespace LPPTestProject
 
         [Theory]
         [InlineData("|(A,|(B,C))", "¬A⋀¬B⋀C⋁¬A⋀B⋀¬C⋁¬A⋀B⋀C⋁A⋀¬B⋀¬C⋁A⋀¬B⋀C⋁A⋀B⋀¬C⋁A⋀B⋀C", "C⋁B⋁A")]
-        [InlineData(">(A,B)", "(¬A ⋀ ¬B) ⋁ (¬A ⋀ B) ⋁ (A ⋀ B)", "A⋁B")]
+        [InlineData("&(A,|(B,C))", "(A⋀(¬B))⋀C ⋁ (A⋀B)⋀(¬C) ⋁ (A⋀B)⋀C", "A⋀C⋁A⋀B")]
         [InlineData(">(A,>(B,A))", "¬A⋀¬B⋁¬A⋀B⋁A⋀¬B⋁A⋀B", "")]
+        [InlineData("&(>(P,Q),|(Q,P))", "¬P⋀Q⋁P⋀Q", "Q")]
+        [InlineData("|(P,Q)", "¬P⋀Q⋁P⋀¬Q⋁P⋀Q", "Q⋁P")]
         [InlineData("&(&(A,B),~(A))", "", "")]
-        public void TruthTable_DNFProcessing_DNFFormulaBeAsExpected(string prefixInput,string normalDNF, string simplifiedDNF)
+        public void TruthTable_DNFProcessing_DNFFormulaAndHashCodeBeAsExpected(string prefixInput,string normalDNF, string simplifiedDNF)
         {
             //Arrange
             var calculator = new Calculator();
@@ -81,8 +82,16 @@ namespace LPPTestProject
             var actualSimplifiedDNF = DeleteCharacters(DNF.DNFFormula(truthTable.DNF_Simplified_Components), new string[] { ")", "(", " ", });
 
             //Assert
-            Assert.Equal(normalDNF, actualNormalDNF);
-            Assert.Equal(simplifiedDNF, actualSimplifiedDNF);
+            Assert.Equal(actualNormalDNF, normalDNF);
+            Assert.Equal( actualSimplifiedDNF, simplifiedDNF);
+            if (normalDNF != "")
+            {
+                var truthTableDNF = new TruthTable(truthTable.DNF_Normal_BinaryTree);
+                var tru = DNF.DNFFormula(truthTableDNF.DNF_Normal_Components);
+                var n1 = truthTableDNF.GetHexadecimalHashCode();
+                var n2 = truthTable.GetHexadecimalHashCode();
+                Assert.Equal(n1,n2);
+            }
 
             //Todo Refactor the binarytree creation such that it would be able to be parsed again with propositional variables
         }

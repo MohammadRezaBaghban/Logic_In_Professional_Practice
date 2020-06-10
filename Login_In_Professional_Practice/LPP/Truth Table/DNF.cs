@@ -13,17 +13,17 @@ namespace LPP.Truth_Table
         private static List<Row> _rows;
         private static char[] _variables;
 
-        public static List<Component> ProcessDNF(List<Row> truthTableRows, char[] variables)
+        public static List<BinaryTree> ProcessDNF(List<Row> truthTableRows, char[] variables)
         {
             _rows = truthTableRows.Where(x => x.Result == true).ToList();
             DNF._variables = variables;
 
-            List<Component> components = new List<Component>();
+            List<BinaryTree> components = new List<BinaryTree>();
             _rows.ForEach( row => components.Add(RowProcessing(row)));
             return components;
         }
 
-        private static Component RowProcessing(Row row)
+        private static BinaryTree RowProcessing(Row row)
         {
             var bt = new BinaryTree();
             var root = bt.Root;
@@ -46,7 +46,7 @@ namespace LPP.Truth_Table
                         bt.InsertNode(root, negation);
                     }
                 }
-                return bt.Root;
+                return bt;
             }
             else
             {
@@ -54,7 +54,9 @@ namespace LPP.Truth_Table
                 if (row.PropositionValues[index] != null)
                 {
                     var character = _variables[index];
-                    return new PropositionalVariable(character);
+                    var variable = new PropositionalVariable(character);
+                    bt.InsertNode(root, variable);
+                    return bt;
                 }
                 else
                 {
@@ -64,18 +66,17 @@ namespace LPP.Truth_Table
             }
         }
 
-        public static string DNFFormula(List<Component> components)
+        public static string DNFFormula(List<BinaryTree> components)
         {
             InfixFormulaGenerator formulaGenerator = new InfixFormulaGenerator();
             List<string> normalDNF = new List<string>();
             components.ForEach(x => {
                 if (x != null)
                 {
-                    formulaGenerator.Calculate(x);
-                    normalDNF.Add(x.InFixFormula);
+                    formulaGenerator.Calculate(x.Root);
+                    normalDNF.Add(x.Root.InFixFormula);
                 }
             });
-
             return string.Join(" ⋁ ", normalDNF);
         }
     }

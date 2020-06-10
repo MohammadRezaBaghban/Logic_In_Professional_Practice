@@ -12,10 +12,10 @@ namespace LPP.Modules
     {
         public Row[] NormalRows;
         public List<Row> SimplifiedRows;
-        public List<Component> DNF_Normal_Components;
-        public List<Component> DNF_Simplified_Components;
-        public Component DNF_Normal_BinaryTree;
-        public Component DNF_Simplified_BinaryTree;
+        public List<BinaryTree> DNF_Normal_Components;
+        public List<BinaryTree> DNF_Simplified_Components;
+        public BinaryTree DNF_Normal_BinaryTree;
+        public BinaryTree DNF_Simplified_BinaryTree;
 
         public int NumberOfVariables { get; }
         public BinaryTree binaryTree;

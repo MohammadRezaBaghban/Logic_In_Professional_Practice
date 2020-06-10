@@ -7,16 +7,16 @@ namespace LPP.Composite_Pattern
     public class PropositionalVariables
     {
 
-        private readonly List<PropositionalVariable> _propositionalVariables;
+        public readonly List<PropositionalVariable> Variables;
 
-        public PropositionalVariables() => _propositionalVariables = new List<PropositionalVariable>();
+        public PropositionalVariables() => Variables = new List<PropositionalVariable>();
 
         public void AddPropositionalVariable(PropositionalVariable propositionalVariable) => 
-            _propositionalVariables.Add(propositionalVariable);
+            Variables.Add(propositionalVariable);
         
 
         public void SetValue_Of_Propositional_Variables(char symbol, bool value) =>
-            _propositionalVariables.FindAll(x => x.Symbol == symbol).ForEach(x=>x.Data=value);
+            Variables.FindAll(x => x.Symbol == symbol).ForEach(x=>x.Data=value);
 
 
         public char[] Get_Distinct_PropositionalVariables_Chars() => 
@@ -24,7 +24,9 @@ namespace LPP.Composite_Pattern
         
 
         public PropositionalVariable[] Get_Distinct_PropositionalVariables() =>
-            _propositionalVariables.Distinct().OrderBy(x => x.Symbol).ToArray();
+            Variables.Distinct().OrderBy(x => x.Symbol).ToArray();
+
+
         
     }
 }
