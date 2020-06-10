@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Components;
 using LPP.Modules;
 using LPP.Truth_Table;
@@ -14,16 +13,20 @@ namespace LPP
 {
     public partial class Form1 : Form
     {
-        private BinaryTree _binaryTree;
-        private CompositeComponent _rootOfBinaryTree;
+        private BinaryTree _binaryTreeNormal;
+        private BinaryTree _binaryTreeNandified;
+        private readonly Nandify _nandify;
         private readonly Calculator _calculator;
         private readonly InfixFormulaGenerator _formulaGenerator;
+        private Dictionary<string, string> _graphImages;
 
         public Form1()
         {
             InitializeComponent();
             _formulaGenerator = new InfixFormulaGenerator();
+            _graphImages = new Dictionary<string, string>();
             _calculator = new Calculator();
+            _nandify = new Nandify();
         }
 
         private void BtnParse_Click(object sender, EventArgs e)
@@ -38,14 +41,20 @@ namespace LPP
                 }
                 else
                 {
-                    _binaryTree = ParsingModule.ParseInput(userInput);
-                    _rootOfBinaryTree = _binaryTree.Root as CompositeComponent;
-                    GenerateGraphVizBinaryGraph(_rootOfBinaryTree.GraphVizFormula, PbBinaryGraph);
-                    _formulaGenerator.Calculate(_rootOfBinaryTree);
+                    _binaryTreeNormal = ParsingModule.ParseInput(userInput);
+                    var rootOfNormalBinaryTree = _binaryTreeNormal.Root as CompositeComponent;
+                    _nandify.Calculate(rootOfNormalBinaryTree);
 
-                    TbInfixFormula.Enabled = true;
-                    TbInfixFormula.Text = _rootOfBinaryTree.InFixFormula;
-                    TbPropositionalVariables.Text = _binaryTree.PropositionalVariables.Get_Distinct_PropositionalVariables()
+
+                    //GenerateGraphVizBinaryGraph(rootOfNormalBinaryTree.GraphVizFormula, PbBinaryGraph);
+                    _formulaGenerator.Calculate(rootOfNormalBinaryTree);
+                    _formulaGenerator.Calculate(rootOfNormalBinaryTree.Nand);
+
+                    Tb_InfixFormula_Normal.Enabled = true;
+                    Tb_InfixFormula_Nandified.Enabled = true;
+                    Tb_InfixFormula_Normal.Text = rootOfNormalBinaryTree.InFixFormula;
+                    Tb_InfixFormula_Nandified.Text = rootOfNormalBinaryTree.Nand.InFixFormula;
+                    TbPropositionalVariables.Text = _binaryTreeNormal.PropositionalVariables.Get_Distinct_PropositionalVariables()
                                                     .SelectMany(x => x.Symbol.ToString())
                                                     .Aggregate("", (current, next) => current + next);
 
@@ -59,7 +68,7 @@ namespace LPP
 
         }
 
-        private void GenerateGraphVizBinaryGraph(string input, PictureBox pictureBox)
+        private string GenerateGraphVizBinaryGraph(string input, string fileName)
         {
             var text = @"graph logic {" + "\nnode[fontname = \"Arial\"]\n" + input + "\n" + "}";
 
@@ -73,14 +82,15 @@ namespace LPP
 
             if (File.Exists("ab.dot"))
             {
-                var dot = new Process {StartInfo = {FileName = "dot.exe", Arguments = "-Tpng -oab.png ab.dot"}};
+                var dot = new Process {StartInfo = {FileName = "dot.exe", Arguments = $"-Tpng -o{fileName}.png ab.dot"}};
                 dot.Start();
                 dot.WaitForExit();
-                pictureBox.ImageLocation = @"ab.png";
+                return $"{fileName}.png";
             }
             else
             {
                 MessageBox.Show(@"File was not created successfully");
+                return "";
             }
         }
 
@@ -89,7 +99,7 @@ namespace LPP
         {
             LbTruthTable.Items.Clear();
             LbSimplifiedTruthTable.Items.Clear();
-            var truthTable = new TruthTable(_binaryTree);
+            var truthTable = new TruthTable(_binaryTreeNormal);
 
             var rowsOfTruthTable = truthTable.ToString().Split('\n').ToList();
             var rowsOfSimplifiedTruthTable = truthTable.SimplifiedToString().Split('\n').ToList();

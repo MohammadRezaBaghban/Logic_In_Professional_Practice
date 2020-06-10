@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using LPP.Composite_Pattern;
-using LPP.Composite_Pattern.Node;
+using LPP.Composite_Pattern.Components;
+using LPP.Composite_Pattern.Connectives;
+using LPP.Composite_Pattern.Variables;
 
 namespace LPP
 {
@@ -23,8 +25,8 @@ namespace LPP
                 SingleComponent singleNode = node as SingleComponent;
                 if (singleNode != null)
                 {
-                    if(singleNode is PropositionalVariable) 
-                        PropositionalVariables.AddPropositionalVariable(singleNode as PropositionalVariable);
+                    if(singleNode is Variable) 
+                        PropositionalVariables.AddPropositionalVariable(singleNode as Variable);
                     return InsertSingleNode(root, singleNode);
                 }
                 else
@@ -56,6 +58,7 @@ namespace LPP
             if (root == null)
             {
                 this.Root = newNode as CompositeComponent;
+                root = Root;
                 return Root;
             }
 
@@ -272,45 +275,76 @@ namespace LPP
             }
         }
         
-        public static Component DNFBinaryTree(List<Component> nodes)
+        public static void ChangeNode(Component oldNode,Component newNode)
         {
-            Component _dnfRoot = null;
-
-            if (nodes.Count == 1)
+            if (oldNode.Parent != null)
             {
-                _dnfRoot = nodes[0];
-                return _dnfRoot;
+                var oldNodeParent = oldNode.Parent;
+                newNode.Parent = oldNodeParent;
+
+                if(oldNodeParent.LeftNode == oldNode)
+                {
+                    oldNodeParent.LeftNode = newNode;
+                }
+                else if (oldNodeParent.RightNode == oldNode)
+                {
+                    oldNodeParent.RightNode = newNode;
+                }
+                else
+                {
+                    throw new LPPException("It is not possible to change the nodes");
+                }
+                oldNode = newNode;
             }
             else
             {
-                if (_dnfRoot == null)
+                oldNode = newNode;
+            }
+        }
+
+        public static BinaryTree DNFBinaryTree(List<BinaryTree> nodes)
+        {
+            BinaryTree binaryTree = null;
+            Component _dnfRoot = null;
+            if (nodes.Count == 1)
+            {
+                return nodes[0];
+            }
+            else
+            {
+                if (binaryTree == null)
                 {
-                    _dnfRoot = new DisjunctionConnective();
+                    binaryTree = new BinaryTree();
+                    binaryTree.InsertNode(_dnfRoot, new DisjunctionConnective());
+                    _dnfRoot = binaryTree.Root;
                 }
 
                 foreach (var node in nodes)
                 {
+                    binaryTree.PropositionalVariables.Variables.AddRange(node.PropositionalVariables.Variables);
+                    var root = node.Root;
                     if (_dnfRoot.LeftNode != null && _dnfRoot.RightNode != null)
                     {
                         var newRoot = new DisjunctionConnective();
                         _dnfRoot.Parent = newRoot;
                         newRoot.LeftNode = _dnfRoot;
                         _dnfRoot = newRoot;
-                        _dnfRoot.RightNode = node;
+                        _dnfRoot.RightNode = root;
+                        binaryTree.Root = newRoot;
                     }
                     else
                     {
                         if (_dnfRoot.LeftNode == null)
                         {
-                            _dnfRoot.LeftNode = node;
+                            _dnfRoot.LeftNode = root;
                         }
                         else
                         {
-                            _dnfRoot.RightNode = node;
+                            _dnfRoot.RightNode = root;
                         }
                     }
                 }
-                return _dnfRoot;
+                return binaryTree;
             }
         }
     }

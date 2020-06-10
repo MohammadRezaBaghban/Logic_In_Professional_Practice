@@ -1,7 +1,9 @@
-﻿namespace LPP.Composite_Pattern
+﻿namespace LPP.Composite_Pattern.Components
 {
     public abstract class CompositeComponent : Component
     {
+        public Component Nand;
+
         public override string GraphVizFormula
         {
             get

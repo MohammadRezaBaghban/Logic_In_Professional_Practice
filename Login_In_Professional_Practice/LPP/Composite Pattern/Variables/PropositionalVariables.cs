@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using LPP.Composite_Pattern.Node;
+using LPP.Composite_Pattern.Connectives;
 
-namespace LPP.Composite_Pattern
+namespace LPP.Composite_Pattern.Variables
 {
     public class PropositionalVariables
     {
 
-        public readonly List<PropositionalVariable> Variables;
+        public readonly List<Variable> Variables;
 
-        public PropositionalVariables() => Variables = new List<PropositionalVariable>();
+        public PropositionalVariables() => Variables = new List<Variable>();
 
-        public void AddPropositionalVariable(PropositionalVariable propositionalVariable) => 
-            Variables.Add(propositionalVariable);
+        public void AddPropositionalVariable(Variable variable) => 
+            Variables.Add(variable);
         
 
         public void SetValue_Of_Propositional_Variables(char symbol, bool value) =>
@@ -23,10 +23,8 @@ namespace LPP.Composite_Pattern
             Get_Distinct_PropositionalVariables().OrderBy(x => x.Symbol).Select(x => x.Symbol).ToArray();
         
 
-        public PropositionalVariable[] Get_Distinct_PropositionalVariables() =>
+        public Variable[] Get_Distinct_PropositionalVariables() =>
             Variables.Distinct().OrderBy(x => x.Symbol).ToArray();
 
-
-        
     }
 }

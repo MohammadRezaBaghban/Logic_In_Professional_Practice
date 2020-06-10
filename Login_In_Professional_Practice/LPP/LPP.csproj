@@ -46,14 +46,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Composite Pattern\Node\Bi_ImplicationConnective.cs" />
-    <Compile Include="Composite Pattern\Node\ConjuctionConnective.cs" />
-    <Compile Include="Composite Pattern\Node\DisjunctionConnective.cs" />
-    <Compile Include="Composite Pattern\Node\ImplicationConnective.cs" />
-    <Compile Include="Composite Pattern\Node\NegationConnective.cs" />
-    <Compile Include="Composite Pattern\Node\PropositionalVariable.cs" />
-    <Compile Include="Composite Pattern\Node\TrueFalse.cs" />
-    <Compile Include="Composite Pattern\PropositionalVariables.cs" />
+    <Compile Include="Composite Pattern\Connectives\Bi_ImplicationConnective.cs" />
+    <Compile Include="Composite Pattern\Connectives\ConjuctionConnective.cs" />
+    <Compile Include="Composite Pattern\Connectives\DisjunctionConnective.cs" />
+    <Compile Include="Composite Pattern\Connectives\ImplicationConnective.cs" />
+    <Compile Include="Composite Pattern\Connectives\NegationConnective.cs" />
+    <Compile Include="Composite Pattern\Variables\Variable.cs" />
+    <Compile Include="Composite Pattern\Variables\TrueFalse.cs" />
+    <Compile Include="Composite Pattern\Connectives\ِNANDConnective.cs" />
+    <Compile Include="Composite Pattern\Variables\PropositionalVariables.cs" />
     <Compile Include="Truth Table\DNF.cs" />
     <Compile Include="Truth Table\Row.cs" />
     <Compile Include="Truth Table\RowComparer.cs" />
@@ -68,14 +69,15 @@
     <Compile Include="LPPException.cs" />
     <Compile Include="Parsing-BinaryTree\BinaryTree.cs" />
     <Compile Include="Parsing-BinaryTree\ParsingModule.cs" />
-    <Compile Include="Composite Pattern\Component.cs" />
-    <Compile Include="Composite Pattern\CompositeComponent.cs" />
-    <Compile Include="Composite Pattern\SingleComponent.cs" />
+    <Compile Include="Composite Pattern\Components\Component.cs" />
+    <Compile Include="Composite Pattern\Components\CompositeComponent.cs" />
+    <Compile Include="Composite Pattern\Components\SingleComponent.cs" />
     <Compile Include="Visitor Pattern\Calculator.cs" />
     <Compile Include="Visitor Pattern\InfixFormula_Generator.cs" />
     <Compile Include="Visitor Pattern\IVisitor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Visitor Pattern\Nandify.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using LPP.Composite_Pattern;
-using LPP.Composite_Pattern.Node;
+using LPP.Composite_Pattern.Components;
+using LPP.Composite_Pattern.Connectives;
+using LPP.Composite_Pattern.Variables;
 using LPP.Truth_Table;
 using LPP.Visitor_Pattern;
 
@@ -20,7 +22,7 @@ namespace LPP.Modules
         public int NumberOfVariables { get; }
         public BinaryTree binaryTree;
         public CompositeComponent RootOfBinaryTree { get; }
-        public PropositionalVariable[] DistinctPropositionalVariables;
+        public Variable[] DistinctPropositionalVariables;
 
         public TruthTable(BinaryTree binaryTree)
         {
@@ -70,7 +72,7 @@ namespace LPP.Modules
             SimplifiedRows = simplifiedTruthTable.RecursiveSimplification();
         }
 
-        public void SetValue_Of_Propositional_Variables(PropositionalVariable variable, bool value)
+        public void SetValue_Of_Propositional_Variables(Variable variable, bool value)
         {
             binaryTree.PropositionalVariables.SetValue_Of_Propositional_Variables(symbol: variable.Symbol, value: value);
         }

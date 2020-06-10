@@ -1,6 +1,7 @@
-﻿using LPP.Modules;
+﻿using LPP.Composite_Pattern.Components;
+using LPP.Modules;
 
-namespace LPP.Composite_Pattern.Node
+namespace LPP.Composite_Pattern.Variables
 {
     class TrueFalse:SingleComponent
     {

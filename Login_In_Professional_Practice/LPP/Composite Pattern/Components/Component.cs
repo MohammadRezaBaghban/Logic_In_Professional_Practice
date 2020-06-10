@@ -1,6 +1,6 @@
 ﻿using LPP.Modules;
 
-namespace LPP.Composite_Pattern
+namespace LPP.Composite_Pattern.Components
 {
     public abstract class Component
     {

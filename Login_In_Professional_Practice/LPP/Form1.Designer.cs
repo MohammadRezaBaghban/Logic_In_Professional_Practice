@@ -32,10 +32,11 @@
             this.TbPrefixFormula = new System.Windows.Forms.TextBox();
             this.BtnParse = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.PbBinaryGraph = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.TbInfixFormula = new System.Windows.Forms.TextBox();
+            this.Tb_InfixFormula_Normal = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.Tb_InfixFormula_Nandified = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.TbSimplifiedDNF = new System.Windows.Forms.TextBox();
             this.TbNormalDNF = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -46,11 +47,16 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.LbSimplifiedTruthTable = new System.Windows.Forms.ListBox();
             this.LbTruthTable = new System.Windows.Forms.ListBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.PbBinaryGraph)).BeginInit();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.RbNand = new System.Windows.Forms.RadioButton();
+            this.RbNormal = new System.Windows.Forms.RadioButton();
+            this.PbBinaryGraph = new System.Windows.Forms.PictureBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PbBinaryGraph)).BeginInit();
             this.SuspendLayout();
             // 
             // lb1
@@ -84,21 +90,12 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 147);
+            this.label1.Location = new System.Drawing.Point(12, 142);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(187, 23);
             this.label1.TabIndex = 4;
             this.label1.Text = "Propositional Variables:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // PbBinaryGraph
-            // 
-            this.PbBinaryGraph.Location = new System.Drawing.Point(359, 289);
-            this.PbBinaryGraph.Name = "PbBinaryGraph";
-            this.PbBinaryGraph.Size = new System.Drawing.Size(290, 251);
-            this.PbBinaryGraph.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PbBinaryGraph.TabIndex = 6;
-            this.PbBinaryGraph.TabStop = false;
             // 
             // label2
             // 
@@ -110,17 +107,17 @@
             this.label2.Text = "In-Fix Formula:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // TbInfixFormula
+            // Tb_InfixFormula_Normal
             // 
-            this.TbInfixFormula.Enabled = false;
-            this.TbInfixFormula.Location = new System.Drawing.Point(208, 64);
-            this.TbInfixFormula.Name = "TbInfixFormula";
-            this.TbInfixFormula.Size = new System.Drawing.Size(310, 29);
-            this.TbInfixFormula.TabIndex = 8;
+            this.Tb_InfixFormula_Normal.Enabled = false;
+            this.Tb_InfixFormula_Normal.Location = new System.Drawing.Point(208, 64);
+            this.Tb_InfixFormula_Normal.Name = "Tb_InfixFormula_Normal";
+            this.Tb_InfixFormula_Normal.Size = new System.Drawing.Size(310, 29);
+            this.Tb_InfixFormula_Normal.TabIndex = 8;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.Tb_InfixFormula_Nandified);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.TbSimplifiedDNF);
             this.groupBox1.Controls.Add(this.TbNormalDNF);
@@ -130,7 +127,7 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.TbPropositionalVariables);
             this.groupBox1.Controls.Add(this.TbPrefixFormula);
-            this.groupBox1.Controls.Add(this.TbInfixFormula);
+            this.groupBox1.Controls.Add(this.Tb_InfixFormula_Normal);
             this.groupBox1.Controls.Add(this.BtnParse);
             this.groupBox1.Controls.Add(this.lb1);
             this.groupBox1.Controls.Add(this.label1);
@@ -142,6 +139,24 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Abstract Proposition";
             this.groupBox1.UseCompatibleTextRendering = true;
+            // 
+            // Tb_InfixFormula_Nandified
+            // 
+            this.Tb_InfixFormula_Nandified.Enabled = false;
+            this.Tb_InfixFormula_Nandified.Location = new System.Drawing.Point(208, 102);
+            this.Tb_InfixFormula_Nandified.Name = "Tb_InfixFormula_Nandified";
+            this.Tb_InfixFormula_Nandified.Size = new System.Drawing.Size(310, 29);
+            this.Tb_InfixFormula_Nandified.TabIndex = 17;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(11, 104);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(130, 23);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "NAND Formula:";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TbSimplifiedDNF
             // 
@@ -160,7 +175,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 221);
+            this.label5.Location = new System.Drawing.Point(12, 219);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(131, 23);
             this.label5.TabIndex = 13;
@@ -169,7 +184,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 185);
+            this.label3.Location = new System.Drawing.Point(12, 181);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(114, 23);
             this.label3.TabIndex = 12;
@@ -185,7 +200,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(321, 147);
+            this.label4.Location = new System.Drawing.Point(320, 143);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(92, 23);
             this.label4.TabIndex = 10;
@@ -202,9 +217,9 @@
             // 
             this.groupBox2.Controls.Add(this.LbSimplifiedTruthTable);
             this.groupBox2.Controls.Add(this.LbTruthTable);
-            this.groupBox2.Location = new System.Drawing.Point(12, 289);
+            this.groupBox2.Location = new System.Drawing.Point(12, 272);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(341, 251);
+            this.groupBox2.Size = new System.Drawing.Size(341, 311);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Truth Tables";
@@ -213,55 +228,94 @@
             // 
             this.LbSimplifiedTruthTable.FormattingEnabled = true;
             this.LbSimplifiedTruthTable.ItemHeight = 21;
-            this.LbSimplifiedTruthTable.Location = new System.Drawing.Point(174, 26);
+            this.LbSimplifiedTruthTable.Location = new System.Drawing.Point(173, 27);
             this.LbSimplifiedTruthTable.Name = "LbSimplifiedTruthTable";
-            this.LbSimplifiedTruthTable.Size = new System.Drawing.Size(151, 214);
+            this.LbSimplifiedTruthTable.Size = new System.Drawing.Size(162, 277);
             this.LbSimplifiedTruthTable.TabIndex = 16;
             // 
             // LbTruthTable
             // 
             this.LbTruthTable.FormattingEnabled = true;
             this.LbTruthTable.ItemHeight = 21;
-            this.LbTruthTable.Location = new System.Drawing.Point(15, 26);
+            this.LbTruthTable.Location = new System.Drawing.Point(6, 27);
             this.LbTruthTable.Name = "LbTruthTable";
-            this.LbTruthTable.Size = new System.Drawing.Size(151, 214);
+            this.LbTruthTable.Size = new System.Drawing.Size(162, 277);
             this.LbTruthTable.TabIndex = 14;
             // 
-            // label6
+            // groupBox3
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 106);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(130, 23);
-            this.label6.TabIndex = 16;
-            this.label6.Text = "NAND Formula:";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.groupBox3.Controls.Add(this.radioButton3);
+            this.groupBox3.Controls.Add(this.RbNand);
+            this.groupBox3.Controls.Add(this.RbNormal);
+            this.groupBox3.Controls.Add(this.PbBinaryGraph);
+            this.groupBox3.Location = new System.Drawing.Point(359, 272);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(289, 311);
+            this.groupBox3.TabIndex = 11;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Binary Trees";
             // 
-            // textBox1
+            // radioButton3
             // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(208, 102);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(310, 29);
-            this.textBox1.TabIndex = 17;
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Location = new System.Drawing.Point(177, 28);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(61, 27);
+            this.radioButton3.TabIndex = 17;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.Text = "DNF";
+            this.radioButton3.UseVisualStyleBackColor = true;
+            // 
+            // RbNand
+            // 
+            this.RbNand.AutoSize = true;
+            this.RbNand.Location = new System.Drawing.Point(97, 27);
+            this.RbNand.Name = "RbNand";
+            this.RbNand.Size = new System.Drawing.Size(70, 27);
+            this.RbNand.TabIndex = 16;
+            this.RbNand.TabStop = true;
+            this.RbNand.Text = "Nand";
+            this.RbNand.UseVisualStyleBackColor = true;
+            // 
+            // RbNormal
+            // 
+            this.RbNormal.AutoSize = true;
+            this.RbNormal.Location = new System.Drawing.Point(6, 28);
+            this.RbNormal.Name = "RbNormal";
+            this.RbNormal.Size = new System.Drawing.Size(85, 27);
+            this.RbNormal.TabIndex = 15;
+            this.RbNormal.TabStop = true;
+            this.RbNormal.Text = "Normal";
+            this.RbNormal.UseVisualStyleBackColor = true;
+            // 
+            // PbBinaryGraph
+            // 
+            this.PbBinaryGraph.Location = new System.Drawing.Point(6, 60);
+            this.PbBinaryGraph.Name = "PbBinaryGraph";
+            this.PbBinaryGraph.Size = new System.Drawing.Size(277, 245);
+            this.PbBinaryGraph.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PbBinaryGraph.TabIndex = 14;
+            this.PbBinaryGraph.TabStop = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.ClientSize = new System.Drawing.Size(656, 552);
+            this.ClientSize = new System.Drawing.Size(656, 595);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.PbBinaryGraph);
             this.Font = new System.Drawing.Font("Segoe UI", 12.14286F);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.PbBinaryGraph)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PbBinaryGraph)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -272,9 +326,8 @@
         private System.Windows.Forms.TextBox TbPrefixFormula;
         private System.Windows.Forms.Button BtnParse;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox PbBinaryGraph;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox TbInfixFormula;
+        private System.Windows.Forms.TextBox Tb_InfixFormula_Normal;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox TbPropositionalVariables;
         private System.Windows.Forms.TextBox TbTruthTableHashCode;
@@ -286,8 +339,14 @@
         private System.Windows.Forms.TextBox TbNormalDNF;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox Tb_InfixFormula_Nandified;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.RadioButton RbNand;
+        private System.Windows.Forms.RadioButton RbNormal;
+        private System.Windows.Forms.PictureBox PbBinaryGraph;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

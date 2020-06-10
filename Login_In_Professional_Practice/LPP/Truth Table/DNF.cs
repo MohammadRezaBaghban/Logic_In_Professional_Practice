@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using LPP.Composite_Pattern;
-using LPP.Composite_Pattern.Node;
+using LPP.Composite_Pattern.Connectives;
+using LPP.Composite_Pattern.Variables;
 using LPP.Modules;
 using LPP.Visitor_Pattern;
 
@@ -37,12 +38,12 @@ namespace LPP.Truth_Table
                     if (row.PropositionValues[i] == null) continue;
                     if (row.PropositionValues[i].Value)
                     {
-                        var variable = new PropositionalVariable(character);
+                        var variable = new Variable(character);
                         bt.InsertNode(root, variable);
                     }
                     else
                     {
-                        var negation = new NegationConnective { LeftNode = new PropositionalVariable(character) };
+                        var negation = new NegationConnective { LeftNode = new Variable(character) };
                         bt.InsertNode(root, negation);
                     }
                 }
@@ -54,7 +55,7 @@ namespace LPP.Truth_Table
                 if (row.PropositionValues[index] != null)
                 {
                     var character = _variables[index];
-                    var variable = new PropositionalVariable(character);
+                    var variable = new Variable(character);
                     bt.InsertNode(root, variable);
                     return bt;
                 }

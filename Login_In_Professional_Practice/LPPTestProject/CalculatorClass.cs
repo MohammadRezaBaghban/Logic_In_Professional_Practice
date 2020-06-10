@@ -23,7 +23,7 @@ namespace LPPTestProject
             
             //Act
             calculator.Calculate(rootOfComponent);
-`
+
             //Assert
             Assert.Equal(rootOfComponent.Data, result);
         }

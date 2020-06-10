@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using LPP.Composite_Pattern;
-using LPP.Composite_Pattern.Node;
-using Component = LPP.Composite_Pattern.Component;
+using LPP.Composite_Pattern.Connectives;
+using LPP.Composite_Pattern.Variables;
+using Component = LPP.Composite_Pattern.Components.Component;
 
 namespace LPP.Modules
 {
@@ -15,7 +16,7 @@ namespace LPP.Modules
 
         private static BinaryTree BinaryTree = new BinaryTree();
         public static List<char> Elements = new List<char>();
-        public static char[] Connectives = new char[] { '~', '>', '=', '&', '|' };
+        public static char[] Connectives = new char[] { '~', '>', '=', '&', '|','%' };
         public static int NodeCounter;
 
         /// <summary>
@@ -73,6 +74,7 @@ namespace LPP.Modules
                     {
                         case '>':
                         case '=':
+                        case '%':
                         case '&':
                         case '|':
                             Elements.Add(expression[0]);
@@ -121,7 +123,7 @@ namespace LPP.Modules
 
                         //Variables                    
                         default:
-                            var propositionVariable = new PropositionalVariable(currentCharacter);
+                            var propositionVariable = new Variable(currentCharacter);
                             BinaryTree.InsertNode(root, propositionVariable);
                             break;
                     }
@@ -136,6 +138,9 @@ namespace LPP.Modules
                             break;
                         case '=':
                             root = BinaryTree.InsertNode(root, new Bi_ImplicationConnective());
+                            break;
+                        case '%':
+                            root = BinaryTree.InsertNode(root, new NANDConnective());
                             break;
                         case '&':
                             root = BinaryTree.InsertNode(root, new ConjunctionConnective());
