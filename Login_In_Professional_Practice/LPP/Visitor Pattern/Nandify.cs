@@ -2,18 +2,18 @@
 using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Connectives;
+using LPP.Composite_Pattern.Variables;
 
 namespace LPP.Visitor_Pattern
 {
     public class Nandify:IVisitor
     {
-        private BinaryTree binaryTree;
+        public static BinaryTree binaryTree;
 
         public Nandify()
         {
             binaryTree = new BinaryTree();
         }
-
 
         public void Calculate(Component visitable)
         {
@@ -28,10 +28,15 @@ namespace LPP.Visitor_Pattern
                 }
                 else if (compositeNode != null)
                 {
-                    Calculate(compositeNode.RightNode);
                     Calculate(compositeNode.LeftNode);
+                    Calculate(compositeNode.RightNode);
                     compositeNode.Evaluate(this);
                 }
+            }
+            else
+            {
+                if(visitable is Variable)
+                    binaryTree.PropositionalVariables.Variables.Add(visitable as Variable);
             }
         }
 
@@ -50,22 +55,19 @@ namespace LPP.Visitor_Pattern
 
         public void Visit(DisjunctionConnective visitable)
         {
-            Calculate(visitable.LeftNode);
-            Calculate(visitable.RightNode);
-
             var nandRoot = new NANDConnective();
             var nandLeft = new NANDConnective();
             var nandRight = new NANDConnective();
 
-            binaryTree.InsertNode(nandLeft, visitable.LeftNode);
-            binaryTree.InsertNode(nandLeft, visitable.LeftNode);
-            binaryTree.InsertNode(nandRight, visitable.RightNode);
-            binaryTree.InsertNode(nandRight, visitable.RightNode);
+            binaryTree.InsertNode(nandLeft, BinaryTree.CloneNode(visitable.LeftNode));
+            binaryTree.InsertNode(nandLeft, BinaryTree.CloneNode(visitable.LeftNode));
+            binaryTree.InsertNode(nandRight, BinaryTree.CloneNode(visitable.RightNode));
+            binaryTree.InsertNode(nandRight, BinaryTree.CloneNode(visitable.RightNode));
             binaryTree.InsertNode(nandRoot, nandLeft);
             binaryTree.InsertNode(nandRoot, nandRight);
 
+            binaryTree.Root = nandRoot;
             visitable.Nand = nandRoot;
-            //BinaryTree.ChangeNode(visitable,nandRoot);
         }
 
         public void Visit(ConjunctionConnective visitable)
@@ -83,6 +85,10 @@ namespace LPP.Visitor_Pattern
         {
             Calculate(visitable.LeftNode);
             Calculate(visitable.RightNode);
+
+            visitable.LeftNode = ((CompositeComponent) visitable.LeftNode).Nand;
+            visitable.RightNode = ((CompositeComponent)visitable.RightNode).Nand;
+
         }
     }
 }

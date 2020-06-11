@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Connectives;
@@ -274,33 +275,6 @@ namespace LPP
                 }
             }
         }
-        
-        public static void ChangeNode(Component oldNode,Component newNode)
-        {
-            if (oldNode.Parent != null)
-            {
-                var oldNodeParent = oldNode.Parent;
-                newNode.Parent = oldNodeParent;
-
-                if(oldNodeParent.LeftNode == oldNode)
-                {
-                    oldNodeParent.LeftNode = newNode;
-                }
-                else if (oldNodeParent.RightNode == oldNode)
-                {
-                    oldNodeParent.RightNode = newNode;
-                }
-                else
-                {
-                    throw new LPPException("It is not possible to change the nodes");
-                }
-                oldNode = newNode;
-            }
-            else
-            {
-                oldNode = newNode;
-            }
-        }
 
         public static BinaryTree DNFBinaryTree(List<BinaryTree> nodes)
         {
@@ -346,6 +320,43 @@ namespace LPP
                 }
                 return binaryTree;
             }
+        }
+
+        public static Component CloneNode(Component node)
+        {
+            Component newNode;
+
+            if (node is Bi_ImplicationConnective)
+                newNode = new Bi_ImplicationConnective();
+            else if (node is ImplicationConnective)
+                newNode = new ImplicationConnective();
+            else if (node is ConjunctionConnective)
+                newNode = new ConjunctionConnective();
+            else if (node is DisjunctionConnective)
+                newNode = new DisjunctionConnective();
+            else if (node is NegationConnective)
+                newNode = new NegationConnective();
+            else if (node is NANDConnective)
+                newNode = new NANDConnective();
+            else if (node is TrueFalse)
+                newNode = new TrueFalse(((TrueFalse) node).Data);
+            else
+                newNode = new Variable(((Variable) node).Symbol);
+
+            newNode.Parent = node.Parent;
+            if(node is CompositeComponent)
+            {
+                if(node is NegationConnective)
+                {
+                    newNode.LeftNode = node.LeftNode;
+                }
+                else
+                {
+                    newNode.LeftNode = node.LeftNode;
+                    newNode.RightNode = node.RightNode;
+                }
+            }
+            return newNode;
         }
     }
 }

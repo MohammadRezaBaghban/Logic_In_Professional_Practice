@@ -48,12 +48,12 @@
             this.LbSimplifiedTruthTable = new System.Windows.Forms.ListBox();
             this.LbTruthTable = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.Btn_Image_Open = new System.Windows.Forms.Button();
+            this.LbImageName = new System.Windows.Forms.Label();
             this.BtnImageNext = new System.Windows.Forms.Button();
             this.BtnImagePrevious = new System.Windows.Forms.Button();
             this.PbBinaryGraph = new System.Windows.Forms.PictureBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.LbImageName = new System.Windows.Forms.Label();
-            this.BtnImageOpen = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -245,7 +245,7 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.BtnImageOpen);
+            this.groupBox3.Controls.Add(this.Btn_Image_Open);
             this.groupBox3.Controls.Add(this.LbImageName);
             this.groupBox3.Controls.Add(this.BtnImageNext);
             this.groupBox3.Controls.Add(this.BtnImagePrevious);
@@ -257,36 +257,16 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Binary Trees";
             // 
-            // BtnImageNext
+            // Btn_Image_Open
             // 
-            this.BtnImageNext.Enabled = false;
-            this.BtnImageNext.Location = new System.Drawing.Point(149, 28);
-            this.BtnImageNext.Name = "BtnImageNext";
-            this.BtnImageNext.Size = new System.Drawing.Size(36, 38);
-            this.BtnImageNext.TabIndex = 16;
-            this.BtnImageNext.Text = ">";
-            this.BtnImageNext.UseVisualStyleBackColor = true;
-            this.BtnImageNext.Click += new System.EventHandler(this.BtnNextImage_Click);
-            // 
-            // BtnImagePrevious
-            // 
-            this.BtnImagePrevious.Enabled = false;
-            this.BtnImagePrevious.Location = new System.Drawing.Point(107, 28);
-            this.BtnImagePrevious.Name = "BtnImagePrevious";
-            this.BtnImagePrevious.Size = new System.Drawing.Size(36, 38);
-            this.BtnImagePrevious.TabIndex = 15;
-            this.BtnImagePrevious.Text = "<";
-            this.BtnImagePrevious.UseVisualStyleBackColor = true;
-            this.BtnImagePrevious.Click += new System.EventHandler(this.BtnPreviousImage_Click);
-            // 
-            // PbBinaryGraph
-            // 
-            this.PbBinaryGraph.Location = new System.Drawing.Point(6, 71);
-            this.PbBinaryGraph.Name = "PbBinaryGraph";
-            this.PbBinaryGraph.Size = new System.Drawing.Size(277, 234);
-            this.PbBinaryGraph.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PbBinaryGraph.TabIndex = 14;
-            this.PbBinaryGraph.TabStop = false;
+            this.Btn_Image_Open.Enabled = false;
+            this.Btn_Image_Open.Location = new System.Drawing.Point(191, 28);
+            this.Btn_Image_Open.Name = "Btn_Image_Open";
+            this.Btn_Image_Open.Size = new System.Drawing.Size(92, 38);
+            this.Btn_Image_Open.TabIndex = 18;
+            this.Btn_Image_Open.Text = "Open";
+            this.Btn_Image_Open.UseVisualStyleBackColor = true;
+            this.Btn_Image_Open.Click += new System.EventHandler(this.Btn_Image_Open_Click);
             // 
             // LbImageName
             // 
@@ -297,15 +277,36 @@
             this.LbImageName.TabIndex = 17;
             this.LbImageName.Text = "No Image";
             // 
-            // BtnImageOpen
+            // BtnImageNext
             // 
-            this.BtnImageOpen.Enabled = false;
-            this.BtnImageOpen.Location = new System.Drawing.Point(191, 28);
-            this.BtnImageOpen.Name = "BtnImageOpen";
-            this.BtnImageOpen.Size = new System.Drawing.Size(92, 38);
-            this.BtnImageOpen.TabIndex = 18;
-            this.BtnImageOpen.Text = "Open";
-            this.BtnImageOpen.UseVisualStyleBackColor = true;
+            this.BtnImageNext.Enabled = false;
+            this.BtnImageNext.Location = new System.Drawing.Point(149, 28);
+            this.BtnImageNext.Name = "BtnImageNext";
+            this.BtnImageNext.Size = new System.Drawing.Size(36, 38);
+            this.BtnImageNext.TabIndex = 16;
+            this.BtnImageNext.Text = ">";
+            this.BtnImageNext.UseVisualStyleBackColor = true;
+            this.BtnImageNext.Click += new System.EventHandler(this.Btn_Image_Next_Click);
+            // 
+            // BtnImagePrevious
+            // 
+            this.BtnImagePrevious.Enabled = false;
+            this.BtnImagePrevious.Location = new System.Drawing.Point(107, 28);
+            this.BtnImagePrevious.Name = "BtnImagePrevious";
+            this.BtnImagePrevious.Size = new System.Drawing.Size(36, 38);
+            this.BtnImagePrevious.TabIndex = 15;
+            this.BtnImagePrevious.Text = "<";
+            this.BtnImagePrevious.UseVisualStyleBackColor = true;
+            this.BtnImagePrevious.Click += new System.EventHandler(this.Btn_Image_Previous_Click);
+            // 
+            // PbBinaryGraph
+            // 
+            this.PbBinaryGraph.Location = new System.Drawing.Point(6, 71);
+            this.PbBinaryGraph.Name = "PbBinaryGraph";
+            this.PbBinaryGraph.Size = new System.Drawing.Size(277, 234);
+            this.PbBinaryGraph.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PbBinaryGraph.TabIndex = 14;
+            this.PbBinaryGraph.TabStop = false;
             // 
             // Form1
             // 
@@ -357,7 +358,7 @@
         private System.Windows.Forms.Button BtnImageNext;
         private System.Windows.Forms.Button BtnImagePrevious;
         private System.Windows.Forms.Label LbImageName;
-        private System.Windows.Forms.Button BtnImageOpen;
+        private System.Windows.Forms.Button Btn_Image_Open;
     }
 }
 

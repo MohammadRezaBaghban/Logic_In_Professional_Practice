@@ -28,12 +28,9 @@ namespace LPPTestProject
         public void TruthTable_CalculateTruthTable_HashCodeBeEqualAsExpected(string prefixInput, string hexaHashCode)
         {
             //Arrange
-            var calculator = new Calculator();
             var binaryTree = ParsingModule.ParseInput(prefixInput);
-            var rootOfComponent = binaryTree.Root;
 
             //Act
-            calculator.Calculate(rootOfComponent);
             var truthTable = new TruthTable(binaryTree);
 
             //Assert
@@ -45,13 +42,11 @@ namespace LPPTestProject
         public void TruthTable_SimplifyTruthTable_HashCodeBeEqualAsExpected(string prefixInput, string simplifiedTruthTable)
         {
             //Arrange
-            var calculator = new Calculator();
             var binaryTree = ParsingModule.ParseInput(prefixInput);
-            var rootOfComponent = binaryTree.Root;
 
             //Act
-            calculator.Calculate(rootOfComponent);
             var truthTable = new TruthTable(binaryTree);
+            truthTable.SimplifyRows();
 
             //Assert
             var actualSimplified = DeleteCharacters(truthTable.SimplifiedToString(),new string[]{"\n"," ",});
@@ -69,13 +64,13 @@ namespace LPPTestProject
         public void TruthTable_DNFProcessing_DNFFormulaAndHashCodeBeAsExpected(string prefixInput,string normalDNF, string simplifiedDNF)
         {
             //Arrange
-            var calculator = new Calculator();
             var binaryTree = ParsingModule.ParseInput(prefixInput);
-            var rootOfComponent = binaryTree.Root;
 
             //Act
-            calculator.Calculate(rootOfComponent);
             var truthTable = new TruthTable(binaryTree);
+            truthTable.SimplifyRows();
+            truthTable.ProcessDNF();
+
             normalDNF = DeleteCharacters(normalDNF, new string[] { ")", "(", " ", });
             simplifiedDNF = DeleteCharacters(simplifiedDNF, new string[] { ")", "(", " ", });
             var actualNormalDNF = DeleteCharacters(DNF.DNFFormula(truthTable.DNF_Normal_Components), new string[] { ")", "(", " ", });
@@ -87,6 +82,7 @@ namespace LPPTestProject
             if (normalDNF != "")
             {
                 var truthTableDNF = new TruthTable(truthTable.DNF_Normal_BinaryTree);
+                truthTableDNF.ProcessDNF();
                 var tru = DNF.DNFFormula(truthTableDNF.DNF_Normal_Components);
                 var n1 = truthTableDNF.GetHexadecimalHashCode();
                 var n2 = truthTable.GetHexadecimalHashCode();
@@ -94,6 +90,23 @@ namespace LPPTestProject
             }
 
             //Todo Refactor the binarytree creation such that it would be able to be parsed again with propositional variables
+        }
+
+        [Theory]
+        [InlineData("|(A,B))")]
+        public void TruthTable_Nandify_NandTruthTableHashCodeBeAsExpected(string prefixInput)
+        {
+            //Arrange
+            var nandify = new Nandify();
+            var binaryTree = ParsingModule.ParseInput(prefixInput);
+
+            //Act
+            var truthTable = new TruthTable(binaryTree);
+            nandify.Calculate(binaryTree.Root);
+            var truthTableNand = new TruthTable(Nandify.binaryTree);
+
+            //Assert
+            Assert.Equal(truthTable.GetHexadecimalHashCode(),truthTableNand.GetHexadecimalHashCode());
         }
 
         private string DeleteCharacters(string src, string[] chars)
@@ -106,5 +119,7 @@ namespace LPPTestProject
 
             return result;
         }
+
+
     }
 }

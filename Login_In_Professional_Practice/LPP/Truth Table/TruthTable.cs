@@ -19,8 +19,8 @@ namespace LPP.Modules
         public BinaryTree DNF_Normal_BinaryTree;
         public BinaryTree DNF_Simplified_BinaryTree;
 
-        public int NumberOfVariables { get; }
         public BinaryTree binaryTree;
+        public int NumberOfVariables { get; }
         public CompositeComponent RootOfBinaryTree { get; }
         public Variable[] DistinctPropositionalVariables;
 
@@ -32,9 +32,8 @@ namespace LPP.Modules
             DistinctPropositionalVariables = binaryTree.PropositionalVariables.Get_Distinct_PropositionalVariables();
             NumberOfVariables = DistinctPropositionalVariables.Length;
             FillAndCalculateRows();
-            SimplifyRows();
-            ProcessDNF();
         }
+
         private int binaryValue(bool? input) => (input != null && (bool)input) ? 1 : 0;
 
         private void FillAndCalculateRows()
@@ -61,12 +60,11 @@ namespace LPP.Modules
                 }
                 columnIndex++;
             }
-
             var calculator = new Calculator();
             calculator.Visit(this);
         }
 
-        private void SimplifyRows()
+        public void SimplifyRows()
         {
             var simplifiedTruthTable = new Simplification(this);
             SimplifiedRows = simplifiedTruthTable.RecursiveSimplification();
