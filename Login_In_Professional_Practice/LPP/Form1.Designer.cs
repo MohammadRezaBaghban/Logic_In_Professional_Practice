@@ -41,18 +41,19 @@
             this.TbNormalDNF = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.TbTruthTableHashCode = new System.Windows.Forms.TextBox();
+            this.Tb_TruthTableHashCode = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.TbPropositionalVariables = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.LbSimplifiedTruthTable = new System.Windows.Forms.ListBox();
             this.LbTruthTable = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.RbNand = new System.Windows.Forms.RadioButton();
-            this.RbNormal = new System.Windows.Forms.RadioButton();
+            this.BtnImageNext = new System.Windows.Forms.Button();
+            this.BtnImagePrevious = new System.Windows.Forms.Button();
             this.PbBinaryGraph = new System.Windows.Forms.PictureBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.LbImageName = new System.Windows.Forms.Label();
+            this.BtnImageOpen = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -123,7 +124,7 @@
             this.groupBox1.Controls.Add(this.TbNormalDNF);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.TbTruthTableHashCode);
+            this.groupBox1.Controls.Add(this.Tb_TruthTableHashCode);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.TbPropositionalVariables);
             this.groupBox1.Controls.Add(this.TbPrefixFormula);
@@ -190,12 +191,12 @@
             this.label3.TabIndex = 12;
             this.label3.Text = "Normal DNF: ";
             // 
-            // TbTruthTableHashCode
+            // Tb_TruthTableHashCode
             // 
-            this.TbTruthTableHashCode.Location = new System.Drawing.Point(418, 140);
-            this.TbTruthTableHashCode.Name = "TbTruthTableHashCode";
-            this.TbTruthTableHashCode.Size = new System.Drawing.Size(100, 29);
-            this.TbTruthTableHashCode.TabIndex = 11;
+            this.Tb_TruthTableHashCode.Location = new System.Drawing.Point(418, 140);
+            this.Tb_TruthTableHashCode.Name = "Tb_TruthTableHashCode";
+            this.Tb_TruthTableHashCode.Size = new System.Drawing.Size(100, 29);
+            this.Tb_TruthTableHashCode.TabIndex = 11;
             // 
             // label4
             // 
@@ -244,9 +245,10 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.radioButton3);
-            this.groupBox3.Controls.Add(this.RbNand);
-            this.groupBox3.Controls.Add(this.RbNormal);
+            this.groupBox3.Controls.Add(this.BtnImageOpen);
+            this.groupBox3.Controls.Add(this.LbImageName);
+            this.groupBox3.Controls.Add(this.BtnImageNext);
+            this.groupBox3.Controls.Add(this.BtnImagePrevious);
             this.groupBox3.Controls.Add(this.PbBinaryGraph);
             this.groupBox3.Location = new System.Drawing.Point(359, 272);
             this.groupBox3.Name = "groupBox3";
@@ -255,47 +257,55 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Binary Trees";
             // 
-            // radioButton3
+            // BtnImageNext
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(177, 28);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(61, 27);
-            this.radioButton3.TabIndex = 17;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "DNF";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.BtnImageNext.Enabled = false;
+            this.BtnImageNext.Location = new System.Drawing.Point(149, 28);
+            this.BtnImageNext.Name = "BtnImageNext";
+            this.BtnImageNext.Size = new System.Drawing.Size(36, 38);
+            this.BtnImageNext.TabIndex = 16;
+            this.BtnImageNext.Text = ">";
+            this.BtnImageNext.UseVisualStyleBackColor = true;
+            this.BtnImageNext.Click += new System.EventHandler(this.BtnNextImage_Click);
             // 
-            // RbNand
+            // BtnImagePrevious
             // 
-            this.RbNand.AutoSize = true;
-            this.RbNand.Location = new System.Drawing.Point(97, 27);
-            this.RbNand.Name = "RbNand";
-            this.RbNand.Size = new System.Drawing.Size(70, 27);
-            this.RbNand.TabIndex = 16;
-            this.RbNand.TabStop = true;
-            this.RbNand.Text = "Nand";
-            this.RbNand.UseVisualStyleBackColor = true;
-            // 
-            // RbNormal
-            // 
-            this.RbNormal.AutoSize = true;
-            this.RbNormal.Location = new System.Drawing.Point(6, 28);
-            this.RbNormal.Name = "RbNormal";
-            this.RbNormal.Size = new System.Drawing.Size(85, 27);
-            this.RbNormal.TabIndex = 15;
-            this.RbNormal.TabStop = true;
-            this.RbNormal.Text = "Normal";
-            this.RbNormal.UseVisualStyleBackColor = true;
+            this.BtnImagePrevious.Enabled = false;
+            this.BtnImagePrevious.Location = new System.Drawing.Point(107, 28);
+            this.BtnImagePrevious.Name = "BtnImagePrevious";
+            this.BtnImagePrevious.Size = new System.Drawing.Size(36, 38);
+            this.BtnImagePrevious.TabIndex = 15;
+            this.BtnImagePrevious.Text = "<";
+            this.BtnImagePrevious.UseVisualStyleBackColor = true;
+            this.BtnImagePrevious.Click += new System.EventHandler(this.BtnPreviousImage_Click);
             // 
             // PbBinaryGraph
             // 
-            this.PbBinaryGraph.Location = new System.Drawing.Point(6, 60);
+            this.PbBinaryGraph.Location = new System.Drawing.Point(6, 71);
             this.PbBinaryGraph.Name = "PbBinaryGraph";
-            this.PbBinaryGraph.Size = new System.Drawing.Size(277, 245);
+            this.PbBinaryGraph.Size = new System.Drawing.Size(277, 234);
             this.PbBinaryGraph.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PbBinaryGraph.TabIndex = 14;
             this.PbBinaryGraph.TabStop = false;
+            // 
+            // LbImageName
+            // 
+            this.LbImageName.AutoSize = true;
+            this.LbImageName.Location = new System.Drawing.Point(15, 36);
+            this.LbImageName.Name = "LbImageName";
+            this.LbImageName.Size = new System.Drawing.Size(86, 23);
+            this.LbImageName.TabIndex = 17;
+            this.LbImageName.Text = "No Image";
+            // 
+            // BtnImageOpen
+            // 
+            this.BtnImageOpen.Enabled = false;
+            this.BtnImageOpen.Location = new System.Drawing.Point(191, 28);
+            this.BtnImageOpen.Name = "BtnImageOpen";
+            this.BtnImageOpen.Size = new System.Drawing.Size(92, 38);
+            this.BtnImageOpen.TabIndex = 18;
+            this.BtnImageOpen.Text = "Open";
+            this.BtnImageOpen.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -330,7 +340,7 @@
         private System.Windows.Forms.TextBox Tb_InfixFormula_Normal;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox TbPropositionalVariables;
-        private System.Windows.Forms.TextBox TbTruthTableHashCode;
+        private System.Windows.Forms.TextBox Tb_TruthTableHashCode;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ListBox LbSimplifiedTruthTable;
@@ -342,11 +352,12 @@
         private System.Windows.Forms.TextBox Tb_InfixFormula_Nandified;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton RbNand;
-        private System.Windows.Forms.RadioButton RbNormal;
         private System.Windows.Forms.PictureBox PbBinaryGraph;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Button BtnImageNext;
+        private System.Windows.Forms.Button BtnImagePrevious;
+        private System.Windows.Forms.Label LbImageName;
+        private System.Windows.Forms.Button BtnImageOpen;
     }
 }
 
