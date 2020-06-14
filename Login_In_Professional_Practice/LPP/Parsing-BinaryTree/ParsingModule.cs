@@ -55,7 +55,7 @@ namespace LPP
 
                 if (CharacterType(expression[0]) == characterType.Unknown)
                 {
-                    throw new LPPException($"Unknown Character:{expression[0]}" +
+                    throw new Exception($"Unknown Character:{expression[0]}" +
                                            "\n\nThe formula contain Invalid Characters\n" +
                                            "Propositional Variables: English Capital Letter - 0,1\n" +
                                            "Connectives: ~,>,=,&,|\n" +

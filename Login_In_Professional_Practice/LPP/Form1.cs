@@ -120,7 +120,7 @@ namespace LPP
             {
                 if (userInput.Length < 4)
                 {
-                    throw new LPPException("Format of input is not correct");
+                    throw new Exception("Format of input is not correct");
                 }
                 else
                 {

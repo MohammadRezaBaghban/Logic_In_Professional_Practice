@@ -60,7 +60,6 @@ namespace LPPTestProject
         [InlineData(">(A,>(B,A))", "¬A⋀¬B⋁¬A⋀B⋁A⋀¬B⋁A⋀B", "")]
         [InlineData("&(>(P,Q),|(Q,P))", "¬P⋀Q⋁P⋀Q", "Q")]
         [InlineData("|(P,Q)", "¬P⋀Q⋁P⋀¬Q⋁P⋀Q", "Q⋁P")]
-        [InlineData("&(&(A,B),~(A))", "", "")]
         public void TruthTable_DNFProcessing_DNFFormulaAndHashCodeBeAsExpected(string prefixInput,string normalDNF, string simplifiedDNF)
         {
             //Arrange
@@ -91,9 +90,14 @@ namespace LPPTestProject
 
         [Theory]
         [InlineData("|(A,B))")]
+        [InlineData("&(A,B))")]
+        [InlineData(">(A,B))")]
+        [InlineData("=(A,B))")]
         [InlineData("|(~(A),~(B))")]
-        [InlineData("~(|(|(A,~(B)),|(~(C),D))))")]
         [InlineData("|(|(A,B),|(C,|(F,G)))")]
+        [InlineData(">(&(A,~(D)),|(B,|(Y,R)))")]
+        [InlineData("~(|(|(A,~(B)),|(~(C),D))))")]
+        [InlineData("~(|(=(A,~(B)),|(~(|(U,=(T,R))),D))))")]
         public void TruthTable_Nandify_NandTruthTableHashCodeBeAsExpected(string prefixInput)
         {
             //Arrange
@@ -119,7 +123,5 @@ namespace LPPTestProject
 
             return result;
         }
-
-
     }
 }
