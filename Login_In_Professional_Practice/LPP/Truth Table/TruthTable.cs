@@ -13,6 +13,7 @@ namespace LPP.Modules
     public class TruthTable
     {
         public Row[] NormalRows;
+        public TruthTable DnftTruthTable;
         public List<Row> SimplifiedRows;
         public List<BinaryTree> DNF_Normal_Components;
         public List<BinaryTree> DNF_Simplified_Components;
@@ -32,6 +33,7 @@ namespace LPP.Modules
             DistinctPropositionalVariables = binaryTree.PropositionalVariables.Get_Distinct_PropositionalVariables();
             NumberOfVariables = DistinctPropositionalVariables.Length;
             FillAndCalculateRows();
+            SimplifyRows();
         }
 
         private int binaryValue(bool? input) => (input != null && (bool)input) ? 1 : 0;
@@ -81,7 +83,8 @@ namespace LPP.Modules
             DNF_Normal_Components = DNF.ProcessDNF(NormalRows.ToList(), variables);
             DNF_Simplified_Components = DNF.ProcessDNF(SimplifiedRows, variables);
             DNF_Normal_BinaryTree = BinaryTree.DNFBinaryTree(DNF_Normal_Components);
-            DNF_Simplified_BinaryTree = BinaryTree.DNFBinaryTree(DNF_Simplified_Components);
+            DNF_Simplified_BinaryTree = BinaryTree.DNFBinaryTree(DNF_Simplified_Components); 
+            DnftTruthTable = new TruthTable(DNF_Normal_BinaryTree);
         }
 
         public override string ToString()
@@ -100,6 +103,10 @@ namespace LPP.Modules
 
         public string GetHexadecimalHashCode() => Convert.ToInt64(GetHashCode().ToString(), 2).ToString("X");
 
+        public string GetHexadecimalSimplifiedHashCode() => Convert.ToInt64(GetHashCodeSimplified().ToString(), 2).ToString("X");
+
         public string GetHashCode() => NormalRows.Reverse().Aggregate("", (current, next) => current + binaryValue(next.Result).ToString());
+
+        public string GetHashCodeSimplified() => SimplifiedRows.ToArray().Reverse().Aggregate("", (current, next) => current + binaryValue(next.Result).ToString());
     }
 }

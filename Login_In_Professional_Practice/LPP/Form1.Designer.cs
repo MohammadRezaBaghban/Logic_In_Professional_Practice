@@ -54,6 +54,7 @@
             this.BtnImagePrevious = new System.Windows.Forms.Button();
             this.PbBinaryGraph = new System.Windows.Forms.PictureBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.LbHashCodes = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -74,13 +75,13 @@
             // 
             this.TbPrefixFormula.Location = new System.Drawing.Point(208, 26);
             this.TbPrefixFormula.Name = "TbPrefixFormula";
-            this.TbPrefixFormula.Size = new System.Drawing.Size(310, 29);
+            this.TbPrefixFormula.Size = new System.Drawing.Size(362, 29);
             this.TbPrefixFormula.TabIndex = 1;
             this.TbPrefixFormula.Text = ">(|(H,>(T,Y)),=(B,&(0,C))";
             // 
             // BtnParse
             // 
-            this.BtnParse.Location = new System.Drawing.Point(524, 26);
+            this.BtnParse.Location = new System.Drawing.Point(576, 23);
             this.BtnParse.Name = "BtnParse";
             this.BtnParse.Size = new System.Drawing.Size(107, 143);
             this.BtnParse.TabIndex = 2;
@@ -113,7 +114,7 @@
             this.Tb_InfixFormula_Normal.Enabled = false;
             this.Tb_InfixFormula_Normal.Location = new System.Drawing.Point(208, 64);
             this.Tb_InfixFormula_Normal.Name = "Tb_InfixFormula_Normal";
-            this.Tb_InfixFormula_Normal.Size = new System.Drawing.Size(310, 29);
+            this.Tb_InfixFormula_Normal.Size = new System.Drawing.Size(362, 29);
             this.Tb_InfixFormula_Normal.TabIndex = 8;
             // 
             // groupBox1
@@ -135,7 +136,7 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(637, 253);
+            this.groupBox1.Size = new System.Drawing.Size(689, 253);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Abstract Proposition";
@@ -146,7 +147,7 @@
             this.Tb_InfixFormula_Nandified.Enabled = false;
             this.Tb_InfixFormula_Nandified.Location = new System.Drawing.Point(208, 102);
             this.Tb_InfixFormula_Nandified.Name = "Tb_InfixFormula_Nandified";
-            this.Tb_InfixFormula_Nandified.Size = new System.Drawing.Size(310, 29);
+            this.Tb_InfixFormula_Nandified.Size = new System.Drawing.Size(362, 29);
             this.Tb_InfixFormula_Nandified.TabIndex = 17;
             // 
             // label6
@@ -163,14 +164,14 @@
             // 
             this.TbSimplifiedDNF.Location = new System.Drawing.Point(208, 216);
             this.TbSimplifiedDNF.Name = "TbSimplifiedDNF";
-            this.TbSimplifiedDNF.Size = new System.Drawing.Size(423, 29);
+            this.TbSimplifiedDNF.Size = new System.Drawing.Size(475, 29);
             this.TbSimplifiedDNF.TabIndex = 15;
             // 
             // TbNormalDNF
             // 
             this.TbNormalDNF.Location = new System.Drawing.Point(208, 178);
             this.TbNormalDNF.Name = "TbNormalDNF";
-            this.TbNormalDNF.Size = new System.Drawing.Size(423, 29);
+            this.TbNormalDNF.Size = new System.Drawing.Size(475, 29);
             this.TbNormalDNF.TabIndex = 14;
             // 
             // label5
@@ -193,7 +194,7 @@
             // 
             // Tb_TruthTableHashCode
             // 
-            this.Tb_TruthTableHashCode.Location = new System.Drawing.Point(418, 140);
+            this.Tb_TruthTableHashCode.Location = new System.Drawing.Point(470, 137);
             this.Tb_TruthTableHashCode.Name = "Tb_TruthTableHashCode";
             this.Tb_TruthTableHashCode.Size = new System.Drawing.Size(100, 29);
             this.Tb_TruthTableHashCode.TabIndex = 11;
@@ -201,7 +202,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(320, 143);
+            this.label4.Location = new System.Drawing.Point(372, 140);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(92, 23);
             this.label4.TabIndex = 10;
@@ -216,11 +217,12 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.LbHashCodes);
             this.groupBox2.Controls.Add(this.LbSimplifiedTruthTable);
             this.groupBox2.Controls.Add(this.LbTruthTable);
             this.groupBox2.Location = new System.Drawing.Point(12, 272);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(341, 311);
+            this.groupBox2.Size = new System.Drawing.Size(358, 357);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Truth Tables";
@@ -229,9 +231,9 @@
             // 
             this.LbSimplifiedTruthTable.FormattingEnabled = true;
             this.LbSimplifiedTruthTable.ItemHeight = 21;
-            this.LbSimplifiedTruthTable.Location = new System.Drawing.Point(173, 27);
+            this.LbSimplifiedTruthTable.Location = new System.Drawing.Point(173, 28);
             this.LbSimplifiedTruthTable.Name = "LbSimplifiedTruthTable";
-            this.LbSimplifiedTruthTable.Size = new System.Drawing.Size(162, 277);
+            this.LbSimplifiedTruthTable.Size = new System.Drawing.Size(179, 172);
             this.LbSimplifiedTruthTable.TabIndex = 16;
             // 
             // LbTruthTable
@@ -240,7 +242,7 @@
             this.LbTruthTable.ItemHeight = 21;
             this.LbTruthTable.Location = new System.Drawing.Point(6, 27);
             this.LbTruthTable.Name = "LbTruthTable";
-            this.LbTruthTable.Size = new System.Drawing.Size(162, 277);
+            this.LbTruthTable.Size = new System.Drawing.Size(162, 319);
             this.LbTruthTable.TabIndex = 14;
             // 
             // groupBox3
@@ -250,9 +252,9 @@
             this.groupBox3.Controls.Add(this.BtnImageNext);
             this.groupBox3.Controls.Add(this.BtnImagePrevious);
             this.groupBox3.Controls.Add(this.PbBinaryGraph);
-            this.groupBox3.Location = new System.Drawing.Point(359, 272);
+            this.groupBox3.Location = new System.Drawing.Point(376, 272);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(289, 311);
+            this.groupBox3.Size = new System.Drawing.Size(325, 357);
             this.groupBox3.TabIndex = 11;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Binary Trees";
@@ -260,7 +262,7 @@
             // Btn_Image_Open
             // 
             this.Btn_Image_Open.Enabled = false;
-            this.Btn_Image_Open.Location = new System.Drawing.Point(191, 28);
+            this.Btn_Image_Open.Location = new System.Drawing.Point(227, 27);
             this.Btn_Image_Open.Name = "Btn_Image_Open";
             this.Btn_Image_Open.Size = new System.Drawing.Size(92, 38);
             this.Btn_Image_Open.TabIndex = 18;
@@ -271,7 +273,7 @@
             // LbImageName
             // 
             this.LbImageName.AutoSize = true;
-            this.LbImageName.Location = new System.Drawing.Point(15, 36);
+            this.LbImageName.Location = new System.Drawing.Point(8, 36);
             this.LbImageName.Name = "LbImageName";
             this.LbImageName.Size = new System.Drawing.Size(86, 23);
             this.LbImageName.TabIndex = 17;
@@ -280,7 +282,7 @@
             // BtnImageNext
             // 
             this.BtnImageNext.Enabled = false;
-            this.BtnImageNext.Location = new System.Drawing.Point(149, 28);
+            this.BtnImageNext.Location = new System.Drawing.Point(170, 27);
             this.BtnImageNext.Name = "BtnImageNext";
             this.BtnImageNext.Size = new System.Drawing.Size(36, 38);
             this.BtnImageNext.TabIndex = 16;
@@ -291,7 +293,7 @@
             // BtnImagePrevious
             // 
             this.BtnImagePrevious.Enabled = false;
-            this.BtnImagePrevious.Location = new System.Drawing.Point(107, 28);
+            this.BtnImagePrevious.Location = new System.Drawing.Point(128, 27);
             this.BtnImagePrevious.Name = "BtnImagePrevious";
             this.BtnImagePrevious.Size = new System.Drawing.Size(36, 38);
             this.BtnImagePrevious.TabIndex = 15;
@@ -303,17 +305,27 @@
             // 
             this.PbBinaryGraph.Location = new System.Drawing.Point(6, 71);
             this.PbBinaryGraph.Name = "PbBinaryGraph";
-            this.PbBinaryGraph.Size = new System.Drawing.Size(277, 234);
+            this.PbBinaryGraph.Size = new System.Drawing.Size(313, 280);
             this.PbBinaryGraph.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PbBinaryGraph.TabIndex = 14;
             this.PbBinaryGraph.TabStop = false;
+            // 
+            // LbHashCodes
+            // 
+            this.LbHashCodes.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbHashCodes.FormattingEnabled = true;
+            this.LbHashCodes.ItemHeight = 17;
+            this.LbHashCodes.Location = new System.Drawing.Point(173, 206);
+            this.LbHashCodes.Name = "LbHashCodes";
+            this.LbHashCodes.Size = new System.Drawing.Size(179, 140);
+            this.LbHashCodes.TabIndex = 17;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.ClientSize = new System.Drawing.Size(656, 595);
+            this.ClientSize = new System.Drawing.Size(713, 630);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -359,6 +371,7 @@
         private System.Windows.Forms.Button BtnImagePrevious;
         private System.Windows.Forms.Label LbImageName;
         private System.Windows.Forms.Button Btn_Image_Open;
+        private System.Windows.Forms.ListBox LbHashCodes;
     }
 }
 

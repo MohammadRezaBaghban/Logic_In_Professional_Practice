@@ -47,7 +47,6 @@ namespace LPPTestProject
 
             //Act
             var truthTable = new TruthTable(binaryTree);
-            truthTable.SimplifyRows();
 
             //Assert
             var actualSimplified = DeleteCharacters(truthTable.SimplifiedToString(),new string[]{"\n"," ",});
@@ -69,7 +68,6 @@ namespace LPPTestProject
 
             //Act
             var truthTable = new TruthTable(binaryTree);
-            truthTable.SimplifyRows();
             truthTable.ProcessDNF();
 
             normalDNF = DeleteCharacters(normalDNF, new string[] { ")", "(", " ", });
@@ -83,8 +81,6 @@ namespace LPPTestProject
             if (normalDNF != "")
             {
                 var truthTableDNF = new TruthTable(truthTable.DNF_Normal_BinaryTree);
-                truthTableDNF.ProcessDNF();
-                var tru = DNF.DNFFormula(truthTableDNF.DNF_Normal_Components);
                 var n1 = truthTableDNF.GetHexadecimalHashCode();
                 var n2 = truthTable.GetHexadecimalHashCode();
                 Assert.Equal(n1,n2);
@@ -96,7 +92,8 @@ namespace LPPTestProject
         [Theory]
         [InlineData("|(A,B))")]
         [InlineData("|(~(A),~(B))")]
-        [InlineData("|(|(A,B),|(C,D)))")]
+        [InlineData("~(|(|(A,~(B)),|(~(C),D))))")]
+        [InlineData("|(|(A,B),|(C,|(F,G)))")]
         public void TruthTable_Nandify_NandTruthTableHashCodeBeAsExpected(string prefixInput)
         {
             //Arrange

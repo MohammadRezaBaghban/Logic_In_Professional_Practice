@@ -48,8 +48,10 @@ namespace LPP.Visitor_Pattern
 
         public void Visit(Implication visitable)
         {
-            Calculate(visitable.LeftNode);
-            Calculate(visitable.RightNode);
+            var nandRoot = new Disjunction();
+            var negation = new Negation();
+
+            //binaryTree.InsertNode(negation,v)
         }
 
         public void Visit(Disjunction visitable)
@@ -73,9 +75,10 @@ namespace LPP.Visitor_Pattern
             var nandRoot = new Negation();
             var nandLeft = new Nand();
 
+            binaryTree.InsertNode(nandLeft, BinaryTree.CloneNode(visitable.LeftNode,binaryTree));
+            binaryTree.InsertNode(nandLeft, BinaryTree.CloneNode(visitable.RightNode, binaryTree));
             binaryTree.InsertNode(nandRoot, nandLeft);
-            binaryTree.InsertNode(nandLeft, BinaryTree.CloneNode(visitable.LeftNode));
-            binaryTree.InsertNode(nandLeft, BinaryTree.CloneNode(visitable.RightNode));
+
 
             Calculate(nandRoot);
 
@@ -97,19 +100,20 @@ namespace LPP.Visitor_Pattern
         {
             Calculate(visitable.LeftNode);
             Calculate(visitable.RightNode);
+            visitable.Nand = visitable;
         }
 
         private void NandInsertNode(Component root, Component branch)
         {
-            if (branch.LeftNode is CompositeComponent composite)
+            if (branch is CompositeComponent composite)
             {
-                binaryTree.InsertNode(root, BinaryTree.CloneNode(composite.Nand));
-                binaryTree.InsertNode(root, BinaryTree.CloneNode(composite.Nand));
+                binaryTree.InsertNode(root, BinaryTree.CloneNode(composite.Nand, binaryTree));
+                binaryTree.InsertNode(root, BinaryTree.CloneNode(composite.Nand, binaryTree));
             }
             else
             {
-                binaryTree.InsertNode(root, BinaryTree.CloneNode(branch));
-                binaryTree.InsertNode(root, BinaryTree.CloneNode(branch));
+                binaryTree.InsertNode(root, BinaryTree.CloneNode(branch, binaryTree));
+                binaryTree.InsertNode(root, BinaryTree.CloneNode(branch, binaryTree));
             }
         }
     }

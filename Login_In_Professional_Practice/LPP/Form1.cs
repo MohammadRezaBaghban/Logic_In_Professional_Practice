@@ -36,21 +36,23 @@ namespace LPP
         }
 
         //Methods 
-        private void CalculateAndPrintTruthTable()
+        private void PopulateListBoxesWithValues()
         {
+            LbHashCodes.Items.Clear();
             LbTruthTable.Items.Clear();
             LbSimplifiedTruthTable.Items.Clear();
 
-            truthTableNand = new TruthTable(Nandify.binaryTree);
-            truthTable = new TruthTable(_binaryTreeNormal);
-            truthTable.SimplifyRows();
-            truthTable.ProcessDNF();
-
             var rowsOfTruthTable = truthTable.ToString().Split('\n').ToList();
             var rowsOfSimplifiedTruthTable = truthTable.SimplifiedToString().Split('\n').ToList();
-
             rowsOfTruthTable.ForEach(row => LbTruthTable.Items.Add(row));
             rowsOfSimplifiedTruthTable.ForEach(row => LbSimplifiedTruthTable.Items.Add(row));
+
+            LbHashCodes.Items.Add("HashCodes");
+            LbHashCodes.Items.Add($"Normal - Original: {truthTable.GetHexadecimalHashCode()}");
+            LbHashCodes.Items.Add($"Normal - NAND: {truthTableNand.GetHexadecimalHashCode()}");
+            LbHashCodes.Items.Add($"Normal - DNF: {truthTable.DnftTruthTable.GetHexadecimalHashCode()}");
+            LbHashCodes.Items.Add($"Simplified - Original: {truthTable.GetHexadecimalSimplifiedHashCode()}");
+            LbHashCodes.Items.Add($"Simplified - DNF: {truthTable.DnftTruthTable.GetHexadecimalSimplifiedHashCode()}");
         }
         private void PopulateTextBoxesWithValues(CompositeComponent root)
         {
@@ -123,13 +125,15 @@ namespace LPP
                 else
                 {
                     _graphImages.Clear();
-                    Nandify.binaryTree = new BinaryTree();
                     _binaryTreeNormal = ParsingModule.ParseInput(userInput);
                     var rootOfNormalBinaryTree = _binaryTreeNormal.Root as CompositeComponent;
                     _nandify.Calculate(rootOfNormalBinaryTree);
 
+                    truthTable = new TruthTable(_binaryTreeNormal);
+                    truthTableNand = new TruthTable(Nandify.binaryTree);
+                    truthTable.ProcessDNF();
 
-                    CalculateAndPrintTruthTable();
+                    PopulateListBoxesWithValues();
                     PopulateTextBoxesWithValues(rootOfNormalBinaryTree);
                     PopulatePictureBoxWithImages(rootOfNormalBinaryTree);
                 }

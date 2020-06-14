@@ -322,7 +322,7 @@ namespace LPP
             }
         }
 
-        public static Component CloneNode(Component node)
+        public static Component CloneNode(Component node, BinaryTree bt)
         {
             Component newNode;
 
@@ -341,7 +341,10 @@ namespace LPP
             else if (node is TrueFalse)
                 newNode = new TrueFalse(((TrueFalse) node).Data);
             else
+            {
                 newNode = new Variable(((Variable) node).Symbol);
+                bt.PropositionalVariables.AddPropositionalVariable(newNode as Variable);
+            }
 
             newNode.Parent = node.Parent;
             if(node is CompositeComponent)
@@ -352,10 +355,27 @@ namespace LPP
                 }
                 else
                 {
-                    newNode.LeftNode = node.LeftNode;
-                    newNode.RightNode = node.RightNode;
+                    if (node.LeftNode != null)
+                    {
+                        newNode.LeftNode = CloneNode(node.LeftNode,bt);
+                    }
+                    else
+                    {
+                        newNode.LeftNode = node.LeftNode;
+                    }
+
+                    if (node.RightNode != null)
+                    {
+                        newNode.RightNode = CloneNode(node.RightNode,bt);
+                    }
+                    else
+                    {
+                        newNode.RightNode = node.RightNode;
+                    }
                 }
             }
+
+            newNode.NodeNumber++;
             return newNode;
         }
     }
