@@ -2,10 +2,10 @@
 
 namespace LPP.Composite_Pattern.Connectives
 {
-    public class ImplicationConnective : CompositeComponent
+    public class Implication : CompositeComponent
     {
 
-        public ImplicationConnective() => Symbol = '>';
+        public Implication() => Symbol = '>';
 
         public override void Evaluate(IVisitor c) => c.Visit(this);
 

@@ -2,10 +2,10 @@
 
 namespace LPP.Composite_Pattern.Connectives
 {
-    public class NegationConnective : CompositeComponent
+    public class Conjunction : CompositeComponent
     {
 
-        public NegationConnective() => Symbol = '~';
+        public Conjunction() => Symbol = '&';
 
         public override void Evaluate(IVisitor c) => c.Visit(this);
 

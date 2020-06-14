@@ -2,10 +2,10 @@
 
 namespace LPP.Composite_Pattern.Connectives
 {
-    public class  DisjunctionConnective : CompositeComponent
+    public class  Disjunction : CompositeComponent
     {
 
-        public DisjunctionConnective() => Symbol = '|';
+        public Disjunction() => Symbol = '|';
 
         public override void Evaluate(IVisitor c) => c.Visit(this);
 

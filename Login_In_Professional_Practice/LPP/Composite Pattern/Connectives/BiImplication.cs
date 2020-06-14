@@ -2,9 +2,12 @@
 
 namespace LPP.Composite_Pattern.Connectives
 {
-    public class NANDConnective: CompositeComponent
+    public class BiImplication : CompositeComponent
     {
-        public NANDConnective() => Symbol = '%';
+
+        public BiImplication() => Symbol = '=';
+
         public override void Evaluate(IVisitor c) => c.Visit(this);
+
     }
 }

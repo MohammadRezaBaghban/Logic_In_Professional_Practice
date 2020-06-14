@@ -63,10 +63,10 @@ namespace LPP
                 return Root;
             }
 
-            if (newNode is NegationConnective)
+            if (newNode is Negation)
             {
                 //Try to put the function on the left side of tree
-                if (root is NegationConnective)
+                if (root is Negation)
                 {
                     if (root.LeftNode == null)
                     {
@@ -84,7 +84,7 @@ namespace LPP
                 else
                 {
                     //Because of importance of Operator
-                    if (root is ImplicationConnective)
+                    if (root is Implication)
                     {
                         if (root.LeftNode == null)
                         {
@@ -126,7 +126,7 @@ namespace LPP
                             else
                             {
                                 //Specifically be useful for DNF where tree be created from bottom to top
-                                var newRoot = new ConjunctionConnective();
+                                var newRoot = new Conjunction();
                                 root.Parent = newRoot;
                                 newRoot.LeftNode = root;
                                 root = newRoot;
@@ -144,7 +144,7 @@ namespace LPP
             else
             {
                 //Try to put the operation on the right side of tree
-                if (root is NegationConnective)
+                if (root is Negation)
                 {
                     if (root.LeftNode == null)
                     {
@@ -163,7 +163,7 @@ namespace LPP
                 {
 
                     //Because of importance of Implication Operator
-                    if (root is ImplicationConnective )
+                    if (root is Implication )
                     {
                         if (root.LeftNode == null)
                         {
@@ -219,7 +219,7 @@ namespace LPP
             }
 
             //Try to put the single node on the left side of tree as much as possible
-            if (root is NegationConnective)
+            if (root is Negation)
             {
                 if (root.LeftNode == null)
                 {
@@ -264,7 +264,7 @@ namespace LPP
                     else
                     {
                         //Specifically be useful for DNF where tree be created from bottom to top
-                        var newRoot = new ConjunctionConnective();
+                        var newRoot = new Conjunction();
                         root.Parent = newRoot;
                         newRoot.LeftNode = root;
                         root = newRoot;
@@ -289,7 +289,7 @@ namespace LPP
                 if (binaryTree == null)
                 {
                     binaryTree = new BinaryTree();
-                    binaryTree.InsertNode(_dnfRoot, new DisjunctionConnective());
+                    binaryTree.InsertNode(_dnfRoot, new Disjunction());
                     _dnfRoot = binaryTree.Root;
                 }
 
@@ -299,7 +299,7 @@ namespace LPP
                     var root = node.Root;
                     if (_dnfRoot.LeftNode != null && _dnfRoot.RightNode != null)
                     {
-                        var newRoot = new DisjunctionConnective();
+                        var newRoot = new Disjunction();
                         _dnfRoot.Parent = newRoot;
                         newRoot.LeftNode = _dnfRoot;
                         _dnfRoot = newRoot;
@@ -326,18 +326,18 @@ namespace LPP
         {
             Component newNode;
 
-            if (node is Bi_ImplicationConnective)
-                newNode = new Bi_ImplicationConnective();
-            else if (node is ImplicationConnective)
-                newNode = new ImplicationConnective();
-            else if (node is ConjunctionConnective)
-                newNode = new ConjunctionConnective();
-            else if (node is DisjunctionConnective)
-                newNode = new DisjunctionConnective();
-            else if (node is NegationConnective)
-                newNode = new NegationConnective();
-            else if (node is NANDConnective)
-                newNode = new NANDConnective();
+            if (node is BiImplication)
+                newNode = new BiImplication();
+            else if (node is Implication)
+                newNode = new Implication();
+            else if (node is Conjunction)
+                newNode = new Conjunction();
+            else if (node is Disjunction)
+                newNode = new Disjunction();
+            else if (node is Negation)
+                newNode = new Negation();
+            else if (node is Nand)
+                newNode = new Nand();
             else if (node is TrueFalse)
                 newNode = new TrueFalse(((TrueFalse) node).Data);
             else
@@ -346,7 +346,7 @@ namespace LPP
             newNode.Parent = node.Parent;
             if(node is CompositeComponent)
             {
-                if(node is NegationConnective)
+                if(node is Negation)
                 {
                     newNode.LeftNode = node.LeftNode;
                 }

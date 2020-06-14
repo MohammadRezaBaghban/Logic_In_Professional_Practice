@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Connectives;
 using LPP.Composite_Pattern.Variables;
 using Component = LPP.Composite_Pattern.Components.Component;
 
-namespace LPP.Modules
+namespace LPP
 {
     /// <summary>
     /// A static class for the sake of parsing user input
@@ -14,7 +13,7 @@ namespace LPP.Modules
     public static class ParsingModule
     {
 
-        private static BinaryTree BinaryTree = new BinaryTree();
+        private static BinaryTree _binaryTree = new BinaryTree();
         public static List<char> Elements = new List<char>();
         public static char[] Connectives = new char[] { '~', '>', '=', '&', '|','%' };
         public static int NodeCounter;
@@ -31,8 +30,8 @@ namespace LPP.Modules
             EraseParsedList();
             ParseInputRecursively(ref input);
             GenerateBinaryTree(Elements);
-            BinaryTree.MakeIt_Non_Modifiable();
-            return BinaryTree;
+            _binaryTree.MakeIt_Non_Modifiable();
+            return _binaryTree;
         }
 
 
@@ -103,9 +102,9 @@ namespace LPP.Modules
         /// </summary>
         /// <param name="input">list of elements in the binary tree</param>
         /// <returns>The root of binary tree</returns>
-        private static Component GenerateBinaryTree(List<char> input)
+        private static void GenerateBinaryTree(List<char> input)
         {
-            Component root = BinaryTree.Root;
+            Component root = _binaryTree.Root;
             for (var i = 0; i <= input.Count - 1; i++)
             {
                 var currentCharacter = input[i];
@@ -115,16 +114,16 @@ namespace LPP.Modules
                     {
                         // Values
                         case '0':
-                            BinaryTree.InsertNode(root, new TrueFalse(false));
+                            _binaryTree.InsertNode(root, new TrueFalse(false));
                             break;
                         case '1':
-                            BinaryTree.InsertNode(root, new TrueFalse(true));
+                            _binaryTree.InsertNode(root, new TrueFalse(true));
                             break;
 
                         //Variables                    
                         default:
                             var propositionVariable = new Variable(currentCharacter);
-                            BinaryTree.InsertNode(root, propositionVariable);
+                            _binaryTree.InsertNode(root, propositionVariable);
                             break;
                     }
                 }
@@ -134,31 +133,30 @@ namespace LPP.Modules
                     {
                         //Two Operands Connectives
                         case '>':
-                            root = BinaryTree.InsertNode(root, new ImplicationConnective());
+                            root = _binaryTree.InsertNode(root, new Implication());
                             break;
                         case '=':
-                            root = BinaryTree.InsertNode(root, new Bi_ImplicationConnective());
+                            root = _binaryTree.InsertNode(root, new BiImplication());
                             break;
                         case '%':
-                            root = BinaryTree.InsertNode(root, new NANDConnective());
+                            root = _binaryTree.InsertNode(root, new Nand());
                             break;
                         case '&':
-                            root = BinaryTree.InsertNode(root, new ConjunctionConnective());
+                            root = _binaryTree.InsertNode(root, new Conjunction());
                             break;
                         case '|':
-                            root = BinaryTree.InsertNode(root, new DisjunctionConnective());
+                            root = _binaryTree.InsertNode(root, new Disjunction());
                             break;
 
 
                         //One Operand Connective
                         case '~':
-                            root = BinaryTree.InsertNode(root, new NegationConnective());
+                            root = _binaryTree.InsertNode(root, new Negation());
                             break;
                     }
                 }
             }
             NodeCounter = 0;
-            return BinaryTree.Root;
         }
 
         /// <summary>
@@ -188,10 +186,10 @@ namespace LPP.Modules
         /// Should be called before any external call of ParseInputRecursively
         private static void EraseParsedList()
         {
-            BinaryTree = new BinaryTree();
+            _binaryTree = new BinaryTree();
             Elements.Clear();
             NodeCounter = 0;
-            BinaryTree.Root = null;
+            _binaryTree.Root = null;
         }
 
         private static characterType CharacterType(char character)

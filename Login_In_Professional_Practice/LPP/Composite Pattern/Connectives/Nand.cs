@@ -2,12 +2,9 @@
 
 namespace LPP.Composite_Pattern.Connectives
 {
-    public class ConjunctionConnective : CompositeComponent
+    public class Nand: CompositeComponent
     {
-
-        public ConjunctionConnective() => Symbol = '&';
-
+        public Nand() => Symbol = '%';
         public override void Evaluate(IVisitor c) => c.Visit(this);
-
     }
 }

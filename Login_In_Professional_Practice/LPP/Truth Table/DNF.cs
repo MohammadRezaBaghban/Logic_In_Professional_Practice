@@ -31,7 +31,7 @@ namespace LPP.Truth_Table
 
             if (row.PropositionValues.Count(x => x != null) > 1)
             {
-                root = bt.InsertNode(root, new ConjunctionConnective());
+                root = bt.InsertNode(root, new Conjunction());
                 for (var i = 0; i < row.PropositionValues.Length; i++)
                 {
                     var character = _variables[i];
@@ -43,7 +43,7 @@ namespace LPP.Truth_Table
                     }
                     else
                     {
-                        var negation = new NegationConnective { LeftNode = new Variable(character) };
+                        var negation = new Negation { LeftNode = new Variable(character) };
                         bt.InsertNode(root, negation);
                     }
                 }
