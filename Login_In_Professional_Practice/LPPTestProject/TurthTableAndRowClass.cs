@@ -1,4 +1,5 @@
-﻿using LPP.Composite_Pattern;
+﻿using LPP;
+using LPP.Composite_Pattern;
 using LPP.Modules;
 using LPP.Truth_Table;
 using LPP.Visitor_Pattern;
@@ -94,6 +95,8 @@ namespace LPPTestProject
 
         [Theory]
         [InlineData("|(A,B))")]
+        [InlineData("|(~(A),~(B))")]
+        [InlineData("|(|(A,B),|(C,D)))")]
         public void TruthTable_Nandify_NandTruthTableHashCodeBeAsExpected(string prefixInput)
         {
             //Arrange

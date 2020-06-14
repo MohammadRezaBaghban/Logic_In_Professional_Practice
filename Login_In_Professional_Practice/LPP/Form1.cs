@@ -77,11 +77,12 @@ namespace LPP
             _graphImages.Add(0, GenerateGraphVizBinaryGraph(root.GraphVizFormula, "Normal"));
             _graphImages.Add(1, GenerateGraphVizBinaryGraph(root.Nand.GraphVizFormula, "NAND"));
             _graphImages.Add(2, GenerateGraphVizBinaryGraph(truthTable.DNF_Normal_BinaryTree.Root.GraphVizFormula, "DNF"));
-            LbImageName.Text = _graphImages[_imageIndex].Substring(0, _graphImages[_imageIndex].IndexOf("."));
+            LbImageName.Text = _graphImages[0].Substring(0, _graphImages[0].IndexOf("."));
             PbBinaryGraph.ImageLocation = _graphImages[0];
             BtnImagePrevious.Enabled = true;
             Btn_Image_Open.Enabled = true;
             BtnImageNext.Enabled = true;
+            _imageIndex = 0;
         }
         private string GenerateGraphVizBinaryGraph(string input, string fileName)
         {

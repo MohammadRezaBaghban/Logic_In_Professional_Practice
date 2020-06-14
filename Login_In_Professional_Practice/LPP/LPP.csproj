@@ -46,14 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Composite Pattern\Connectives\Bi_ImplicationConnective.cs" />
-    <Compile Include="Composite Pattern\Connectives\ConjuctionConnective.cs" />
-    <Compile Include="Composite Pattern\Connectives\DisjunctionConnective.cs" />
-    <Compile Include="Composite Pattern\Connectives\ImplicationConnective.cs" />
-    <Compile Include="Composite Pattern\Connectives\NegationConnective.cs" />
+    <Compile Include="Composite Pattern\Connectives\BiImplication.cs" />
+    <Compile Include="Composite Pattern\Connectives\Conjunction.cs" />
+    <Compile Include="Composite Pattern\Connectives\Disjunction.cs" />
+    <Compile Include="Composite Pattern\Connectives\Implication.cs" />
+    <Compile Include="Composite Pattern\Connectives\Negation.cs" />
     <Compile Include="Composite Pattern\Variables\Variable.cs" />
     <Compile Include="Composite Pattern\Variables\TrueFalse.cs" />
-    <Compile Include="Composite Pattern\Connectives\ِNANDConnective.cs" />
+    <Compile Include="Composite Pattern\Connectives\Nand.cs" />
     <Compile Include="Composite Pattern\Variables\PropositionalVariables.cs" />
     <Compile Include="Truth Table\DNF.cs" />
     <Compile Include="Truth Table\Row.cs" />
