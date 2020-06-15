@@ -82,9 +82,12 @@ namespace LPP.Modules
             var variables = binaryTree.PropositionalVariables.Get_Distinct_PropositionalVariables_Chars();
             DNF_Normal_Components = DNF.ProcessDNF(NormalRows.ToList(), variables);
             DNF_Simplified_Components = DNF.ProcessDNF(SimplifiedRows, variables);
-            DNF_Normal_BinaryTree = BinaryTree.DNFBinaryTree(DNF_Normal_Components);
-            DNF_Simplified_BinaryTree = BinaryTree.DNFBinaryTree(DNF_Simplified_Components); 
-            DnftTruthTable = new TruthTable(DNF_Normal_BinaryTree);
+            if (DNF_Normal_Components.Count != 0)
+            {
+                DNF_Normal_BinaryTree = BinaryTree.DNFBinaryTree(DNF_Normal_Components);
+                DNF_Simplified_BinaryTree = BinaryTree.DNFBinaryTree(DNF_Simplified_Components);
+                DnftTruthTable = new TruthTable(DNF_Normal_BinaryTree);
+            }
         }
 
         public override string ToString()

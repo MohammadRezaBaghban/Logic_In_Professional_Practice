@@ -28,7 +28,7 @@ namespace LPP.Truth_Table
         {
             var bt = new BinaryTree();
             var root = bt.Root;
-
+            
             if (row.PropositionValues.Count(x => x != null) > 1)
             {
                 root = bt.InsertNode(root, new Conjunction());
@@ -39,11 +39,14 @@ namespace LPP.Truth_Table
                     if (row.PropositionValues[i].Value)
                     {
                         var variable = new Variable(character);
+                        bt.PropositionalVariables.AddPropositionalVariable(variable);
                         bt.InsertNode(root, variable);
                     }
                     else
                     {
-                        var negation = new Negation { LeftNode = new Variable(character) };
+                        var variable = new Variable(character);
+                        bt.PropositionalVariables.AddPropositionalVariable(variable);
+                        var negation = new Negation { LeftNode = variable };
                         bt.InsertNode(root, negation);
                     }
                 }
@@ -56,6 +59,7 @@ namespace LPP.Truth_Table
                 {
                     var character = _variables[index];
                     var variable = new Variable(character);
+                    bt.PropositionalVariables.AddPropositionalVariable(variable);
                     bt.InsertNode(root, variable);
                     return bt;
                 }

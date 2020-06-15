@@ -55,12 +55,22 @@ namespace LPPTestProject
         }
 
         [Theory]
-        [InlineData("|(A,|(B,C))", "¬A⋀¬B⋀C⋁¬A⋀B⋀¬C⋁¬A⋀B⋀C⋁A⋀¬B⋀¬C⋁A⋀¬B⋀C⋁A⋀B⋀¬C⋁A⋀B⋀C", "C⋁B⋁A")]
-        [InlineData("&(A,|(B,C))", "(A⋀(¬B))⋀C ⋁ (A⋀B)⋀(¬C) ⋁ (A⋀B)⋀C", "A⋀C⋁A⋀B")]
-        [InlineData(">(A,>(B,A))", "¬A⋀¬B⋁¬A⋀B⋁A⋀¬B⋁A⋀B", "")]
-        [InlineData("&(>(P,Q),|(Q,P))", "¬P⋀Q⋁P⋀Q", "Q")]
-        [InlineData("|(P,Q)", "¬P⋀Q⋁P⋀¬Q⋁P⋀Q", "Q⋁P")]
-        public void TruthTable_DNFProcessing_DNFFormulaAndHashCodeBeAsExpected(string prefixInput,string normalDNF, string simplifiedDNF)
+        [InlineData("~(|(~(A),|(>(A,~(A)),>(&(>(~(|(C,A)),C),C),C))))")]
+        [InlineData("|(~(>(A,B)),&(A,>(C,B)))")]
+        [InlineData("&(>(P,Q),|(Q,P))")]
+        [InlineData("&(>(P,Q),>(Q,P))")]
+        [InlineData("&(|(A,~(B)),C)")]
+        [InlineData("&(&(A,B),~(A))")]
+        [InlineData("|(&(A,B),C)")]
+        [InlineData("&(A,|(B,C))")]
+        [InlineData("|(|(A,B),C)")]
+        [InlineData(">(A,>(B,A))")]
+        [InlineData("|(A,|(B,C))")]
+        [InlineData("&(P,Q)")]
+        [InlineData("|(P,Q)")]
+        [InlineData(">(A,B)")]
+        [InlineData("=(A,B)")]
+        public void TruthTable_DNFProcessing_DNFFormulaAndHashCodeBeAsExpected(string prefixInput)
         {
             //Arrange
             var binaryTree = ParsingModule.ParseInput(prefixInput);
@@ -68,24 +78,14 @@ namespace LPPTestProject
             //Act
             var truthTable = new TruthTable(binaryTree);
             truthTable.ProcessDNF();
-
-            normalDNF = DeleteCharacters(normalDNF, new string[] { ")", "(", " ", });
-            simplifiedDNF = DeleteCharacters(simplifiedDNF, new string[] { ")", "(", " ", });
-            var actualNormalDNF = DeleteCharacters(DNF.DNFFormula(truthTable.DNF_Normal_Components), new string[] { ")", "(", " ", });
-            var actualSimplifiedDNF = DeleteCharacters(DNF.DNFFormula(truthTable.DNF_Simplified_Components), new string[] { ")", "(", " ", });
-
-            //Assert
-            Assert.Equal(actualNormalDNF, normalDNF);
-            Assert.Equal( actualSimplifiedDNF, simplifiedDNF);
-            if (normalDNF != "")
+            if (truthTable.DNF_Normal_Components.Count != 0)
             {
                 var truthTableDNF = new TruthTable(truthTable.DNF_Normal_BinaryTree);
-                var n1 = truthTableDNF.GetHexadecimalHashCode();
-                var n2 = truthTable.GetHexadecimalHashCode();
-                Assert.Equal(n1,n2);
-            }
 
-            //Todo Refactor the binarytree creation such that it would be able to be parsed again with propositional variables
+                //Assert
+                Assert.Equal(truthTableDNF.GetHexadecimalHashCode(), truthTable.GetHexadecimalHashCode());
+                Assert.Equal(truthTableDNF.GetHexadecimalSimplifiedHashCode(), truthTable.GetHexadecimalSimplifiedHashCode());
+            }
         }
 
         [Theory]

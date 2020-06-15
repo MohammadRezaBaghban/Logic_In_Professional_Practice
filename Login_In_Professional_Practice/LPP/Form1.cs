@@ -50,9 +50,9 @@ namespace LPP
             LbHashCodes.Items.Add("HashCodes");
             LbHashCodes.Items.Add($"Normal - Original: {truthTable.GetHexadecimalHashCode()}");
             LbHashCodes.Items.Add($"Normal - NAND: {truthTableNand.GetHexadecimalHashCode()}");
-            LbHashCodes.Items.Add($"Normal - DNF: {truthTable.DnftTruthTable.GetHexadecimalHashCode()}");
+            LbHashCodes.Items.Add($"Normal - DNF: {truthTable.DnftTruthTable?.GetHexadecimalHashCode()}");
             LbHashCodes.Items.Add($"Simplified - Original: {truthTable.GetHexadecimalSimplifiedHashCode()}");
-            LbHashCodes.Items.Add($"Simplified - DNF: {truthTable.DnftTruthTable.GetHexadecimalSimplifiedHashCode()}");
+            LbHashCodes.Items.Add($"Simplified - DNF: {truthTable.DnftTruthTable?.GetHexadecimalSimplifiedHashCode()}");
         }
         private void PopulateTextBoxesWithValues(CompositeComponent root)
         {
@@ -78,7 +78,7 @@ namespace LPP
         {
             _graphImages.Add(0, GenerateGraphVizBinaryGraph(root.GraphVizFormula, "Normal"));
             _graphImages.Add(1, GenerateGraphVizBinaryGraph(root.Nand.GraphVizFormula, "NAND"));
-            _graphImages.Add(2, GenerateGraphVizBinaryGraph(truthTable.DNF_Normal_BinaryTree.Root.GraphVizFormula, "DNF"));
+            _graphImages.Add(2, GenerateGraphVizBinaryGraph(truthTable.DNF_Normal_BinaryTree?.Root.GraphVizFormula, "DNF"));
             LbImageName.Text = _graphImages[0].Substring(0, _graphImages[0].IndexOf("."));
             PbBinaryGraph.ImageLocation = _graphImages[0];
             BtnImagePrevious.Enabled = true;
