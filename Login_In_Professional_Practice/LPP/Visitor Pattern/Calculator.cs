@@ -1,5 +1,6 @@
 ﻿using LPP.Composite_Pattern;
-using LPP.Composite_Pattern.Node;
+using LPP.Composite_Pattern.Components;
+using LPP.Composite_Pattern.Connectives;
 using LPP.Modules;
 
 namespace LPP.Visitor_Pattern
@@ -12,7 +13,7 @@ namespace LPP.Visitor_Pattern
             {
                 CompositeComponent compositeNode = visitable as CompositeComponent;
 
-                if (compositeNode is NegationConnective)
+                if (compositeNode is Negation)
                 {
                     Calculate(compositeNode.LeftNode);
                     compositeNode.Evaluate(this);
@@ -26,21 +27,24 @@ namespace LPP.Visitor_Pattern
             }
         }
 
-        public void Visit(Bi_ImplicationConnective visitable) => visitable.Data =
+        public void Visit(BiImplication visitable) => visitable.Data =
             (visitable.LeftNode.Data && visitable.RightNode.Data) ||
             (!visitable.LeftNode.Data && !visitable.RightNode.Data);
 
 
-        public void Visit(ImplicationConnective visitable) =>
+        public void Visit(Implication visitable) =>
             visitable.Data = !(visitable.LeftNode.Data && !visitable.RightNode.Data);
 
-        public void Visit(DisjunctionConnective visitable) =>
+        public void Visit(Disjunction visitable) =>
             visitable.Data = visitable.LeftNode.Data || visitable.RightNode.Data;
 
-        public void Visit(ConjunctionConnective visitable) =>
+        public void Visit(Conjunction visitable) =>
             visitable.Data = visitable.LeftNode.Data && visitable.RightNode.Data;
 
-        public void Visit(NegationConnective visitable) => visitable.Data = !visitable.LeftNode.Data;
+        public void Visit(Nand visitable) =>
+            visitable.Data = !(visitable.LeftNode.Data && visitable.RightNode.Data);
+
+        public void Visit(Negation visitable) => visitable.Data = !visitable.LeftNode.Data;
 
         public void Visit(TruthTable truthTable)
         {

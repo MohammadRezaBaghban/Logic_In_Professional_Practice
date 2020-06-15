@@ -1,4 +1,5 @@
-﻿using LPP.Composite_Pattern;
+﻿using LPP;
+using LPP.Composite_Pattern;
 using LPP.Modules;
 using LPP.Truth_Table;
 using LPP.Visitor_Pattern;
@@ -15,24 +16,23 @@ namespace LPPTestProject
         [InlineData("|(~(>(A,B)),&(A,>(C,B)))","F0")]
         [InlineData("&(>(P,Q),>(Q,P))","9")]
         [InlineData("&(|(A,~(B)),C)", "A2")]
+        [InlineData("&(&(A,B),~(A))", "0")]
         [InlineData("|(&(A,B),C)", "EA")]
         [InlineData("&(A,|(B,C))","E0")]
         [InlineData("|(|(A,B),C)","FE")]
+        [InlineData(">(A,>(B,A))", "F")]
         [InlineData("&(P,Q)", "8")]
         [InlineData("|(P,Q)", "E")]
         [InlineData(">(A,B)", "B")]
         [InlineData("=(A,B)", "9")]
         [InlineData("~(A)", "1")]
-
         public void TruthTable_CalculateTruthTable_HashCodeBeEqualAsExpected(string prefixInput, string hexaHashCode)
         {
             //Arrange
-            var calculator = new Calculator();
-            var rootOfComponent = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.ParseInput(prefixInput);
 
             //Act
-            calculator.Calculate(rootOfComponent);
-            var truthTable = new TruthTable(rootOfComponent as CompositeComponent);
+            var truthTable = new TruthTable(binaryTree);
 
             //Assert
             Assert.Equal(truthTable.GetHexadecimalHashCode(), hexaHashCode);
@@ -43,12 +43,10 @@ namespace LPPTestProject
         public void TruthTable_SimplifyTruthTable_HashCodeBeEqualAsExpected(string prefixInput, string simplifiedTruthTable)
         {
             //Arrange
-            var calculator = new Calculator();
-            var rootOfComponent = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.ParseInput(prefixInput);
 
             //Act
-            calculator.Calculate(rootOfComponent);
-            var truthTable = new TruthTable(rootOfComponent as CompositeComponent);
+            var truthTable = new TruthTable(binaryTree);
 
             //Assert
             var actualSimplified = DeleteCharacters(truthTable.SimplifiedToString(),new string[]{"\n"," ",});
@@ -57,27 +55,62 @@ namespace LPPTestProject
         }
 
         [Theory]
-        [InlineData(">(A,B)", "(¬A ⋀ ¬B) ⋁ (¬A ⋀ B) ⋁ (A ⋀ B)", "A⋁B")]
-
-        public void TruthTable_DNFProcessing_DNFFormulaBeAsExpected(string prefixInput,string normalDNF, string simplifiedDNF)
+        [InlineData("~(|(~(A),|(>(A,~(A)),>(&(>(~(|(C,A)),C),C),C))))")]
+        [InlineData("|(~(>(A,B)),&(A,>(C,B)))")]
+        [InlineData("&(>(P,Q),|(Q,P))")]
+        [InlineData("&(>(P,Q),>(Q,P))")]
+        [InlineData("&(|(A,~(B)),C)")]
+        [InlineData("&(&(A,B),~(A))")]
+        [InlineData("|(&(A,B),C)")]
+        [InlineData("&(A,|(B,C))")]
+        [InlineData("|(|(A,B),C)")]
+        [InlineData(">(A,>(B,A))")]
+        [InlineData("|(A,|(B,C))")]
+        [InlineData("&(P,Q)")]
+        [InlineData("|(P,Q)")]
+        [InlineData(">(A,B)")]
+        [InlineData("=(A,B)")]
+        public void TruthTable_DNFProcessing_DNFFormulaAndHashCodeBeAsExpected(string prefixInput)
         {
             //Arrange
-            var calculator = new Calculator();
-            var rootOfComponent = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.ParseInput(prefixInput);
 
             //Act
-            calculator.Calculate(rootOfComponent);
-            var truthTable = new TruthTable(rootOfComponent as CompositeComponent);
+            var truthTable = new TruthTable(binaryTree);
+            truthTable.ProcessDNF();
+            if (truthTable.DNF_Normal_Components.Count != 0)
+            {
+                var truthTableDNF = new TruthTable(truthTable.DNF_Normal_BinaryTree);
+
+                //Assert
+                Assert.Equal(truthTableDNF.GetHexadecimalHashCode(), truthTable.GetHexadecimalHashCode());
+                Assert.Equal(truthTableDNF.GetHexadecimalSimplifiedHashCode(), truthTable.GetHexadecimalSimplifiedHashCode());
+            }
+        }
+
+        [Theory]
+        [InlineData("|(A,B))")]
+        [InlineData("&(A,B))")]
+        [InlineData(">(A,B))")]
+        [InlineData("=(A,B))")]
+        [InlineData("|(~(A),~(B))")]
+        [InlineData("|(|(A,B),|(C,|(F,G)))")]
+        [InlineData(">(&(A,~(D)),|(B,|(Y,R)))")]
+        [InlineData("~(|(|(A,~(B)),|(~(C),D))))")]
+        [InlineData("~(|(=(A,~(B)),|(~(|(U,=(T,R))),D))))")]
+        public void TruthTable_Nandify_NandTruthTableHashCodeBeAsExpected(string prefixInput)
+        {
+            //Arrange
+            var nandify = new Nandify();
+            var binaryTree = ParsingModule.ParseInput(prefixInput);
+
+            //Act
+            var truthTable = new TruthTable(binaryTree);
+            nandify.Calculate(binaryTree.Root);
+            var truthTableNand = new TruthTable(Nandify.binaryTree);
 
             //Assert
-            normalDNF = DeleteCharacters(normalDNF, new string[] { ")", "(", " ", });
-            simplifiedDNF = DeleteCharacters(simplifiedDNF, new string[] {")", "(", " ",});
-            var actualNormalDNF = DeleteCharacters(DNF.DNFFormula(truthTable.DNF_Normal_Components), new string[] { ")", "(", " ", });
-            var actualSimplifiedDNF = DeleteCharacters(DNF.DNFFormula(truthTable.DNF_Simplified_Components), new string[] { ")", "(", " ", });
-
-            Assert.Equal(normalDNF, actualNormalDNF);
-            Assert.Equal(simplifiedDNF, actualSimplifiedDNF);
-
+            Assert.Equal(truthTable.GetHexadecimalHashCode(),truthTableNand.GetHexadecimalHashCode());
         }
 
         private string DeleteCharacters(string src, string[] chars)

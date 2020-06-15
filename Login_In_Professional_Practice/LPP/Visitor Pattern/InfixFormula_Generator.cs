@@ -1,5 +1,6 @@
 ﻿using LPP.Composite_Pattern;
-using LPP.Composite_Pattern.Node;
+using LPP.Composite_Pattern.Components;
+using LPP.Composite_Pattern.Connectives;
 using IVisitor = LPP.Composite_Pattern.IVisitor;
 
 namespace LPP.Visitor_Pattern
@@ -19,7 +20,7 @@ namespace LPP.Visitor_Pattern
             {
                 CompositeComponent compositeNode = visitable as CompositeComponent;
 
-                if (compositeNode is NegationConnective)
+                if (compositeNode is Negation)
                 {
                     Calculate(compositeNode.LeftNode);
                     compositeNode.Evaluate(this);
@@ -33,7 +34,7 @@ namespace LPP.Visitor_Pattern
             }
         }
 
-        public void Visit(NegationConnective visitable)
+        public void Visit(Negation visitable)
         {
             if(visitable.LeftNode is CompositeComponent)
             {
@@ -44,10 +45,11 @@ namespace LPP.Visitor_Pattern
                 visitable.InFixFormula = $"¬{visitable.LeftNode.InFixFormula}";
             }
         }
-        public void Visit(Bi_ImplicationConnective visitable) => GenerateInfixGenerator(visitable, '⇔');
-        public void Visit(ImplicationConnective visitable) => GenerateInfixGenerator(visitable, '⇒');
-        public void Visit(DisjunctionConnective visitable) => GenerateInfixGenerator(visitable, '⋁');
-        public void Visit(ConjunctionConnective visitable) => GenerateInfixGenerator(visitable, '⋀');
+        public void Visit(BiImplication visitable) => GenerateInfixGenerator(visitable, '⇔');
+        public void Visit(Implication visitable) => GenerateInfixGenerator(visitable, '⇒');
+        public void Visit(Disjunction visitable) => GenerateInfixGenerator(visitable, '⋁');
+        public void Visit(Conjunction visitable) => GenerateInfixGenerator(visitable, '⋀');
+        public void Visit(Nand visitable) => GenerateInfixGenerator(visitable, '%');
 
         /// <summary>
         /// Method for create more intuitive infix formula based on the type of left and right node.

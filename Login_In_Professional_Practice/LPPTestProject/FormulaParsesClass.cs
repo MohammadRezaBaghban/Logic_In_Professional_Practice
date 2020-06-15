@@ -19,14 +19,15 @@ namespace LPPTestProject
         [InlineData(">(A,=(B,&(0,C))", "A⇒(B⇔(False⋀C))")]
         [InlineData("|(=(A,B),&(C,A))", "(A⇔B)⋁(C⋀A)")]
         [InlineData(">(&(A,B),~(C))", "(A⋀B)⇒(¬C)")]
+        [InlineData("&(&(A,B),~(A))", "(A⋀B)⋀(¬A)")]
         [InlineData("&(|(A,~(B)),C)", "(A⋁(¬B))⋀C")]
         [InlineData("|(|(A,B),C)", "(A⋁B)⋁C")]
-
         public void InFixFormulaTesting_OnCorrectPrefixFormula_CorrectInfixFormula(string prefixInput,string infixOutput)
         {
             //Arrange
             var formulaGenerator = new InfixFormulaGenerator();
-            var rootOfComponent = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var rootOfComponent = binaryTree.Root;
 
             //Act
             formulaGenerator.Calculate(rootOfComponent);

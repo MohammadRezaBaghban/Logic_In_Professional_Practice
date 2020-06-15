@@ -1,8 +1,8 @@
-﻿namespace LPP.Composite_Pattern
+﻿namespace LPP.Composite_Pattern.Components
 {
     public abstract class CompositeComponent : Component
     {
-        public PropositionalVariables PropositionalVariables = null;
+        public Component Nand;
 
         public override string GraphVizFormula
         {
@@ -27,11 +27,11 @@
         public abstract void Evaluate(IVisitor visitor);
 
         public override string ToString() =>
-            $"Object Type: {this.GetType().Name}"
+            $"{this.GetType().Name}"
             + $" | Data: {this.Data.ToString()}"
             + $" | Parent: {(this.Parent?.GetType().Name) ?? "Null"}"
-            + $" | RightNode: {RightNode.GetType().Name}"
-            + $" | LeftNode: {LeftNode.GetType().Name}";
+            + $" | L: {LeftNode.GetType().Name}"
+            + $" | R: {RightNode.GetType().Name}";
 
     }
 }

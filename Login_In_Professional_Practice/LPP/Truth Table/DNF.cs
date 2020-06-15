@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using LPP.Composite_Pattern;
-using LPP.Composite_Pattern.Node;
+using LPP.Composite_Pattern.Connectives;
+using LPP.Composite_Pattern.Variables;
 using LPP.Modules;
 using LPP.Visitor_Pattern;
 
@@ -13,57 +14,74 @@ namespace LPP.Truth_Table
         private static List<Row> _rows;
         private static char[] _variables;
 
-        public static List<Component> ProcessDNF(List<Row> truthTableRows, char[] variables)
+        public static List<BinaryTree> ProcessDNF(List<Row> truthTableRows, char[] variables)
         {
             _rows = truthTableRows.Where(x => x.Result == true).ToList();
             DNF._variables = variables;
 
-            List<Component> components = new List<Component>();
+            List<BinaryTree> components = new List<BinaryTree>();
             _rows.ForEach( row => components.Add(RowProcessing(row)));
             return components;
         }
 
-        private static Component RowProcessing(Row row)
+        private static BinaryTree RowProcessing(Row row)
         {
             var bt = new BinaryTree();
-            var root = bt._root;
-
+            var root = bt.Root;
+            
             if (row.PropositionValues.Count(x => x != null) > 1)
             {
-                root = bt.InsertNode(root, new ConjunctionConnective());
+                root = bt.InsertNode(root, new Conjunction());
                 for (var i = 0; i < row.PropositionValues.Length; i++)
                 {
                     var character = _variables[i];
                     if (row.PropositionValues[i] == null) continue;
                     if (row.PropositionValues[i].Value)
                     {
-                        bt.InsertNode(root, new PropositionalVariable(character));
+                        var variable = new Variable(character);
+                        bt.PropositionalVariables.AddPropositionalVariable(variable);
+                        bt.InsertNode(root, variable);
                     }
                     else
                     {
-                        var negation = new NegationConnective { LeftNode = new PropositionalVariable(character) };
+                        var variable = new Variable(character);
+                        bt.PropositionalVariables.AddPropositionalVariable(variable);
+                        var negation = new Negation { LeftNode = variable };
                         bt.InsertNode(root, negation);
                     }
                 }
-                return bt._root;
+                return bt;
             }
             else
             {
-                var index = Array.IndexOf(row.PropositionValues, row.PropositionValues.First(x=>x != null && x.Value!=null));
-                var character = _variables[index];
-                return new PropositionalVariable(character);
+                var index = Array.IndexOf(row.PropositionValues, row.PropositionValues.FirstOrDefault(x=>x != null && x.Value!=null));
+                if (row.PropositionValues[index] != null)
+                {
+                    var character = _variables[index];
+                    var variable = new Variable(character);
+                    bt.PropositionalVariables.AddPropositionalVariable(variable);
+                    bt.InsertNode(root, variable);
+                    return bt;
+                }
+                else
+                {
+                    return null;
+                }
+                
             }
         }
 
-        public static string DNFFormula(List<Component> components)
+        public static string DNFFormula(List<BinaryTree> components)
         {
             InfixFormulaGenerator formulaGenerator = new InfixFormulaGenerator();
             List<string> normalDNF = new List<string>();
             components.ForEach(x => {
-                formulaGenerator.Calculate(x);
-                normalDNF.Add(x.InFixFormula);
+                if (x != null)
+                {
+                    formulaGenerator.Calculate(x.Root);
+                    normalDNF.Add(x.Root.InFixFormula);
+                }
             });
-
             return string.Join(" ⋁ ", normalDNF);
         }
     }

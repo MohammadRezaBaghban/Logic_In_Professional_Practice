@@ -3,15 +3,8 @@
   <Class Name="LPP.Form1" Collapsed="true">
     <Position X="22.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAEAAAiACAMEBggAASAIAACgAAACAAAACAAAAAAARA=</HashCode>
+      <HashCode>AIRAAAQiACANEBiAAICAIEAWgQABA4QCETAEAQAQCBE=</HashCode>
       <FileName>Form1.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="LPP.LPPException" Collapsed="true">
-    <Position X="20.5" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>LPPException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LPP.ParsingModule" Collapsed="true">
@@ -20,8 +13,8 @@
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAIBAAAAACAIABAAAAACAAEgAAQAAAAAA=</HashCode>
-      <FileName>Modules\ParsingModule.cs</FileName>
+      <HashCode>AAACAAAAAAAAIAAAgAASAAABAAAAACAAAgAAQCAAAAA=</HashCode>
+      <FileName>Parsing-BinaryTree\ParsingModule.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LPP.Program" Collapsed="true">
@@ -46,82 +39,82 @@
   <Class Name="LPP.BinaryTree">
     <Position X="16.5" Y="8" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAgAAAAAAEAQAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
-      <FileName>Modules\BinaryTree.cs</FileName>
+      <HashCode>AAgAIAIBEEAAACIAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Parsing-BinaryTree\BinaryTree.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.Composite_Pattern.Component">
+  <Class Name="LPP.Composite_Pattern.Components.Component">
     <Position X="9.5" Y="3" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAEAABAAAAAAAAABQAAAAAAAABAAAAAAAAABCgA=</HashCode>
-      <FileName>Composite Pattern\Component.cs</FileName>
+      <FileName>Composite Pattern\Components\Component.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.NodeComponents.CompositeComponent">
+  <Class Name="LPP.Composite_Pattern.Components.CompositeComponent">
     <Position X="6.5" Y="4.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAIAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAABAAA=</HashCode>
-      <FileName>Composite Pattern\CompositeComponent.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAggAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Composite Pattern\Components\CompositeComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.Composite_Pattern.SingleComponent">
+  <Class Name="LPP.Composite_Pattern.Components.SingleComponent">
     <Position X="12.25" Y="4.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAABAAA=</HashCode>
-      <FileName>Composite Pattern\SingleComponent.cs</FileName>
+      <FileName>Composite Pattern\Components\SingleComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.Composite_Pattern.Node.Bi_ImplicationConnective">
+  <Class Name="LPP.Composite_Pattern.Connectives.BiImplication">
     <Position X="3.75" Y="7" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Composite Pattern\Node\Bi_ImplicationConnective.cs</FileName>
+      <FileName>Composite Pattern\Connectives\BiImplication.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.Composite_Pattern.Node.ConjuctionConnective">
+  <Class Name="LPP.Composite_Pattern.Connectives.Disjunction">
     <Position X="5.25" Y="8.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Composite Pattern\Node\ConjuctionConnective.cs</FileName>
+      <FileName>Composite Pattern\Connectives\Disjunction.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.Composite_Pattern.Node.DisjunctionConnective">
+  <Class Name="LPP.Composite_Pattern.Connectives.Nand">
     <Position X="7.75" Y="8.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Composite Pattern\Node\DisjunctionConnective.cs</FileName>
+      <FileName>Composite Pattern\Connectives\Nand.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.Composite_Pattern.Node.ImplicationConnective">
+  <Class Name="LPP.Composite_Pattern.Connectives.Negation">
     <Position X="6.5" Y="7" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Composite Pattern\Node\ImplicationConnective.cs</FileName>
+      <FileName>Composite Pattern\Connectives\Negation.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.Composite_Pattern.Node.NegationConnective">
+  <Class Name="LPP.Composite_Pattern.Connectives.Implication">
     <Position X="9" Y="7" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Composite Pattern\Node\NegationConnective.cs</FileName>
+      <FileName>Composite Pattern\Connectives\Implication.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.Composite_Pattern.Node.PropositionalVariable">
+  <Class Name="LPP.Composite_Pattern.Variables.Variable">
     <Position X="11.25" Y="7" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
-      <FileName>Composite Pattern\Node\PropositionalVariable.cs</FileName>
+      <FileName>Composite Pattern\Variables\Variable.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LPP.Composite_Pattern.Node.TrueFalse">
+  <Class Name="LPP.Composite_Pattern.Variables.TrueFalse">
     <Position X="13.5" Y="7" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Composite Pattern\Node\TrueFalse.cs</FileName>
+      <FileName>Composite Pattern\Variables\TrueFalse.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.Visitor_Pattern.InfixFormula_Generator" BaseTypeListCollapsed="true">
+  <Class Name="LPP.Visitor_Pattern.InfixFormulaGenerator" BaseTypeListCollapsed="true">
     <Position X="16.5" Y="5.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAQAAAAACAAAACAAAAAAAAAAAAAAAAA=</HashCode>
@@ -139,15 +132,16 @@
   <Class Name="LPP.Modules.Row">
     <Position X="4" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAgAFAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Modules\Row.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAkAFAAAAAAQAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Truth Table\Row.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="LPP.Modules.TruthTable">
     <Position X="0.5" Y="0.5" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAQEAEAAAAAEAAAAAEIIACACAAAIAAAAA=</HashCode>
-      <FileName>Modules\TruthTable.cs</FileName>
+      <HashCode>OAAABQBAAAAAQAAEAAAAAEBIAAAEIIjAACAAAICIAAA=</HashCode>
+      <FileName>Truth Table\TruthTable.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LPP.Visitor_Pattern.Calculator" Collapsed="true" BaseTypeListCollapsed="true">

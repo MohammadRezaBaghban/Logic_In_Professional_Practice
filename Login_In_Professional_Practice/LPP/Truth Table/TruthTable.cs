@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using LPP.Composite_Pattern;
-using LPP.Composite_Pattern.Node;
+using LPP.Composite_Pattern.Components;
+using LPP.Composite_Pattern.Connectives;
+using LPP.Composite_Pattern.Variables;
 using LPP.Truth_Table;
 using LPP.Visitor_Pattern;
 
@@ -11,27 +13,29 @@ namespace LPP.Modules
     public class TruthTable
     {
         public Row[] NormalRows;
+        public TruthTable DnftTruthTable;
         public List<Row> SimplifiedRows;
-        public List<Component> DNF_Normal_Components;
-        public List<Component> DNF_Simplified_Components;
-        public Component DNF_Normal_BinaryTree;
-        public Component DNF_Simplified_BinaryTree;
+        public List<BinaryTree> DNF_Normal_Components;
+        public List<BinaryTree> DNF_Simplified_Components;
+        public BinaryTree DNF_Normal_BinaryTree;
+        public BinaryTree DNF_Simplified_BinaryTree;
 
+        public BinaryTree binaryTree;
         public int NumberOfVariables { get; }
         public CompositeComponent RootOfBinaryTree { get; }
-        public PropositionalVariable[] DistinctPropositionalVariables;
+        public Variable[] DistinctPropositionalVariables;
 
-        public TruthTable(CompositeComponent rootOfBinaryTree)
+        public TruthTable(BinaryTree binaryTree)
         {
+            this.binaryTree = binaryTree;
             this.SimplifiedRows = new List<Row>();
-            this.RootOfBinaryTree = rootOfBinaryTree;
-            DistinctPropositionalVariables = rootOfBinaryTree.PropositionalVariables.Get_Distinct_PropositionalVariables();
+            this.RootOfBinaryTree = binaryTree.Root as CompositeComponent;
+            DistinctPropositionalVariables = binaryTree.PropositionalVariables.Get_Distinct_PropositionalVariables();
             NumberOfVariables = DistinctPropositionalVariables.Length;
-
             FillAndCalculateRows();
             SimplifyRows();
-            ProcessDNF();
         }
+
         private int binaryValue(bool? input) => (input != null && (bool)input) ? 1 : 0;
 
         private void FillAndCalculateRows()
@@ -58,31 +62,32 @@ namespace LPP.Modules
                 }
                 columnIndex++;
             }
-
             var calculator = new Calculator();
             calculator.Visit(this);
         }
 
-        private void SimplifyRows()
+        public void SimplifyRows()
         {
             var simplifiedTruthTable = new Simplification(this);
             SimplifiedRows = simplifiedTruthTable.RecursiveSimplification();
         }
 
-        public void SetValue_Of_Propositional_Variables(PropositionalVariable variable, bool value)
+        public void SetValue_Of_Propositional_Variables(Variable variable, bool value)
         {
-            RootOfBinaryTree
-                .PropositionalVariables
-                .SetValue_Of_Propositional_Variables(symbol: variable.Symbol, value: value);
+            binaryTree.PropositionalVariables.SetValue_Of_Propositional_Variables(symbol: variable.Symbol, value: value);
         }
 
         public void ProcessDNF()
         {
-            var variables = RootOfBinaryTree.PropositionalVariables.Get_Distinct_PropositionalVariables_Chars();
+            var variables = binaryTree.PropositionalVariables.Get_Distinct_PropositionalVariables_Chars();
             DNF_Normal_Components = DNF.ProcessDNF(NormalRows.ToList(), variables);
             DNF_Simplified_Components = DNF.ProcessDNF(SimplifiedRows, variables);
-            DNF_Normal_BinaryTree = BinaryTree.DNFBinaryTree(DNF_Normal_Components);
-            DNF_Simplified_BinaryTree = BinaryTree.DNFBinaryTree(DNF_Simplified_Components);
+            if (DNF_Normal_Components.Count != 0)
+            {
+                DNF_Normal_BinaryTree = BinaryTree.DNFBinaryTree(DNF_Normal_Components);
+                DNF_Simplified_BinaryTree = BinaryTree.DNFBinaryTree(DNF_Simplified_Components);
+                DnftTruthTable = new TruthTable(DNF_Normal_BinaryTree);
+            }
         }
 
         public override string ToString()
@@ -101,6 +106,10 @@ namespace LPP.Modules
 
         public string GetHexadecimalHashCode() => Convert.ToInt64(GetHashCode().ToString(), 2).ToString("X");
 
+        public string GetHexadecimalSimplifiedHashCode() => Convert.ToInt64(GetHashCodeSimplified().ToString(), 2).ToString("X");
+
         public string GetHashCode() => NormalRows.Reverse().Aggregate("", (current, next) => current + binaryValue(next.Result).ToString());
+
+        public string GetHashCodeSimplified() => SimplifiedRows.ToArray().Reverse().Aggregate("", (current, next) => current + binaryValue(next.Result).ToString());
     }
 }

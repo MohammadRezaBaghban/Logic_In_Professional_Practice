@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LPP.Composite_Pattern;
-using LPP.Composite_Pattern.Node;
-using Component = LPP.Composite_Pattern.Component;
+using LPP.Composite_Pattern.Connectives;
+using LPP.Composite_Pattern.Variables;
+using Component = LPP.Composite_Pattern.Components.Component;
 
-namespace LPP.Modules
+namespace LPP
 {
     /// <summary>
     /// A static class for the sake of parsing user input
@@ -13,9 +13,9 @@ namespace LPP.Modules
     public static class ParsingModule
     {
 
-        private static readonly BinaryTree Bt = new BinaryTree();
+        private static BinaryTree _binaryTree = new BinaryTree();
         public static List<char> Elements = new List<char>();
-        public static char[] Connectives = new char[] { '~', '>', '=', '&', '|' };
+        public static char[] Connectives = new char[] { '~', '>', '=', '&', '|','%' };
         public static int NodeCounter;
 
         /// <summary>
@@ -24,13 +24,14 @@ namespace LPP.Modules
         /// It will parse the given formula recursively to extract formula elements
         /// Generate the binary tree out of the given formula
         ///  <param name="input">prefix abstract proposition formula</param>
-        /// <returns>The root of generate BinaryTree</returns>
-        public static Component ParseInput(string input)
+        /// <returns>The binaryTree object </returns>
+        public static BinaryTree ParseInput(string input)
         {
             EraseParsedList();
             ParseInputRecursively(ref input);
             GenerateBinaryTree(Elements);
-            return Bt._root;
+            _binaryTree.MakeIt_Non_Modifiable();
+            return _binaryTree;
         }
 
 
@@ -54,7 +55,7 @@ namespace LPP.Modules
 
                 if (CharacterType(expression[0]) == characterType.Unknown)
                 {
-                    throw new LPPException($"Unknown Character:{expression[0]}" +
+                    throw new Exception($"Unknown Character:{expression[0]}" +
                                            "\n\nThe formula contain Invalid Characters\n" +
                                            "Propositional Variables: English Capital Letter - 0,1\n" +
                                            "Connectives: ~,>,=,&,|\n" +
@@ -72,6 +73,7 @@ namespace LPP.Modules
                     {
                         case '>':
                         case '=':
+                        case '%':
                         case '&':
                         case '|':
                             Elements.Add(expression[0]);
@@ -100,9 +102,9 @@ namespace LPP.Modules
         /// </summary>
         /// <param name="input">list of elements in the binary tree</param>
         /// <returns>The root of binary tree</returns>
-        private static Component GenerateBinaryTree(List<char> input)
+        private static void GenerateBinaryTree(List<char> input)
         {
-            Component root = Bt._root;
+            Component root = _binaryTree.Root;
             for (var i = 0; i <= input.Count - 1; i++)
             {
                 var currentCharacter = input[i];
@@ -112,17 +114,16 @@ namespace LPP.Modules
                     {
                         // Values
                         case '0':
-                            Bt.InsertNode(root, new TrueFalse(false));
+                            _binaryTree.InsertNode(root, new TrueFalse(false));
                             break;
                         case '1':
-                            Bt.InsertNode(root, new TrueFalse(true));
+                            _binaryTree.InsertNode(root, new TrueFalse(true));
                             break;
 
                         //Variables                    
                         default:
-                            var propositionVariable = new PropositionalVariable(currentCharacter);
-                            ((CompositeComponent)Bt._root).PropositionalVariables.AddPropositionalVariable(propositionVariable);
-                            Bt.InsertNode(root, propositionVariable);
+                            var propositionVariable = new Variable(currentCharacter);
+                            _binaryTree.InsertNode(root, propositionVariable);
                             break;
                     }
                 }
@@ -132,28 +133,30 @@ namespace LPP.Modules
                     {
                         //Two Operands Connectives
                         case '>':
-                            root = Bt.InsertNode(root, new ImplicationConnective());
+                            root = _binaryTree.InsertNode(root, new Implication());
                             break;
                         case '=':
-                            root = Bt.InsertNode(root, new Bi_ImplicationConnective());
+                            root = _binaryTree.InsertNode(root, new BiImplication());
+                            break;
+                        case '%':
+                            root = _binaryTree.InsertNode(root, new Nand());
                             break;
                         case '&':
-                            root = Bt.InsertNode(root, new ConjunctionConnective());
+                            root = _binaryTree.InsertNode(root, new Conjunction());
                             break;
                         case '|':
-                            root = Bt.InsertNode(root, new DisjunctionConnective());
+                            root = _binaryTree.InsertNode(root, new Disjunction());
                             break;
 
 
                         //One Operand Connective
                         case '~':
-                            root = Bt.InsertNode(root, new NegationConnective());
+                            root = _binaryTree.InsertNode(root, new Negation());
                             break;
                     }
                 }
             }
             NodeCounter = 0;
-            return Bt._root;
         }
 
         /// <summary>
@@ -183,9 +186,10 @@ namespace LPP.Modules
         /// Should be called before any external call of ParseInputRecursively
         private static void EraseParsedList()
         {
+            _binaryTree = new BinaryTree();
             Elements.Clear();
             NodeCounter = 0;
-            Bt._root = null;
+            _binaryTree.Root = null;
         }
 
         private static characterType CharacterType(char character)
