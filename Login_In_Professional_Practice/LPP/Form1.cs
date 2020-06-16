@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using LPP.Composite_Pattern.Components;
 using LPP.Modules;
+using LPP.Parsing_BinaryTree;
 using LPP.Truth_Table;
 using LPP.Visitor_Pattern;
 
@@ -163,7 +164,8 @@ namespace LPP
                     _graphImages.Clear();
                     _binaryTreeNormal = ParsingModule.ParseInput(userInput);
                     var rootOfNormalBinaryTree = _binaryTreeNormal.Root as CompositeComponent;
-                    _tableauxCalculator.Calculate(rootOfNormalBinaryTree);
+                    var tableauxRoot = new TableauxNode(rootOfNormalBinaryTree);
+                    tableauxRoot.Evaluate(_tableauxCalculator);
 
                 }
             }

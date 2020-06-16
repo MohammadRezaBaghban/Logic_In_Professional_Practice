@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LPP.Modules;
+using LPP.Parsing_BinaryTree;
 
 namespace LPP.Composite_Pattern.Components
 {
@@ -9,6 +10,7 @@ namespace LPP.Composite_Pattern.Components
         public Component LeftNode;
         public Component RightNode;
 
+        public TableauxNode Belongs;
         public Component ParentFormula;
         public Component LeftFormula;
         public Component Rightformula;

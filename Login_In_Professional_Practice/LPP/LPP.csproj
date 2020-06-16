@@ -55,6 +55,7 @@
     <Compile Include="Composite Pattern\Variables\TrueFalse.cs" />
     <Compile Include="Composite Pattern\Connectives\Nand.cs" />
     <Compile Include="Composite Pattern\Variables\PropositionalVariables.cs" />
+    <Compile Include="Composite Pattern\Components\TableauxNode.cs" />
     <Compile Include="Truth Table\DNF.cs" />
     <Compile Include="Truth Table\Row.cs" />
     <Compile Include="Truth Table\RowComparer.cs" />

@@ -4,7 +4,6 @@
     {
         public Component Nand;
 
-
         public override string GraphVizFormula
         {
             get
