@@ -19,17 +19,21 @@ namespace LPP
         private BinaryTree _binaryTreeNandified;
         private TruthTable truthTable;
         private TruthTable truthTableNand;
+        private Dictionary<int, string> _graphImages;
+        private readonly int numberOfImage = 3;
+        private int _imageIndex = 0;
+
+        //Dependencies
         private readonly Nandify _nandify;
         private readonly Calculator _calculator;
+        private readonly TableauxCalculator _tableauxCalculator;
         private readonly InfixFormulaGenerator _formulaGenerator;
-        private Dictionary<int, string> _graphImages;
-        private int _imageIndex = 0;
-        private readonly int numberOfImage = 3;
 
         public Form1()
         {
             InitializeComponent();
             _formulaGenerator = new InfixFormulaGenerator();
+            _tableauxCalculator = new TableauxCalculator();
             _graphImages = new Dictionary<int, string>();
             _calculator = new Calculator();
             _nandify = new Nandify();
@@ -115,7 +119,7 @@ namespace LPP
         //Form Event Handlers
         private void BtnParse_Click(object sender, EventArgs e)
         {
-            string userInput = TbPrefixFormula.Text.Trim();
+            string userInput = TbFormulaInput.Text.Trim();
             try
             {
                 if (userInput.Length < 4)
@@ -144,6 +148,32 @@ namespace LPP
             }
 
         }
+
+        private void BtnSemanticTableaux_Click(object sender, EventArgs e)
+        {
+            string userInput = $"~({TbFormulaInput.Text.Trim()})";
+            try
+            {
+                if (userInput.Length < 4)
+                {
+                    throw new Exception("Format of input is not correct");
+                }
+                else
+                {
+                    _graphImages.Clear();
+                    _binaryTreeNormal = ParsingModule.ParseInput(userInput);
+                    var rootOfNormalBinaryTree = _binaryTreeNormal.Root as CompositeComponent;
+                    _tableauxCalculator.Calculate(rootOfNormalBinaryTree);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($@"{ex.Message}");
+
+            }
+        }
+
         private void Btn_Image_Open_Click(object sender, EventArgs e)
         {
             Process.Start($@"{ _graphImages[_imageIndex]}");

@@ -174,7 +174,7 @@ namespace LPP
                         {
                             root.RightNode = newNode;
                             root.RightNode.Parent = root;
-                        }
+                        }else
                         {
                             if (root.Parent != null)
                             {
@@ -216,7 +216,7 @@ namespace LPP
                 this.Root = singleNode;
                 this.Root = Root as SingleComponent;
                 return Root;
-            }
+            }                         
 
             //Try to put the single node on the left side of tree as much as possible
             if (root is Negation)

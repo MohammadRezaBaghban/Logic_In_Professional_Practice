@@ -56,6 +56,7 @@ namespace LPPTestProject
 
         [Theory]
         [InlineData("~(|(~(A),|(>(A,~(A)),>(&(>(~(|(C,A)),C),C),C))))")]
+        [InlineData(">(>(|(P,Q),R),|(>(P,R),>(Q,R)))")]
         [InlineData("|(~(>(A,B)),&(A,>(C,B)))")]
         [InlineData("&(>(P,Q),|(Q,P))")]
         [InlineData("&(>(P,Q),>(Q,P))")]
@@ -97,6 +98,7 @@ namespace LPPTestProject
         [InlineData("|(|(A,B),|(C,|(F,G)))")]
         [InlineData(">(&(A,~(D)),|(B,|(Y,R)))")]
         [InlineData("~(|(|(A,~(B)),|(~(C),D))))")]
+        [InlineData(">(>(|(P,Q),R),|(>(P,R),>(Q,R)))")]
         [InlineData("~(|(=(A,~(B)),|(~(|(U,=(T,R))),D))))")]
         public void TruthTable_Nandify_NandTruthTableHashCodeBeAsExpected(string prefixInput)
         {

@@ -1,5 +1,4 @@
-﻿using System.Xml;
-using LPP.Composite_Pattern;
+﻿using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Connectives;
 using LPP.Composite_Pattern.Variables;

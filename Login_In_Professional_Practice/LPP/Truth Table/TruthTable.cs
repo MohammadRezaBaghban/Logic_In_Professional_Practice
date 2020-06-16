@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Components;
-using LPP.Composite_Pattern.Connectives;
 using LPP.Composite_Pattern.Variables;
 using LPP.Truth_Table;
 using LPP.Visitor_Pattern;

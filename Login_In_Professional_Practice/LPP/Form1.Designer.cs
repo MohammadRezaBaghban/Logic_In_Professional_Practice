@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.lb1 = new System.Windows.Forms.Label();
-            this.TbPrefixFormula = new System.Windows.Forms.TextBox();
-            this.BtnParse = new System.Windows.Forms.Button();
+            this.TbFormulaInput = new System.Windows.Forms.TextBox();
+            this.BtnParseRecursively = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.Tb_InfixFormula_Normal = new System.Windows.Forms.TextBox();
@@ -45,6 +45,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.TbPropositionalVariables = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.LbHashCodes = new System.Windows.Forms.ListBox();
             this.LbSimplifiedTruthTable = new System.Windows.Forms.ListBox();
             this.LbTruthTable = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -54,7 +55,7 @@
             this.BtnImagePrevious = new System.Windows.Forms.Button();
             this.PbBinaryGraph = new System.Windows.Forms.PictureBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.LbHashCodes = new System.Windows.Forms.ListBox();
+            this.BtnSemanticTableaux = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -71,23 +72,23 @@
             this.lb1.TabIndex = 0;
             this.lb1.Text = "Post-Fix Formula:";
             // 
-            // TbPrefixFormula
+            // TbFormulaInput
             // 
-            this.TbPrefixFormula.Location = new System.Drawing.Point(208, 26);
-            this.TbPrefixFormula.Name = "TbPrefixFormula";
-            this.TbPrefixFormula.Size = new System.Drawing.Size(362, 29);
-            this.TbPrefixFormula.TabIndex = 1;
-            this.TbPrefixFormula.Text = ">(|(H,>(T,Y)),=(B,&(0,C))";
+            this.TbFormulaInput.Location = new System.Drawing.Point(208, 26);
+            this.TbFormulaInput.Name = "TbFormulaInput";
+            this.TbFormulaInput.Size = new System.Drawing.Size(362, 29);
+            this.TbFormulaInput.TabIndex = 1;
+            this.TbFormulaInput.Text = ">(|(H,>(T,Y)),=(B,&(0,C))";
             // 
-            // BtnParse
+            // BtnParseRecursively
             // 
-            this.BtnParse.Location = new System.Drawing.Point(576, 23);
-            this.BtnParse.Name = "BtnParse";
-            this.BtnParse.Size = new System.Drawing.Size(107, 143);
-            this.BtnParse.TabIndex = 2;
-            this.BtnParse.Text = "Parse Recursively";
-            this.BtnParse.UseVisualStyleBackColor = true;
-            this.BtnParse.Click += new System.EventHandler(this.BtnParse_Click);
+            this.BtnParseRecursively.Location = new System.Drawing.Point(576, 23);
+            this.BtnParseRecursively.Name = "BtnParseRecursively";
+            this.BtnParseRecursively.Size = new System.Drawing.Size(107, 70);
+            this.BtnParseRecursively.TabIndex = 2;
+            this.BtnParseRecursively.Text = "Parse Recursively";
+            this.BtnParseRecursively.UseVisualStyleBackColor = true;
+            this.BtnParseRecursively.Click += new System.EventHandler(this.BtnParse_Click);
             // 
             // label1
             // 
@@ -119,6 +120,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.BtnSemanticTableaux);
             this.groupBox1.Controls.Add(this.Tb_InfixFormula_Nandified);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.TbSimplifiedDNF);
@@ -128,9 +130,9 @@
             this.groupBox1.Controls.Add(this.Tb_TruthTableHashCode);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.TbPropositionalVariables);
-            this.groupBox1.Controls.Add(this.TbPrefixFormula);
+            this.groupBox1.Controls.Add(this.TbFormulaInput);
             this.groupBox1.Controls.Add(this.Tb_InfixFormula_Normal);
-            this.groupBox1.Controls.Add(this.BtnParse);
+            this.groupBox1.Controls.Add(this.BtnParseRecursively);
             this.groupBox1.Controls.Add(this.lb1);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label2);
@@ -194,15 +196,15 @@
             // 
             // Tb_TruthTableHashCode
             // 
-            this.Tb_TruthTableHashCode.Location = new System.Drawing.Point(470, 137);
+            this.Tb_TruthTableHashCode.Location = new System.Drawing.Point(426, 140);
             this.Tb_TruthTableHashCode.Name = "Tb_TruthTableHashCode";
-            this.Tb_TruthTableHashCode.Size = new System.Drawing.Size(100, 29);
+            this.Tb_TruthTableHashCode.Size = new System.Drawing.Size(144, 29);
             this.Tb_TruthTableHashCode.TabIndex = 11;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(372, 140);
+            this.label4.Location = new System.Drawing.Point(328, 142);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(92, 23);
             this.label4.TabIndex = 10;
@@ -226,6 +228,16 @@
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Truth Tables";
+            // 
+            // LbHashCodes
+            // 
+            this.LbHashCodes.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbHashCodes.FormattingEnabled = true;
+            this.LbHashCodes.ItemHeight = 17;
+            this.LbHashCodes.Location = new System.Drawing.Point(173, 206);
+            this.LbHashCodes.Name = "LbHashCodes";
+            this.LbHashCodes.Size = new System.Drawing.Size(179, 140);
+            this.LbHashCodes.TabIndex = 17;
             // 
             // LbSimplifiedTruthTable
             // 
@@ -310,15 +322,15 @@
             this.PbBinaryGraph.TabIndex = 14;
             this.PbBinaryGraph.TabStop = false;
             // 
-            // LbHashCodes
+            // BtnSemanticTableaux
             // 
-            this.LbHashCodes.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbHashCodes.FormattingEnabled = true;
-            this.LbHashCodes.ItemHeight = 17;
-            this.LbHashCodes.Location = new System.Drawing.Point(173, 206);
-            this.LbHashCodes.Name = "LbHashCodes";
-            this.LbHashCodes.Size = new System.Drawing.Size(179, 140);
-            this.LbHashCodes.TabIndex = 17;
+            this.BtnSemanticTableaux.Location = new System.Drawing.Point(576, 102);
+            this.BtnSemanticTableaux.Name = "BtnSemanticTableaux";
+            this.BtnSemanticTableaux.Size = new System.Drawing.Size(107, 70);
+            this.BtnSemanticTableaux.TabIndex = 18;
+            this.BtnSemanticTableaux.Text = "Semantic Tableaux";
+            this.BtnSemanticTableaux.UseVisualStyleBackColor = true;
+            this.BtnSemanticTableaux.Click += new System.EventHandler(this.BtnSemanticTableaux_Click);
             // 
             // Form1
             // 
@@ -346,8 +358,8 @@
         #endregion
 
         private System.Windows.Forms.Label lb1;
-        private System.Windows.Forms.TextBox TbPrefixFormula;
-        private System.Windows.Forms.Button BtnParse;
+        private System.Windows.Forms.TextBox TbFormulaInput;
+        private System.Windows.Forms.Button BtnParseRecursively;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox Tb_InfixFormula_Normal;
@@ -372,6 +384,7 @@
         private System.Windows.Forms.Label LbImageName;
         private System.Windows.Forms.Button Btn_Image_Open;
         private System.Windows.Forms.ListBox LbHashCodes;
+        private System.Windows.Forms.Button BtnSemanticTableaux;
     }
 }
 

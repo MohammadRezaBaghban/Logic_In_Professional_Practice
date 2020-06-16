@@ -4,6 +4,7 @@
     {
         public Component Nand;
 
+
         public override string GraphVizFormula
         {
             get
@@ -23,6 +24,25 @@
                 return temp;
             }
         }
+
+        public string GraphVizFormulaTableaux()
+        {
+            string temp = "";
+            temp += $"node{NodeNumber} [ label = \"{this.InFixFormula}\" ]";
+            if (LeftNode != null)
+            {
+                temp += $"\nnode{NodeNumber} -- node{LeftFormula.NodeNumber}\n";
+                temp += LeftFormula.GraphVizFormula;
+            }
+            if (RightNode != null)
+            {
+                temp += $"\nnode{NodeNumber} -- node{Rightformula.NodeNumber}\n";
+                temp += Rightformula.GraphVizFormula;
+            }
+            return temp;
+        }
+
+
 
         public abstract void Evaluate(IVisitor visitor);
 
