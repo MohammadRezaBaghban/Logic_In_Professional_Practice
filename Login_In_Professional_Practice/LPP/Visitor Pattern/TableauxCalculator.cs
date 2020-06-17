@@ -61,99 +61,84 @@ namespace LPP.Visitor_Pattern
 
         public void Visit(Implication visitable)
         {//Beta rule for >
-            var leftNode = new Negation();
-            var rightNode = BinaryTree.CloneNode(visitable.RightNode, _binaryTree);
-            _binaryTree.InsertNode(leftNode, BinaryTree.CloneNode(visitable.LeftNode, _binaryTree));
+            //var leftNode = new Negation();
+            //var rightNode = BinaryTree.CloneNode(visitable.RightNode, _binaryTree);
+            //_binaryTree.InsertNode(leftNode, BinaryTree.CloneNode(visitable.LeftNode, _binaryTree));
 
-            rightNode.ParentFormula = visitable;
-            leftNode.ParentFormula = visitable;
+            //rightNode.ParentFormula = visitable;
+            //leftNode.ParentFormula = visitable;
 
-            visitable.LeftFormula = leftNode;
-            visitable.Rightformula = rightNode;
+            //visitable.LeftFormula = leftNode;
+            //visitable.Rightformula = rightNode;
         }
 
         public void Visit(Disjunction visitable)
         {//Beta rule for | 
-            var rightNode = BinaryTree.CloneNode(visitable.RightNode, _binaryTree);
-            var leftNode = BinaryTree.CloneNode(visitable.LeftNode, _binaryTree);
+            //var rightNode = BinaryTree.CloneNode(visitable.RightNode, _binaryTree);
+            //var leftNode = BinaryTree.CloneNode(visitable.LeftNode, _binaryTree);
 
-            leftNode.ParentFormula = visitable;
-            rightNode.ParentFormula = visitable;
+            //leftNode.ParentFormula = visitable;
+            //rightNode.ParentFormula = visitable;
 
-            visitable.LeftFormula = leftNode;
-            visitable.Rightformula = rightNode;
+            //visitable.LeftFormula = leftNode;
+            //visitable.Rightformula = rightNode;
         }
 
         public void Visit(Conjunction visitable)
         {//Alpha rule for &
-            var rightNode = BinaryTree.CloneNode(visitable.RightNode, _binaryTree);
-            var leftNode = BinaryTree.CloneNode(visitable.LeftNode, _binaryTree);
+            var tableauxRoot = visitable.Belongs;
+            var p = BinaryTree.CloneNode(visitable.LeftNode, _binaryTree);
+            var q = BinaryTree.CloneNode(visitable.RightNode, _binaryTree);
+            var newTableauxNode = new TableauxNode(new List<Component> { p, q }, tableauxRoot);
 
-            leftNode.ParentFormula = visitable;
-            rightNode.ParentFormula = visitable;
-
-            visitable.nextStep = new List<Component>();
-            visitable.nextStep.Add(leftNode);
-            visitable.nextStep.Add(rightNode);
+            visitable.Belongs.SetBranchStatus(false);
         }
 
         public void Visit(Negation visitable)
         {
             var mainConnective = visitable.LeftNode;
+            var tableauxRoot = visitable.Belongs;
 
             if (mainConnective is Negation doubleNegation)
-            {// Double Negation
+            {// Double Negation | Done
 
-                var leftNode = BinaryTree.CloneNode(doubleNegation.LeftNode, _binaryTree);
-                leftNode.ParentFormula = visitable;
-                visitable.nextStep = new List<Component>();
-                visitable.nextStep.Add(leftNode);
+                var p = BinaryTree.CloneNode(doubleNegation.LeftNode, _binaryTree);
+                var newTableauxNode = new TableauxNode(p, tableauxRoot);
             }
             else if (mainConnective is Disjunction disjunction)
-            {// Alpha Rules for ~(|)
+            {// Alpha Rules for ~(|) | Done
 
-                var rightNode = new Negation();
-                var leftNode = new Negation();
-                _binaryTree.InsertNode(leftNode, BinaryTree.CloneNode(disjunction.LeftNode, _binaryTree));
-                _binaryTree.InsertNode(rightNode, BinaryTree.CloneNode(disjunction.RightNode, _binaryTree));
+                var _p = new Negation();
+                var _q = new Negation();
+                _binaryTree.InsertNode(_p, BinaryTree.CloneNode(disjunction.LeftNode, _binaryTree));
+                _binaryTree.InsertNode(_q, BinaryTree.CloneNode(disjunction.RightNode, _binaryTree));
+                var newTableauxNode = new TableauxNode(new List<Component> { _p, _q }, tableauxRoot);
 
-                rightNode.ParentFormula = visitable;
-                leftNode.ParentFormula = visitable;
-
-                visitable.nextStep = new List<Component>();
-                visitable.nextStep.Add(leftNode);
-                visitable.nextStep.Add(rightNode);
-
+                visitable.Belongs.SetBranchStatus(false);
             }
             else if (mainConnective is Implication implication)
-            {// Alpha Rules for ~(>) , elements
+            {// Alpha Rules for ~(>) , elements | Done
 
                 var _q = new Negation();
                 var p = BinaryTree.CloneNode(implication.LeftNode, _binaryTree);
                 _binaryTree.InsertNode(_q, BinaryTree.CloneNode(implication.RightNode, _binaryTree));
+                var newTableauxNode = new TableauxNode(new List<Component> {p,_q}, tableauxRoot);
 
-                _q.Belongs = visitable.Belongs;
-                p.Belongs = visitable.Belongs;
-                var components = new List<Component> {p, _q};
-
-                var newTableauxNode = new TableauxNode(components);
-                newTableauxNode.ParentNode = visitable.Belongs;
-                visitable.Belongs.LeftNode = newTableauxNode;
-
+                tableauxRoot.SetBranchStatus(false);
             }
             else if (mainConnective is Conjunction conjunction)
             {//Beta rule for ~(&)
 
-                var rightNode = new Negation();
-                var leftNode = new Negation();
-                _binaryTree.InsertNode(leftNode, BinaryTree.CloneNode(conjunction.LeftNode, _binaryTree));
-                _binaryTree.InsertNode(rightNode, BinaryTree.CloneNode(conjunction.RightNode, _binaryTree));
+                //var rightNode = new Negation();
+                //var leftNode = new Negation();
+                //_binaryTree.InsertNode(leftNode, BinaryTree.CloneNode(conjunction.LeftNode, _binaryTree));
+                //_binaryTree.InsertNode(rightNode, BinaryTree.CloneNode(conjunction.RightNode, _binaryTree));
 
-                rightNode.ParentFormula = visitable;
-                leftNode.ParentFormula = visitable;
+                //rightNode.ParentFormula = visitable;
+                //leftNode.ParentFormula = visitable;
 
-                visitable.LeftFormula = leftNode;
-                visitable.Rightformula = rightNode;
+                //visitable.LeftFormula = leftNode;
+                //visitable.Rightformula = rightNode;
             }
         }
 
@@ -164,7 +149,7 @@ namespace LPP.Visitor_Pattern
 
         public void Visit(TableauxNode visitable)
         {
-            if (!visitable.branched)
+            if (visitable.branched == null || !((bool) visitable.branched))
             {
                 bool formulaFound = false;
                 int index = 0;

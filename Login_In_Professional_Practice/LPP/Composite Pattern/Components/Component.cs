@@ -11,9 +11,6 @@ namespace LPP.Composite_Pattern.Components
         public Component RightNode;
 
         public TableauxNode Belongs;
-        public Component ParentFormula;
-        public Component LeftFormula;
-        public Component Rightformula;
 
         public List<Component> nextStep;
 
