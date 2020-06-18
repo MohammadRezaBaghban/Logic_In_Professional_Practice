@@ -13,7 +13,9 @@ namespace LPP
     public class BinaryTree
     {
         public Component Root;
+        public static BinaryTree Object { get; } = new BinaryTree();
         public PropositionalVariables PropositionalVariables = null;
+
         private bool _nonModifiable = false;
 
         public BinaryTree() => PropositionalVariables = new PropositionalVariables();

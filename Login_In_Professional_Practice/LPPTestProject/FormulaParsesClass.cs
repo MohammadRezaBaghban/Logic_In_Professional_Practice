@@ -25,12 +25,11 @@ namespace LPPTestProject
         public void InFixFormulaTesting_OnCorrectPrefixFormula_CorrectInfixFormula(string prefixInput,string infixOutput)
         {
             //Arrange
-            var formulaGenerator = new InfixFormulaGenerator();
             var binaryTree = ParsingModule.ParseInput(prefixInput);
             var rootOfComponent = binaryTree.Root;
 
             //Act
-            formulaGenerator.Calculate(rootOfComponent);
+            InfixFormulaGenerator.Calculator.Calculate(rootOfComponent);
 
             //Assert
             Assert.Equal(rootOfComponent.InFixFormula,infixOutput);

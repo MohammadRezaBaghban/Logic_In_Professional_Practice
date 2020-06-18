@@ -33,7 +33,7 @@ namespace LPP
         public Form1()
         {
             InitializeComponent();
-            _formulaGenerator = new InfixFormulaGenerator();
+            _formulaGenerator = InfixFormulaGenerator.Calculator;
             _tableauxCalculator = new TableauxCalculator();
             _graphImages = new Dictionary<int, string>();
             _calculator = new Calculator();

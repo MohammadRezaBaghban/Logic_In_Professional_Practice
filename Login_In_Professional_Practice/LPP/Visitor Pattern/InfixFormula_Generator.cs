@@ -10,6 +10,16 @@ namespace LPP.Visitor_Pattern
     /// </summary>
     public class InfixFormulaGenerator:IVisitor
     {
+        public static InfixFormulaGenerator Calculator { get; private set; } = new InfixFormulaGenerator();
+
+        private InfixFormulaGenerator()
+        {
+            if(Calculator == null)
+            {
+                Calculator = new InfixFormulaGenerator();
+            }
+        }
+
         /// <summary>
         /// Recursive Traversing Method for calculating the InFix formula of abstract Proposition. 
         /// </summary>
