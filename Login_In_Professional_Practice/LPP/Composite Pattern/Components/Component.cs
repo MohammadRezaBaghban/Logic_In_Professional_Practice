@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using LPP.Modules;
-using LPP.Parsing_BinaryTree;
 
 namespace LPP.Composite_Pattern.Components
 {

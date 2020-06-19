@@ -2,7 +2,6 @@
 using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Connectives;
 using LPP.Composite_Pattern.Variables;
-using LPP.Parsing_BinaryTree;
 
 namespace LPP.Visitor_Pattern
 {

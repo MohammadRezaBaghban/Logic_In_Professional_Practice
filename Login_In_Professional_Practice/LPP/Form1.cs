@@ -7,7 +7,6 @@ using System.Linq;
 using System.Windows.Forms;
 using LPP.Composite_Pattern.Components;
 using LPP.Modules;
-using LPP.Parsing_BinaryTree;
 using LPP.Truth_Table;
 using LPP.Visitor_Pattern;
 
@@ -138,8 +137,8 @@ namespace LPP
                     truthTableNand = new TruthTable(Nandify.binaryTree);
                     truthTable.ProcessDNF();
 
-                    PopulateListBoxesWithValues();
                     PopulateTextBoxesWithValues(rootOfNormalBinaryTree);
+                    PopulateListBoxesWithValues();
                     PopulatePictureBoxWithImages(rootOfNormalBinaryTree);
                 }
             }
@@ -165,7 +164,11 @@ namespace LPP
                     _binaryTreeNormal = ParsingModule.ParseInput(userInput);
                     var rootOfNormalBinaryTree = _binaryTreeNormal.Root as CompositeComponent;
                     var tableauxRoot = new TableauxNode(rootOfNormalBinaryTree);
-                    tableauxRoot.Evaluate(_tableauxCalculator);
+                    tableauxRoot.IsClosed();
+                    BtnSemanticTableaux.BackColor = tableauxRoot.Closed == true ? Color.ForestGreen : Color.Tomato;
+                    _graphImages.Add(0, GenerateGraphVizBinaryGraph(tableauxRoot.GraphVizFormula(), "Normal"));
+                    PbBinaryGraph.ImageLocation = _graphImages[0];
+                    _imageIndex = 0;
 
                 }
             }

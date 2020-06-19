@@ -75,7 +75,6 @@ namespace LPP.Composite_Pattern.Components
                 {
                     this.LeftNode.IsClosed();
                 }
-
                 IsClosed();
             }
         }
@@ -85,36 +84,21 @@ namespace LPP.Composite_Pattern.Components
             this.Components.ForEach(x => InfixFormulaGenerator.Calculator.Calculate(x));
 
             if (this.LeftNode == null && this.RightNode==null)
-            {// Is not being Processed
+            {// Node has not being Processed
                 if (Components.Count > 1)
                 {
-                    for (int i = 0; i < Components.Count && this.Closed != true; i++)
+                    for (var i = 0; i < Components.Count && this.Closed != true; i++)
                     {
-                        for (int j = i + 1; j < Components.Count; j++)
+                        for (var j = i + 1; j < Components.Count; j++)
                         {
-                            if (Components[i] is SingleComponent)
-                            {
-                                var node1Formula = Components[i].InFixFormula;
-                                var node2Formula = Components[j].InFixFormula;
-                                if ($"¬{node1Formula}" == node2Formula)
-                                {
-                                    this.Closed = true;
-                                    break;
-                                }
-                            }
-                            else
-                            {
-                                var node1Formula = Components[i].InFixFormula;
-                                var node2Formula = Components[j].InFixFormula;
-                                if ($"¬({node1Formula})" == node2Formula)
-                                {
-                                    this.Closed = true;
-                                    break;
-                                }
-                            }
+                            var node1Formula = Components[i].InFixFormula;
+                            var node2Formula = Components[j].InFixFormula;
+                            node1Formula = Components[i] is SingleComponent ? $"¬{node1Formula}" : $"¬({node1Formula})";
+                            if (node1Formula != node2Formula) continue;
+                            this.Closed = true;
+                            break;
                         }
                     }
-
                     if (this.Closed != true)
                     {
                         if (!Components.Exists(x => x is CompositeComponent))
@@ -128,12 +112,12 @@ namespace LPP.Composite_Pattern.Components
                     }
                 }
                 else
-                {
+                {//Root of Tableaux Node
                     this.Evaluate();
                 }
             }
             else
-            {//Already Processed and simplified
+            {//Node Has already Processed and simplified
                 if (Branched == false)
                 {
                     if (this.LeftNode.Closed == true)
@@ -158,12 +142,8 @@ namespace LPP.Composite_Pattern.Components
 
         public string Label()
         {
-            string label = "";
-            Components.ForEach(x =>
-            {
-                InfixFormulaGenerator.Calculator.Calculate(x);
-                label += x.InFixFormula + ", ";
-            });
+            var label = "";
+            Components.ForEach(x => { InfixFormulaGenerator.Calculator.Calculate(x); label += x.InFixFormula + ", ";});
 
             if (this.Closed == true)
                 label += "\n\n CLOSED";
@@ -182,7 +162,6 @@ namespace LPP.Composite_Pattern.Components
                 temp += $"\nnode{NodeNumber} -- node{LeftNode.NodeNumber}\n";
                 temp += LeftNode.GraphVizFormula();
             }
-
             if (RightNode != null)
             {
                 temp += $"\nnode{NodeNumber} -- node{RightNode.NodeNumber}\n";
