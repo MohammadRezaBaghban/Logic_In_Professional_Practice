@@ -19,8 +19,9 @@ namespace LPP
         private BinaryTree _binaryTreeNandified;
         private TruthTable truthTable;
         private TruthTable truthTableNand;
+        private TableauxNode _tableauxRoot;
         private Dictionary<int, string> _graphImages;
-        private readonly int numberOfImage = 3;
+        private readonly int numberOfImage = 4;
         private int _imageIndex = 0;
 
         //Dependencies
@@ -72,17 +73,17 @@ namespace LPP
             TbPropositionalVariables.Text = _binaryTreeNormal.PropositionalVariables.Get_Distinct_PropositionalVariables()
                 .SelectMany(x => x.Symbol.ToString()).Aggregate("", (current, next) => current + next);
 
-            if (truthTable.GetHexadecimalHashCode() == truthTableNand.GetHexadecimalHashCode())
-                Tb_TruthTableHashCode.BackColor = Color.MediumSeaGreen;
-            else
-                Tb_TruthTableHashCode.BackColor = Color.PaleVioletRed;
-
+            //BtnSemanticTableaux.BackColor = _tableauxRoot.Closed == true ? Color.ForestGreen : Color.Tomato;
+            BtnParseRecursively.BackColor = truthTable.GetHexadecimalHashCode() == truthTableNand.GetHexadecimalHashCode()
+                    ? Color.MediumSeaGreen : Color.PaleVioletRed;
         }
         private void PopulatePictureBoxWithImages(CompositeComponent root)
         {
             _graphImages.Add(0, GenerateGraphVizBinaryGraph(root.GraphVizFormula, "Normal"));
             _graphImages.Add(1, GenerateGraphVizBinaryGraph(root.Nand.GraphVizFormula, "NAND"));
             _graphImages.Add(2, GenerateGraphVizBinaryGraph(truthTable.DNF_Normal_BinaryTree?.Root.GraphVizFormula, "DNF"));
+            //_graphImages.Add(3, GenerateGraphVizBinaryGraph(_tableauxRoot.GraphVizFormula(), "Tableaux"));
+
             LbImageName.Text = _graphImages[0].Substring(0, _graphImages[0].IndexOf("."));
             PbBinaryGraph.ImageLocation = _graphImages[0];
             BtnImagePrevious.Enabled = true;
@@ -131,7 +132,9 @@ namespace LPP
                     _graphImages.Clear();
                     _binaryTreeNormal = ParsingModule.ParseInput(userInput);
                     var rootOfNormalBinaryTree = _binaryTreeNormal.Root as CompositeComponent;
+                    //_tableauxRoot = new TableauxNode(rootOfNormalBinaryTree);
                     _nandify.Calculate(rootOfNormalBinaryTree);
+                    //_tableauxRoot.IsClosed();
 
                     truthTable = new TruthTable(_binaryTreeNormal);
                     truthTableNand = new TruthTable(Nandify.binaryTree);
@@ -162,13 +165,15 @@ namespace LPP
                 {
                     _graphImages.Clear();
                     _binaryTreeNormal = ParsingModule.ParseInput(userInput);
-                    var rootOfNormalBinaryTree = _binaryTreeNormal.Root as CompositeComponent;
-                    var tableauxRoot = new TableauxNode(rootOfNormalBinaryTree);
-                    tableauxRoot.IsClosed();
-                    BtnSemanticTableaux.BackColor = tableauxRoot.Closed == true ? Color.ForestGreen : Color.Tomato;
-                    _graphImages.Add(0, GenerateGraphVizBinaryGraph(tableauxRoot.GraphVizFormula(), "Normal"));
+                    _tableauxRoot = new TableauxNode(_binaryTreeNormal.Root as CompositeComponent);
+                    _tableauxRoot.IsClosed();
+
+                    BtnSemanticTableaux.BackColor = _tableauxRoot.Closed == true ? Color.ForestGreen : Color.Tomato;
+                    _graphImages.Add(0, GenerateGraphVizBinaryGraph(_tableauxRoot.GraphVizFormula(), "Normal"));
                     PbBinaryGraph.ImageLocation = _graphImages[0];
+                    Btn_Image_Open.Enabled = true;
                     _imageIndex = 0;
+
 
                 }
             }
@@ -196,7 +201,6 @@ namespace LPP
             var imageName = _graphImages[_imageIndex];
             PbBinaryGraph.ImageLocation = imageName;
             LbImageName.Text = _graphImages[_imageIndex].Substring(0, imageName.IndexOf("."));
-
         }
         private void Btn_Image_Previous_Click(object sender, EventArgs e)
         {

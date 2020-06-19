@@ -20,22 +20,7 @@ namespace LPP.Visitor_Pattern
             if (!(visitable is SingleComponent))
             {
                 CompositeComponent compositeNode = visitable as CompositeComponent;
-
-                if (compositeNode is Negation)
-                {
-                    compositeNode.Evaluate(this);
-                }
-                else if (compositeNode != null)
-                {
-                    compositeNode.Evaluate(this);
-                    Calculate(compositeNode.LeftNode);
-                    Calculate(compositeNode.RightNode);
-                }
-            }
-            else
-            {
-                if (visitable is Variable)
-                    _binaryTree.PropositionalVariables.Variables.Add(visitable as Variable);
+                compositeNode.Evaluate(this);
             }
         }
 
@@ -84,7 +69,7 @@ namespace LPP.Visitor_Pattern
             var tableauxRoot = visitable.Belongs;
             var p = BinaryTree.CloneNode(visitable.LeftNode, _binaryTree);
             var q = BinaryTree.CloneNode(visitable.RightNode, _binaryTree);
-            var newTableauxNode = new TableauxNode(new List<Component> { p, q }, tableauxRoot);
+            var newTableauxNode = new TableauxNode(new List<Component> { p, q }, visitable, tableauxRoot);
         }
 
         public void Visit(Negation visitable)
@@ -105,7 +90,7 @@ namespace LPP.Visitor_Pattern
                 var _q = new Negation();
                 _binaryTree.InsertNode(_p, BinaryTree.CloneNode(disjunction.LeftNode, _binaryTree));
                 _binaryTree.InsertNode(_q, BinaryTree.CloneNode(disjunction.RightNode, _binaryTree));
-                var newTableauxNode = new TableauxNode(new List<Component> { _p, _q }, tableauxRoot);
+                var newTableauxNode = new TableauxNode(new List<Component> { _p, _q },visitable, tableauxRoot);
             }
             else if (mainConnective is Implication implication)
             {// α-rule for ~(>) , elements | Done
@@ -113,7 +98,7 @@ namespace LPP.Visitor_Pattern
                 var _q = new Negation();
                 var p = BinaryTree.CloneNode(implication.LeftNode, _binaryTree);
                 _binaryTree.InsertNode(_q, BinaryTree.CloneNode(implication.RightNode, _binaryTree));
-                var newTableauxNode = new TableauxNode(new List<Component> { p, _q }, tableauxRoot);
+                var newTableauxNode = new TableauxNode(new List<Component> { p, _q }, visitable, tableauxRoot);
             }
             else if (mainConnective is Conjunction conjunction)
             {// β-rule for ~(&)
@@ -141,11 +126,14 @@ namespace LPP.Visitor_Pattern
                 {
                     this.Calculate(visitable.Components[index++]);
                 }
-                while ((visitable.LeftNode != null && visitable.RightNode != null) && (index<=visitable.Components.Count));
-            }
-            else
-            {
+                while ((visitable.LeftNode == null && visitable.RightNode == null) &&
+                       (index < visitable.Components.Count));
 
+                if (visitable.LeftNode == null)
+                {
+                    visitable.Branched = false;
+                    visitable.Closed = false;
+                }
             }
         }
     }

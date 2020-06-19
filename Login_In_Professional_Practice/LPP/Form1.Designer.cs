@@ -35,6 +35,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.Tb_InfixFormula_Normal = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.BtnSemanticTableaux = new System.Windows.Forms.Button();
             this.Tb_InfixFormula_Nandified = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.TbSimplifiedDNF = new System.Windows.Forms.TextBox();
@@ -55,7 +56,6 @@
             this.BtnImagePrevious = new System.Windows.Forms.Button();
             this.PbBinaryGraph = new System.Windows.Forms.PictureBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.BtnSemanticTableaux = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -78,7 +78,7 @@
             this.TbFormulaInput.Name = "TbFormulaInput";
             this.TbFormulaInput.Size = new System.Drawing.Size(362, 29);
             this.TbFormulaInput.TabIndex = 1;
-            this.TbFormulaInput.Text = ">(|(H,>(T,Y)),=(B,&(0,C))";
+            this.TbFormulaInput.Text = "~(|(=(A,~(B)),|(~(|(U,=(T,R))),D))))";
             // 
             // BtnParseRecursively
             // 
@@ -143,6 +143,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Abstract Proposition";
             this.groupBox1.UseCompatibleTextRendering = true;
+            // 
+            // BtnSemanticTableaux
+            // 
+            this.BtnSemanticTableaux.Location = new System.Drawing.Point(576, 102);
+            this.BtnSemanticTableaux.Name = "BtnSemanticTableaux";
+            this.BtnSemanticTableaux.Size = new System.Drawing.Size(107, 70);
+            this.BtnSemanticTableaux.TabIndex = 18;
+            this.BtnSemanticTableaux.Text = "Semantic Tableaux";
+            this.BtnSemanticTableaux.UseVisualStyleBackColor = true;
+            this.BtnSemanticTableaux.Click += new System.EventHandler(this.BtnSemanticTableaux_Click);
             // 
             // Tb_InfixFormula_Nandified
             // 
@@ -321,16 +331,6 @@
             this.PbBinaryGraph.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PbBinaryGraph.TabIndex = 14;
             this.PbBinaryGraph.TabStop = false;
-            // 
-            // BtnSemanticTableaux
-            // 
-            this.BtnSemanticTableaux.Location = new System.Drawing.Point(576, 102);
-            this.BtnSemanticTableaux.Name = "BtnSemanticTableaux";
-            this.BtnSemanticTableaux.Size = new System.Drawing.Size(107, 70);
-            this.BtnSemanticTableaux.TabIndex = 18;
-            this.BtnSemanticTableaux.Text = "Semantic Tableaux";
-            this.BtnSemanticTableaux.UseVisualStyleBackColor = true;
-            this.BtnSemanticTableaux.Click += new System.EventHandler(this.BtnSemanticTableaux_Click);
             // 
             // Form1
             // 

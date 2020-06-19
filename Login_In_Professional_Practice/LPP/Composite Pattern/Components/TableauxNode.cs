@@ -13,7 +13,7 @@ namespace LPP.Composite_Pattern.Components
         public bool? Closed;
 
         //Properties
-        public bool? Branched { get; private set; }
+        public bool? Branched { get; set; }
         public int NodeNumber { get; set; } = ++ParsingModule.NodeCounter;
 
 
@@ -28,7 +28,7 @@ namespace LPP.Composite_Pattern.Components
             if (parent != null)
                 parent.LeftNode ??= this;
         }
-        public TableauxNode(List<Component> components, TableauxNode parent)
+        public TableauxNode(List<Component> components, Component processed, TableauxNode parent)
         {
             this.Components = new List<Component>();
             this.ParentNode = parent;
@@ -40,10 +40,20 @@ namespace LPP.Composite_Pattern.Components
                 newNode.Belongs = this;
                 this.Components.Add(newNode);
             });
+            parent.Components.ForEach(component =>
+            {
+                if (component != processed)
+                {
+                    var newNode = BinaryTree.CloneNode(component, BinaryTree.Object);
+                    newNode.Belongs = this;
+                    this.Components.Add(newNode);
+                }
+            });
         }
         public TableauxNode(Component node, Component processed, TableauxNode parent)
         {
             this.Components = new List<Component>();
+            node.Belongs = this;
             Components.Add(node);
             parent.Components.ForEach(component =>
             {
@@ -71,7 +81,7 @@ namespace LPP.Composite_Pattern.Components
                     this.LeftNode.IsClosed();
                     this.RightNode.IsClosed();
                 }
-                else
+                else if (Branched == false && this.LeftNode != null)
                 {
                     this.LeftNode.IsClosed();
                 }
@@ -81,69 +91,90 @@ namespace LPP.Composite_Pattern.Components
 
         public void IsClosed()
         {
-            this.Components.ForEach(x => InfixFormulaGenerator.Calculator.Calculate(x));
-
-            if (this.LeftNode == null && this.RightNode==null)
-            {// Node has not being Processed
-                if (Components.Count > 1)
-                {
-                    for (var i = 0; i < Components.Count && this.Closed != true; i++)
+            if (Closed != true)
+            {
+                this.Components.ForEach(x => InfixFormulaGenerator.Calculator.Calculate(x));
+                if (this.LeftNode == null && this.RightNode == null)
+                {// Node has not being Processed
+                    if (Components.Count > 1)
                     {
-                        for (var j = i + 1; j < Components.Count; j++)
-                        {
-                            var node1Formula = Components[i].InFixFormula;
-                            var node2Formula = Components[j].InFixFormula;
-                            node1Formula = Components[i] is SingleComponent ? $"¬{node1Formula}" : $"¬({node1Formula})";
-                            if (node1Formula != node2Formula) continue;
-                            this.Closed = true;
-                            break;
-                        }
-                    }
-                    if (this.Closed != true)
-                    {
-                        if (!Components.Exists(x => x is CompositeComponent))
+                        if (Branched == false && LeftNode == null)
                         {
                             this.Closed = false;
                         }
                         else
                         {
-                            this.Evaluate();
+                            for (var i = 0; i < Components.Count && this.Closed != true; i++)
+                            {
+                                for (var j = i + 1; j < Components.Count; j++)
+                                {
+                                    var node1Formula = Components[i].InFixFormula;
+                                    var node2Formula = Components[j].InFixFormula;
+
+                                    if (Components[j] is SingleComponent)
+                                    {
+                                        node2Formula = Components[j] is SingleComponent ? $"¬{node2Formula}" : $"¬({node2Formula})";
+                                        if (node1Formula != node2Formula) continue;
+                                        this.Closed = true;
+                                        break;
+                                    } else if (Components[i] is SingleComponent)
+                                    {
+                                        node1Formula = Components[i] is SingleComponent ? $"¬{node1Formula}" : $"¬({node1Formula})";
+                                        if (node1Formula != node2Formula) continue;
+                                        this.Closed = true;
+                                        break;
+                                    }
+                                    
+                                }
+                            }
+                            if (this.Closed != true)
+                            {
+                                if (!Components.Exists(x => x is CompositeComponent))
+                                {
+                                    this.Closed = false;
+                                }
+                                else
+                                {
+                                    this.Evaluate();
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {//Root of Tableaux Node
+                        this.Evaluate();
+                    }
+                }
+                else
+                {//Node Has already Processed and simplified
+                    if (Branched == false)
+                    {
+                        if (this.LeftNode.Closed == true)
+                            this.Closed = true;
+                        else if (this.LeftNode.Closed == false)
+                            this.Closed = false;
+                    }
+                    else
+                    {
+                        if (this.LeftNode.Closed == true && this.RightNode.Closed == true)
+                            this.Closed = true;
+                        else if (this.LeftNode.Closed == false || this.RightNode.Closed == false)
+                            this.Closed = false;
+                        else
+                        {
+                            this.LeftNode.Evaluate();
+                            this.RightNode.Evaluate();
                         }
                     }
                 }
-                else
-                {//Root of Tableaux Node
-                    this.Evaluate();
-                }
             }
-            else
-            {//Node Has already Processed and simplified
-                if (Branched == false)
-                {
-                    if (this.LeftNode.Closed == true)
-                        this.Closed = true;
-                    else if (this.LeftNode.Closed == false)
-                        this.Closed = false;
-                }
-                else
-                {
-                    if (this.LeftNode.Closed == true && this.RightNode.Closed == true)
-                        this.Closed = true;
-                    else if (this.LeftNode.Closed == false || this.RightNode.Closed == false)
-                        this.Closed = false;
-                    else
-                    {
-                        this.LeftNode.Evaluate();
-                        this.RightNode.Evaluate();
-                    }
-                }
-            }
+            
         }
 
         public string Label()
         {
             var label = "";
-            Components.ForEach(x => { InfixFormulaGenerator.Calculator.Calculate(x); label += x.InFixFormula + ", ";});
+            Components.ForEach(x => { InfixFormulaGenerator.Calculator.Calculate(x); label += x.InFixFormula + ", "; });
 
             if (this.Closed == true)
                 label += "\n\n CLOSED";
@@ -154,9 +185,9 @@ namespace LPP.Composite_Pattern.Components
         }
         public string GraphVizFormula()
         {
-            string temp ="";
+            string temp = "";
             temp += $"node{NodeNumber} [ label = \"{this.Label()}\" ]";
-            
+
             if (LeftNode != null)
             {
                 temp += $"\nnode{NodeNumber} -- node{LeftNode.NodeNumber}\n";
