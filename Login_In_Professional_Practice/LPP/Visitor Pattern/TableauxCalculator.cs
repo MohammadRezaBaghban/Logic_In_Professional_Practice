@@ -100,6 +100,14 @@ namespace LPP.Visitor_Pattern
             } else if (mainConnective is BiImplication biImplication)
             {
                 var converted = ConvertBiImplicationToDisjunction(biImplication);
+                converted.Belongs = visitable.Belongs;
+                converted.Parent = visitable;
+                visitable.LeftNode = converted;
+                Calculate(visitable);
+            }else if (mainConnective is Nand nand)
+            {
+                var converted = ConvertNandToNegation(nand);
+                converted.Belongs = visitable.Belongs;
                 converted.Parent = visitable;
                 visitable.LeftNode = converted;
                 Calculate(visitable);
@@ -108,7 +116,11 @@ namespace LPP.Visitor_Pattern
 
         public void Visit(Nand visitable)
         {
-            throw new NotImplementedException();
+            var root = ConvertNandToNegation(visitable);
+            root.Belongs = visitable.Belongs;
+            visitable.Belongs.Components.Add(root);
+            visitable.Belongs.Components.Remove(visitable);
+            Calculate(root);
         }
 
         public void Visit(TableauxNode visitable)
@@ -126,7 +138,7 @@ namespace LPP.Visitor_Pattern
                 if (visitable.LeftNode == null)
                 {
                     visitable.Branched = false;
-                    visitable.Closed = false;
+                    visitable.LeafIsClosed = false;
                 }
             }
         }
@@ -147,6 +159,18 @@ namespace LPP.Visitor_Pattern
             _binaryTree.InsertNode(right, rightRight);
             _binaryTree.InsertNode(root, left);
             _binaryTree.InsertNode(root, right);
+
+            return root;
+        }
+
+        private Component ConvertNandToNegation(Nand visitable)
+        {
+            var root = new Negation();
+            var conjunction = new Conjunction();
+
+            _binaryTree.InsertNode(conjunction, BinaryTree.CloneNode(visitable.LeftNode, _binaryTree));
+            _binaryTree.InsertNode(conjunction, BinaryTree.CloneNode(visitable.RightNode, _binaryTree));
+            _binaryTree.InsertNode(root, conjunction);
 
             return root;
         }

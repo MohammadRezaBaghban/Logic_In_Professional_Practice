@@ -40,7 +40,7 @@ namespace LPPTestProject
             tableauxRoot.IsClosed();
 
             //Assert
-            Assert.Equal(true, tableauxRoot.Closed);
+            Assert.Equal(true, tableauxRoot.LeafIsClosed);
         }
 
         [Theory]
@@ -49,6 +49,7 @@ namespace LPPTestProject
         [InlineData(">(A,B)")]
         [InlineData("|(A,B)")]
         [InlineData("&(A,B)")]
+        [InlineData(">(P,%(P,Q))")]
         [InlineData(">(A,>(A,B))")]
         [InlineData(">(A,&(A,B))")]
         [InlineData(">(|(A,B),A)")]
@@ -67,7 +68,7 @@ namespace LPPTestProject
             tableauxRoot.IsClosed();
 
             //Assert
-            Assert.Equal(false, tableauxRoot.Closed);
+            Assert.Equal(false, tableauxRoot.LeafIsClosed);
         }
 
     }

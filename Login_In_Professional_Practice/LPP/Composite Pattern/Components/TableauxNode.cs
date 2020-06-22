@@ -10,7 +10,8 @@ namespace LPP.Composite_Pattern.Components
         public TableauxNode ParentNode;
         public TableauxNode LeftNode;
         public TableauxNode RightNode;
-        public bool? Closed;
+        public RuleType Rule_Type;
+        public bool? LeafIsClosed;
 
         //Properties
         public bool? Branched { get; set; }
@@ -21,6 +22,7 @@ namespace LPP.Composite_Pattern.Components
         public TableauxNode(Component root, TableauxNode parent = null)
         {
             Components = new List<Component>();
+            this.Rule_Type = RuleType.Rule_Default;
             this.ParentNode = parent;
             this.Branched = false;
             root.Belongs = this;
@@ -31,6 +33,7 @@ namespace LPP.Composite_Pattern.Components
         public TableauxNode(List<Component> components, Component processed, TableauxNode parent)
         { // Used for non-branched a-rules
             this.Components = new List<Component>();
+            this.Rule_Type = RuleType.RULE_ALPHA;
             this.ParentNode = parent;
             parent.Branched = false;
             parent.LeftNode = this;
@@ -53,6 +56,7 @@ namespace LPP.Composite_Pattern.Components
         public TableauxNode(Component node, Component processed, TableauxNode parent,bool branched)
         { // Used for branched B-rules
             this.Components = new List<Component>();
+            this.Rule_Type = RuleType.RULE_BETA;
             node.Belongs = this;
             Components.Add(node);
             parent.Components.ForEach(component =>
@@ -73,7 +77,7 @@ namespace LPP.Composite_Pattern.Components
 
         public void IsClosed()
         {
-            if (Closed != true)
+            if (LeafIsClosed != true)
             {
                 this.Components.ForEach(x => InfixFormulaGenerator.Calculator.Calculate(x));
                 if (this.LeftNode == null && this.RightNode == null)
@@ -83,11 +87,11 @@ namespace LPP.Composite_Pattern.Components
                         FindContradiction();
                         if (Branched == false && LeftNode == null)
                         {
-                            this.Closed = false;
+                            this.LeafIsClosed = false;
                         }
                         else
                         {
-                            if (this.Closed != true)
+                            if (this.LeafIsClosed != true)
                             {
                                 this.Evaluate();
                             }
@@ -102,15 +106,15 @@ namespace LPP.Composite_Pattern.Components
                 else
                 {
                     //Node Has already Processed and simplified
-                    this.Closed = Branched == false
-                        ? LeftNode.Closed
-                        : LeftNode.Closed == true && this.RightNode.Closed == true;
+                    this.LeafIsClosed = Branched == false
+                        ? LeftNode.LeafIsClosed
+                        : LeftNode.LeafIsClosed == true && this.RightNode.LeafIsClosed == true;
                 }
             }
         }
         private void Evaluate()
         {
-            if (Closed == null)
+            if (LeafIsClosed == null)
             {
                 TableauxCalculator.Object.Visit(this);
                 if (Branched == true)
@@ -127,7 +131,7 @@ namespace LPP.Composite_Pattern.Components
         }
         private void FindContradiction()
         {
-            for (var i = 0; i < Components.Count && this.Closed != true; i++)
+            for (var i = 0; i < Components.Count && this.LeafIsClosed != true; i++)
             {
                 for (var j = i + 1; j < Components.Count; j++)
                 {
@@ -138,14 +142,14 @@ namespace LPP.Composite_Pattern.Components
                     {
                         node2Formula = Components[j] is SingleComponent ? $"¬{node2Formula}" : $"¬({node2Formula})";
                         if (node1Formula != node2Formula) continue;
-                        this.Closed = true;
+                        this.LeafIsClosed = true;
                         break;
                     }
                     else if (Components[i] is SingleComponent)
                     {
                         node1Formula = Components[i] is SingleComponent ? $"¬{node1Formula}" : $"¬({node1Formula})";
                         if (node1Formula != node2Formula) continue;
-                        this.Closed = true;
+                        this.LeafIsClosed = true;
                         break;
                     }
                 }
@@ -157,9 +161,9 @@ namespace LPP.Composite_Pattern.Components
             var label = "";
             Components.ForEach(x => { InfixFormulaGenerator.Calculator.Calculate(x); label += x.InFixFormula + ", "; });
 
-            if (this.Closed == true)
+            if (this.LeafIsClosed == true)
                 label += "\n\n CLOSED";
-            else if (this.Closed == false)
+            else if (this.LeafIsClosed == false)
                 label += "\n\n OPENED";
 
             return label;
@@ -167,7 +171,15 @@ namespace LPP.Composite_Pattern.Components
         public string GraphVizFormula()
         {
             string temp = "";
-            temp += $"node{NodeNumber} [ label = \"{this.Label()}\" ]";
+            temp += $"node{NodeNumber} [ label = \"{this.Label()}\" shape=rectangle style=filled" +
+                    " color=" + (LeafIsClosed ==true ? "red" : "black") +
+                    " fillcolor=" + (Rule_Type == RuleType.RULE_ALPHA ? "yellow" :
+                        Rule_Type == RuleType.RULE_BETA ? "palegreen" :
+                        Rule_Type == RuleType.RULE_DELTA ? "skyblue" :
+                        Rule_Type == RuleType.RULE_GAMMA ? "brown1" :
+                        Rule_Type == RuleType.RULE_OMEGA ? "darkorange" :
+                        Rule_Type == RuleType.Rule_Default ? "gray88" :
+                        "gray88") + "]";
 
             if (LeftNode != null)
             {
@@ -181,5 +193,9 @@ namespace LPP.Composite_Pattern.Components
             }
             return temp;
         }
+
+        
     }
+
+    public enum RuleType { RULE_ALPHA, RULE_BETA, RULE_DELTA, RULE_GAMMA, RULE_OMEGA,Rule_Default };
 }

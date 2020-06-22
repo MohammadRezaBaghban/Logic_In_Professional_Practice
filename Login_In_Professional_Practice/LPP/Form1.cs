@@ -73,7 +73,7 @@ namespace LPP
             TbPropositionalVariables.Text = _binaryTreeNormal.PropositionalVariables.Get_Distinct_PropositionalVariables()
                 .SelectMany(x => x.Symbol.ToString()).Aggregate("", (current, next) => current + next);
 
-            //BtnSemanticTableaux.BackColor = _tableauxRoot.Closed == true ? Color.ForestGreen : Color.Tomato;
+            //BtnSemanticTableaux.BackColor = _tableauxRoot.LeafIsClosed == true ? Color.ForestGreen : Color.Tomato;
             BtnParseRecursively.BackColor = truthTable.GetHexadecimalHashCode() == truthTableNand.GetHexadecimalHashCode()
                     ? Color.MediumSeaGreen : Color.PaleVioletRed;
         }
@@ -168,7 +168,7 @@ namespace LPP
                     _tableauxRoot = new TableauxNode(_binaryTreeNormal.Root as CompositeComponent);
                     _tableauxRoot.IsClosed();
 
-                    BtnSemanticTableaux.BackColor = _tableauxRoot.Closed == true ? Color.ForestGreen : Color.Tomato;
+                    BtnSemanticTableaux.BackColor = _tableauxRoot.LeafIsClosed == true ? Color.ForestGreen : Color.Tomato;
                     _graphImages.Add(0, GenerateGraphVizBinaryGraph(_tableauxRoot.GraphVizFormula(), "Normal"));
                     PbBinaryGraph.ImageLocation = _graphImages[0];
                     Btn_Image_Open.Enabled = true;
