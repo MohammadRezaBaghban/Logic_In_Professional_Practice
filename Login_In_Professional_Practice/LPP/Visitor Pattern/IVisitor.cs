@@ -13,6 +13,7 @@ namespace LPP.Composite_Pattern
         void Visit(Conjunction visitable);
         void Visit(Negation visitable);
         void Visit(Nand visitable);
-
+        void Visit(Universal visitable);
+        void Visit(Existential visitable);
     }
 }

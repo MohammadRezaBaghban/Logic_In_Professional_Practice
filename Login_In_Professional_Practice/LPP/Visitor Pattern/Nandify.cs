@@ -126,6 +126,10 @@ namespace LPP.Visitor_Pattern
             visitable.Nand = visitable;
         }
 
+        public void Visit(Universal visitable) => throw new System.NotImplementedException();
+
+        public void Visit(Existential visitable) => throw new System.NotImplementedException();
+
         private void InsertNodeSingle(Component root, Component branch)
         {
             if (branch is CompositeComponent composite)

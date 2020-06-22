@@ -45,6 +45,8 @@ namespace LPP.Visitor_Pattern
             visitable.Data = !(visitable.LeftNode.Data && visitable.RightNode.Data);
 
         public void Visit(Negation visitable) => visitable.Data = !visitable.LeftNode.Data;
+        public void Visit(Universal visitable) => throw new System.NotImplementedException();
+        public void Visit(Existential visitable) => throw new System.NotImplementedException();
 
         public void Visit(TruthTable truthTable)
         {

@@ -17,16 +17,15 @@ namespace LPP
         //Fields and Variables
         private BinaryTree _binaryTreeNormal;
         private BinaryTree _binaryTreeNandified;
-        private TruthTable truthTable;
-        private TruthTable truthTableNand;
+        private TruthTable _truthTable;
+        private TruthTable _truthTableNand;
         private TableauxNode _tableauxRoot;
-        private Dictionary<int, string> _graphImages;
+        private readonly Dictionary<int, string> _graphImages;
         private readonly int numberOfImage = 4;
         private int _imageIndex = 0;
 
         //Dependencies
         private readonly Nandify _nandify;
-        private readonly Calculator _calculator;
         private readonly TableauxCalculator _tableauxCalculator;
         private readonly InfixFormulaGenerator _formulaGenerator;
 
@@ -36,7 +35,6 @@ namespace LPP
             _formulaGenerator = InfixFormulaGenerator.Calculator;
             _tableauxCalculator = new TableauxCalculator();
             _graphImages = new Dictionary<int, string>();
-            _calculator = new Calculator();
             _nandify = new Nandify();
         }
 
@@ -47,17 +45,17 @@ namespace LPP
             LbTruthTable.Items.Clear();
             LbSimplifiedTruthTable.Items.Clear();
 
-            var rowsOfTruthTable = truthTable.ToString().Split('\n').ToList();
-            var rowsOfSimplifiedTruthTable = truthTable.SimplifiedToString().Split('\n').ToList();
+            var rowsOfTruthTable = _truthTable.ToString().Split('\n').ToList();
+            var rowsOfSimplifiedTruthTable = _truthTable.SimplifiedToString().Split('\n').ToList();
             rowsOfTruthTable.ForEach(row => LbTruthTable.Items.Add(row));
             rowsOfSimplifiedTruthTable.ForEach(row => LbSimplifiedTruthTable.Items.Add(row));
 
             LbHashCodes.Items.Add("HashCodes");
-            LbHashCodes.Items.Add($"Normal - Original: {truthTable.GetHexadecimalHashCode()}");
-            LbHashCodes.Items.Add($"Normal - NAND: {truthTableNand.GetHexadecimalHashCode()}");
-            LbHashCodes.Items.Add($"Normal - DNF: {truthTable.DnftTruthTable?.GetHexadecimalHashCode()}");
-            LbHashCodes.Items.Add($"Simplified - Original: {truthTable.GetHexadecimalSimplifiedHashCode()}");
-            LbHashCodes.Items.Add($"Simplified - DNF: {truthTable.DnftTruthTable?.GetHexadecimalSimplifiedHashCode()}");
+            LbHashCodes.Items.Add($"Normal - Original: {_truthTable.GetHexadecimalHashCode()}");
+            LbHashCodes.Items.Add($"Normal - NAND: {_truthTableNand.GetHexadecimalHashCode()}");
+            LbHashCodes.Items.Add($"Normal - DNF: {_truthTable.DnftTruthTable?.GetHexadecimalHashCode()}");
+            LbHashCodes.Items.Add($"Simplified - Original: {_truthTable.GetHexadecimalSimplifiedHashCode()}");
+            LbHashCodes.Items.Add($"Simplified - DNF: {_truthTable.DnftTruthTable?.GetHexadecimalSimplifiedHashCode()}");
         }
         private void PopulateTextBoxesWithValues(CompositeComponent root)
         {
@@ -67,21 +65,21 @@ namespace LPP
             Tb_InfixFormula_Nandified.Enabled = true;
             Tb_InfixFormula_Normal.Text = root.InFixFormula;
             Tb_InfixFormula_Nandified.Text = root.Nand.InFixFormula;
-            Tb_TruthTableHashCode.Text = $@"{truthTable.GetHexadecimalHashCode()}";
-            TbNormalDNF.Text = $"{DNF.DNFFormula(truthTable.DNF_Normal_Components)}";
-            TbSimplifiedDNF.Text = $"{DNF.DNFFormula(truthTable.DNF_Simplified_Components)}";
+            Tb_TruthTableHashCode.Text = $@"{_truthTable.GetHexadecimalHashCode()}";
+            TbNormalDNF.Text = $@"{DNF.DNFFormula(_truthTable.DNF_Normal_Components)}";
+            TbSimplifiedDNF.Text = $@"{DNF.DNFFormula(_truthTable.DNF_Simplified_Components)}";
             TbPropositionalVariables.Text = _binaryTreeNormal.PropositionalVariables.Get_Distinct_PropositionalVariables()
                 .SelectMany(x => x.Symbol.ToString()).Aggregate("", (current, next) => current + next);
 
             //BtnSemanticTableaux.BackColor = _tableauxRoot.LeafIsClosed == true ? Color.ForestGreen : Color.Tomato;
-            BtnParseRecursively.BackColor = truthTable.GetHexadecimalHashCode() == truthTableNand.GetHexadecimalHashCode()
+            BtnParseRecursively.BackColor = _truthTable.GetHexadecimalHashCode() == _truthTableNand.GetHexadecimalHashCode()
                     ? Color.MediumSeaGreen : Color.PaleVioletRed;
         }
         private void PopulatePictureBoxWithImages(CompositeComponent root)
         {
             _graphImages.Add(0, GenerateGraphVizBinaryGraph(root.GraphVizFormula, "Normal"));
             _graphImages.Add(1, GenerateGraphVizBinaryGraph(root.Nand.GraphVizFormula, "NAND"));
-            _graphImages.Add(2, GenerateGraphVizBinaryGraph(truthTable.DNF_Normal_BinaryTree?.Root.GraphVizFormula, "DNF"));
+            _graphImages.Add(2, GenerateGraphVizBinaryGraph(_truthTable.DNF_Normal_BinaryTree?.Root.GraphVizFormula, "DNF"));
             //_graphImages.Add(3, GenerateGraphVizBinaryGraph(_tableauxRoot.GraphVizFormula(), "Tableaux"));
 
             LbImageName.Text = _graphImages[0].Substring(0, _graphImages[0].IndexOf("."));
@@ -136,9 +134,9 @@ namespace LPP
                     _nandify.Calculate(rootOfNormalBinaryTree);
                     //_tableauxRoot.IsClosed();
 
-                    truthTable = new TruthTable(_binaryTreeNormal);
-                    truthTableNand = new TruthTable(Nandify.binaryTree);
-                    truthTable.ProcessDNF();
+                    _truthTable = new TruthTable(_binaryTreeNormal);
+                    _truthTableNand = new TruthTable(Nandify.binaryTree);
+                    _truthTable.ProcessDNF();
 
                     PopulateTextBoxesWithValues(rootOfNormalBinaryTree);
                     PopulateListBoxesWithValues();
@@ -154,25 +152,34 @@ namespace LPP
 
         private void BtnSemanticTableaux_Click(object sender, EventArgs e)
         {
-            string userInput = $"~({TbFormulaInput.Text.Trim()})";
             try
             {
+                string userInput = TbFormulaInput.Text.Trim();
                 if (userInput.Length < 4)
                 {
                     throw new Exception("Format of input is not correct");
                 }
                 else
                 {
-                    _graphImages.Clear();
-                    _binaryTreeNormal = ParsingModule.ParseInput(userInput);
-                    _tableauxRoot = new TableauxNode(_binaryTreeNormal.Root as CompositeComponent);
-                    _tableauxRoot.IsClosed();
 
-                    BtnSemanticTableaux.BackColor = _tableauxRoot.LeafIsClosed == true ? Color.ForestGreen : Color.Tomato;
-                    _graphImages.Add(0, GenerateGraphVizBinaryGraph(_tableauxRoot.GraphVizFormula(), "Normal"));
-                    PbBinaryGraph.ImageLocation = _graphImages[0];
-                    Btn_Image_Open.Enabled = true;
-                    _imageIndex = 0;
+                    if (userInput.StartsWith("@") || userInput.StartsWith("!"))
+                    {
+                        var sth = ParsingModule.ParseInputPredicate(userInput);
+                    }
+                    else
+                    {
+                        userInput = $"~({userInput})";
+                        _graphImages.Clear();
+                        _binaryTreeNormal = ParsingModule.ParseInput(userInput);
+                        _tableauxRoot = new TableauxNode(_binaryTreeNormal.Root as CompositeComponent);
+                        _tableauxRoot.IsClosed();
+
+                        BtnSemanticTableaux.BackColor = _tableauxRoot.LeafIsClosed == true ? Color.ForestGreen : Color.Tomato;
+                        _graphImages.Add(0, GenerateGraphVizBinaryGraph(_tableauxRoot.GraphVizFormula(), "Normal"));
+                        PbBinaryGraph.ImageLocation = _graphImages[0];
+                        Btn_Image_Open.Enabled = true;
+                        _imageIndex = 0;
+                    }
                 }
             }
             catch (Exception ex)

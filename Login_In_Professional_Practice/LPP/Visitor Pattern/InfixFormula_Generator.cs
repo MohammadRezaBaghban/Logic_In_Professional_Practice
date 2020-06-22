@@ -1,4 +1,5 @@
-﻿using LPP.Composite_Pattern;
+﻿using System.Linq;
+using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Connectives;
 using IVisitor = LPP.Composite_Pattern.IVisitor;
@@ -52,6 +53,16 @@ namespace LPP.Visitor_Pattern
         public void Visit(Disjunction visitable) => GenerateInfixGenerator(visitable, '|');
         public void Visit(Conjunction visitable) => GenerateInfixGenerator(visitable, '&');
         public void Visit(Nand visitable) => GenerateInfixGenerator(visitable, '%');
+
+        public void Visit(Universal visitable) =>
+            visitable.InFixFormula =
+                $"∀{visitable.BoundVariables.SelectMany(x => x).ToString()}" +
+                $"[{visitable.LeftNode.InFixFormula}]";
+
+        public void Visit(Existential visitable) =>
+            visitable.InFixFormula =
+                $"∃{visitable.boundVariables.SelectMany(x => x).ToString()}" +
+                $"[{visitable.LeftNode.InFixFormula}]";
 
         /// <summary>
         /// Method for create more intuitive infix formula based on the type of left and right node.

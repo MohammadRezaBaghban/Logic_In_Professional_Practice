@@ -123,6 +123,9 @@ namespace LPP.Visitor_Pattern
             Calculate(root);
         }
 
+        public void Visit(Universal visitable) => throw new NotImplementedException();
+        public void Visit(Existential visitable) => throw new NotImplementedException();
+
         public void Visit(TableauxNode visitable)
         {
             if (visitable.Branched == null || !((bool)visitable.Branched))

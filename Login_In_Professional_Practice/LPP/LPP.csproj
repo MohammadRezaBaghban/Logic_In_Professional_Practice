@@ -48,11 +48,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Composite Pattern\Components\Quantifier.cs" />
     <Compile Include="Composite Pattern\Connectives\BiImplication.cs" />
     <Compile Include="Composite Pattern\Connectives\Conjunction.cs" />
     <Compile Include="Composite Pattern\Connectives\Disjunction.cs" />
+    <Compile Include="Composite Pattern\Connectives\Existential.cs" />
     <Compile Include="Composite Pattern\Connectives\Implication.cs" />
     <Compile Include="Composite Pattern\Connectives\Negation.cs" />
+    <Compile Include="Composite Pattern\Connectives\Universal.cs" />
     <Compile Include="Composite Pattern\Variables\Variable.cs" />
     <Compile Include="Composite Pattern\Variables\TrueFalse.cs" />
     <Compile Include="Composite Pattern\Connectives\Nand.cs" />

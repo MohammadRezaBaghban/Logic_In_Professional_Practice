@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Connectives;
 using LPP.Composite_Pattern.Variables;
 using Component = LPP.Composite_Pattern.Components.Component;
@@ -34,6 +35,18 @@ namespace LPP
             return _binaryTree;
         }
 
+        public static BinaryTree ParseInputPredicate(string input)
+        {
+            EraseParsedList();
+            var quantifierType = input.Substring(0, 1);
+            var boundVariables = input.Substring(1, input.IndexOf(".") - 1).ToArray();
+            Quantifier quantifier = quantifierType.Equals("@") == true ? (Quantifier) new Universal(boundVariables) : new Existential(boundVariables);
+            
+            var indexOfFirstParanthesis = input.IndexOf("("); var indexOfLastParanthesis = input.LastIndexOf(")");
+            var formula = input.Substring(indexOfFirstParanthesis+1, indexOfLastParanthesis-indexOfFirstParanthesis-1);
+
+            return BinaryTree.Object;
+        }
 
         /// <summary>
         /// Parse an input in the format of string and extract the list of formula elements
@@ -95,7 +108,6 @@ namespace LPP
                 }
             }
         }
-
 
         /// <summary>
         /// Interact with BinaryTree instance to generate a binary tree based on element
@@ -215,5 +227,7 @@ namespace LPP
             Connectives,
             Unknown
         }
+
+        
     }
 }
