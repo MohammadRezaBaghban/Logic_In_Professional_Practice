@@ -173,8 +173,6 @@ namespace LPP
                     PbBinaryGraph.ImageLocation = _graphImages[0];
                     Btn_Image_Open.Enabled = true;
                     _imageIndex = 0;
-
-
                 }
             }
             catch (Exception ex)

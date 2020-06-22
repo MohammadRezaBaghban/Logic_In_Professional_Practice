@@ -26,22 +26,11 @@ namespace LPP.Visitor_Pattern
 
         public void Visit(BiImplication visitable)
         {
-            var root = new Disjunction();
-            var left = new Conjunction();
-            var right = new Conjunction();
-            var rightLeft = new Negation();
-            var rightRight = new Negation();
-
-            _binaryTree.InsertNode(left, BinaryTree.CloneNode(visitable.LeftNode, _binaryTree));
-            _binaryTree.InsertNode(left, BinaryTree.CloneNode(visitable.RightNode, _binaryTree));
-            _binaryTree.InsertNode(rightLeft, BinaryTree.CloneNode(visitable.LeftNode, _binaryTree));
-            _binaryTree.InsertNode(rightRight, BinaryTree.CloneNode(visitable.RightNode, _binaryTree));
-            _binaryTree.InsertNode(right, rightLeft);
-            _binaryTree.InsertNode(right, rightRight);
-            _binaryTree.InsertNode(root, left);
-            _binaryTree.InsertNode(root, right);
-
-            root.Parent = visitable.Parent;
+            var root = ConvertBiImplicationToDisjunction(visitable);
+            root.Belongs = visitable.Belongs;
+            visitable.Belongs.Components.Add(root);
+            visitable.Belongs.Components.Remove(visitable);
+            Calculate(root);
         }
 
         public void Visit(Implication visitable)
@@ -51,8 +40,8 @@ namespace LPP.Visitor_Pattern
             var _p = new Negation();
             var q = BinaryTree.CloneNode(visitable.RightNode, _binaryTree);
             _binaryTree.InsertNode(_p, BinaryTree.CloneNode(visitable.LeftNode, _binaryTree));
-            var nodeLeft = new TableauxNode(_p, visitable, tableauxRoot);
-            var nodeRight = new TableauxNode(q, visitable, tableauxRoot);
+            var nodeLeft = new TableauxNode(_p, visitable, tableauxRoot,true);
+            var nodeRight = new TableauxNode(q, visitable, tableauxRoot, true);
         }
 
         public void Visit(Disjunction visitable)
@@ -60,8 +49,8 @@ namespace LPP.Visitor_Pattern
             var tableauxRoot = visitable.Belongs;
             var p = BinaryTree.CloneNode(visitable.LeftNode, _binaryTree);
             var q = BinaryTree.CloneNode(visitable.RightNode, _binaryTree);
-            var nodeLeft = new TableauxNode(p, visitable, tableauxRoot);
-            var nodeRight = new TableauxNode(q, visitable, tableauxRoot);
+            var nodeLeft = new TableauxNode(p, visitable, tableauxRoot, true);
+            var nodeRight = new TableauxNode(q, visitable, tableauxRoot, true);
         }
 
         public void Visit(Conjunction visitable)
@@ -81,7 +70,7 @@ namespace LPP.Visitor_Pattern
             {// Double Negation | Done
 
                 var p = BinaryTree.CloneNode(doubleNegation.LeftNode, _binaryTree);
-                var newTableauxNode = new TableauxNode(p, tableauxRoot);
+                var nodeLeft = new TableauxNode(p, visitable, tableauxRoot,false);
             }
             else if (mainConnective is Disjunction disjunction)
             {// α-rule for ~(|) | Done
@@ -102,13 +91,18 @@ namespace LPP.Visitor_Pattern
             }
             else if (mainConnective is Conjunction conjunction)
             {// β-rule for ~(&)
-
                 var _p = new Negation();
                 var _q = new Negation();
-                var nodeLeft = new TableauxNode(_p, visitable, tableauxRoot);
-                var nodeRight = new TableauxNode(_q, visitable, tableauxRoot);
+                var nodeLeft = new TableauxNode(_p, visitable, tableauxRoot, true);
+                var nodeRight = new TableauxNode(_q, visitable, tableauxRoot, true);
                 _binaryTree.InsertNode(_p, BinaryTree.CloneNode(conjunction.LeftNode, _binaryTree));
                 _binaryTree.InsertNode(_q, BinaryTree.CloneNode(conjunction.RightNode, _binaryTree));
+            } else if (mainConnective is BiImplication biImplication)
+            {
+                var converted = ConvertBiImplicationToDisjunction(biImplication);
+                converted.Parent = visitable;
+                visitable.LeftNode = converted;
+                Calculate(visitable);
             }
         }
 
@@ -135,6 +129,26 @@ namespace LPP.Visitor_Pattern
                     visitable.Closed = false;
                 }
             }
+        }
+
+        private Component ConvertBiImplicationToDisjunction(BiImplication visitable)
+        {
+            var root = new Disjunction();
+            var left = new Conjunction();
+            var right = new Conjunction();
+            var rightLeft = new Negation();
+            var rightRight = new Negation();
+
+            _binaryTree.InsertNode(left, BinaryTree.CloneNode(visitable.LeftNode, _binaryTree));
+            _binaryTree.InsertNode(left, BinaryTree.CloneNode(visitable.RightNode, _binaryTree));
+            _binaryTree.InsertNode(rightLeft, BinaryTree.CloneNode(visitable.LeftNode, _binaryTree));
+            _binaryTree.InsertNode(rightRight, BinaryTree.CloneNode(visitable.RightNode, _binaryTree));
+            _binaryTree.InsertNode(right, rightLeft);
+            _binaryTree.InsertNode(right, rightRight);
+            _binaryTree.InsertNode(root, left);
+            _binaryTree.InsertNode(root, right);
+
+            return root;
         }
     }
 }

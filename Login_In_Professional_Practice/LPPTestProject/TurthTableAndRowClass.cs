@@ -98,6 +98,7 @@ namespace LPPTestProject
         [InlineData("|(|(A,B),|(C,|(F,G)))")]
         [InlineData(">(&(A,~(D)),|(B,|(Y,R)))")]
         [InlineData("~(|(|(A,~(B)),|(~(C),D))))")]
+        [InlineData(">(&(|(P,Q),&(>(P,R),>(Q,R))),R)")]
         [InlineData(">(>(|(P,Q),R),|(>(P,R),>(Q,R)))")]
         public void TruthTable_Nandify_NandTruthTableHashCodeBeAsExpected(string prefixInput)
         {
