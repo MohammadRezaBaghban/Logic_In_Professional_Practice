@@ -164,7 +164,11 @@ namespace LPP
 
                     if (userInput.Contains("@") || userInput.Contains("!"))
                     {
-                        var sth = ParsingModule.Parse(userInput);
+                        var root = ParsingModule.Parse(userInput);
+                        _graphImages.Add(0, GenerateGraphVizBinaryGraph(root.Root.GraphVizFormula, "Normal"));
+                        PbBinaryGraph.ImageLocation = _graphImages[0];
+                        Btn_Image_Open.Enabled = true;
+                        _imageIndex = 0;
                     }
                     else
                     {

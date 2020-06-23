@@ -65,10 +65,10 @@ namespace LPP
                 return Root;
             }
 
-            if (newNode is Negation)
+            if (newNode is Negation || newNode is Universal || newNode is Existential)
             {
                 //Try to put the function on the left side of tree
-                if (root is Negation)
+                if (root is Negation || root is Universal || root is Existential)
                 {
                     if (root.LeftNode == null)
                     {
@@ -221,7 +221,7 @@ namespace LPP
             }                         
 
             //Try to put the single node on the left side of tree as much as possible
-            if (root is Negation)
+            if (root is Negation || singleNode is Predicate)
             {
                 if (root.LeftNode == null)
                 {

@@ -3,7 +3,6 @@
     public abstract class SingleComponent:Component
     {
         //Fields
-        public bool IsPropositionalVariable;
         public override string GraphVizFormula => $"node{NodeNumber} [ label = \"{Symbol}\" ]";
 
         //Methods

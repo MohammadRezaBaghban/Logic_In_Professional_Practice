@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LPP.Composite_Pattern.Variables;
 
 namespace LPP.Composite_Pattern.Components
 {
-    public abstract class Quantifier : CompositeComponent
+    public interface IVariableContainer
     {
-        public char[] BoundVariables;
+        PropositionalVariables ObjectVariables { get; set; }
     }
 }

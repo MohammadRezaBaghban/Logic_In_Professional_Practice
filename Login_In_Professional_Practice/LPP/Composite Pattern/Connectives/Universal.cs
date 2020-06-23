@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using LPP.Composite_Pattern.Components;
+using LPP.Composite_Pattern.Variables;
 
 namespace LPP.Composite_Pattern.Connectives
 {
-    public class Universal:Quantifier
+    public class Universal:CompositeComponent,IVariableContainer
     {
-        public Universal(char[] variables)
+        public PropositionalVariables ObjectVariables { get; set; }
+
+        public Universal()
         {
-            this.BoundVariables = variables;
+            ObjectVariables = new PropositionalVariables();
             Symbol = '∀';
         }
 
