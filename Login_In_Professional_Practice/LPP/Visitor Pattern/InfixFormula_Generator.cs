@@ -56,12 +56,12 @@ namespace LPP.Visitor_Pattern
 
         public void Visit(Universal visitable) =>
             visitable.InFixFormula =
-                $"∀{visitable.BoundVariables.SelectMany(x => x).ToString()}" +
+                $"∀{visitable.BoundVariables.SelectMany(x => x.ToString())}" +
                 $"[{visitable.LeftNode.InFixFormula}]";
 
         public void Visit(Existential visitable) =>
             visitable.InFixFormula =
-                $"∃{visitable.boundVariables.SelectMany(x => x).ToString()}" +
+                $"∃{visitable.BoundVariables.SelectMany(x => x.ToString())}" +
                 $"[{visitable.LeftNode.InFixFormula}]";
 
         /// <summary>

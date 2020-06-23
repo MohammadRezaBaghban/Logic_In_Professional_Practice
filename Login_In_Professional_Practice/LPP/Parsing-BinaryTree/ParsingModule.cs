@@ -17,6 +17,7 @@ namespace LPP
         private static BinaryTree _binaryTree = new BinaryTree();
         public static List<char> Elements = new List<char>();
         public static char[] Connectives = new char[] { '~', '>', '=', '&', '|','%' };
+        public static char[] Quantifiers = new char[] { '!', '@' , '.'};
         public static int NodeCounter;
 
         /// <summary>
@@ -26,18 +27,33 @@ namespace LPP
         /// Generate the binary tree out of the given formula
         ///  <param name="input">prefix abstract proposition formula</param>
         /// <returns>The binaryTree object </returns>
-        public static BinaryTree ParseInput(string input)
+        private static BinaryTree ParseInput(string input)
         {
             EraseParsedList();
-            ParseInputRecursively(ref input);
+            ParseInputRecursively(ref input,isPredicate:false);
             GenerateBinaryTree(Elements);
             _binaryTree.MakeIt_Non_Modifiable();
             return _binaryTree;
         }
 
+        public static BinaryTree Parse(string input)
+        {
+            BinaryTree root;
+            if (input.Contains("@") || input.Contains("!"))
+            {
+                root = ParsingModule.ParseInputPredicate(input);
+            }
+            else
+            {
+                root = ParseInput(input);
+            }
+            return root;
+        }
+
         public static BinaryTree ParseInputPredicate(string input)
         {
             EraseParsedList();
+            ParseInputRecursively(ref input, isPredicate: true);
             var quantifierType = input.Substring(0, 1);
             var boundVariables = input.Substring(1, input.IndexOf(".") - 1).ToArray();
             Quantifier quantifier = quantifierType.Equals("@") == true ? (Quantifier) new Universal(boundVariables) : new Existential(boundVariables);
@@ -52,7 +68,7 @@ namespace LPP
         /// Parse an input in the format of string and extract the list of formula elements
         /// </summary>
         /// <returns>return string excluding processed section</returns>
-        private static string ParseInputRecursively(ref string expression)
+        private static string ParseInputRecursively(ref string expression,bool isPredicate)
         {
             if (string.IsNullOrEmpty(expression))
             {
@@ -60,51 +76,134 @@ namespace LPP
             }
             else
             {
-                if (expression[0] == ' ' || expression[0] == ',' || expression[0] == ')')
+                var currentCharacterType = CharacterType(expression[0], isPredicate);
+                if (!isPredicate)
                 {
-                    EatMethod(ref expression);
-                    return ParseInputRecursively(ref expression);
-                }
-
-                if (CharacterType(expression[0]) == characterType.Unknown)
-                {
-                    throw new Exception($"Unknown Character:{expression[0]}" +
-                                           "\n\nThe formula contain Invalid Characters\n" +
-                                           "Propositional Variables: English Capital Letter - 0,1\n" +
-                                           "Connectives: ~,>,=,&,|\n" +
-                                           "Separators: '(', ',' ,')'");
-                }
-                else if (CharacterType(expression[0]) == characterType.PropositionalVariable)
-                {
-                    Elements.Add(expression[0]);
-                    EatMethod(ref expression);
-                    return ParseInputRecursively(ref expression);
+                    if (expression[0] == ' ' || expression[0] == ',' || expression[0] == ')')
+                    {
+                        EatMethod(ref expression);
+                        return ParseInputRecursively(ref expression, isPredicate);
+                    }
+                    if (currentCharacterType == characterType.Unknown)
+                    {
+                        throw new Exception($"Unknown Character:{expression[0]}" +
+                                               "\n\nThe Propositional formula contain Invalid Characters\n" +
+                                               "Propositional Variables: English Capital Letter - 0,1\n" +
+                                               "Connectives: ~,>,=,&,|\n" +
+                                               "Separators: '(', ',' ,')'");
+                    }
+                    else if (currentCharacterType == characterType.PropositionalVariable)
+                    {
+                        Elements.Add(expression[0]);
+                        EatMethod(ref expression);
+                        return ParseInputRecursively(ref expression, isPredicate);
+                    }
+                    else
+                    {
+                        switch (expression[0])
+                        {
+                            case '>':
+                            case '=':
+                            case '%':
+                            case '&':
+                            case '|':
+                                Elements.Add(expression[0]);
+                                EatMethod(ref expression, 2);
+                                string a1 = expression.Substring(0, expression.IndexOf(')') + 1);
+                                expression = expression.Remove(0, a1.Length);
+                                ParseInputRecursively(ref a1, isPredicate);
+                                string a2 = expression.Substring(0, expression.IndexOf(')') + 1);
+                                expression = expression.Remove(0, a2.Length);
+                                ParseInputRecursively(ref a2, isPredicate);
+                                return ParseInputRecursively(ref expression, isPredicate);
+                            case '~':
+                                Elements.Add(expression[0]);
+                                EatMethod(ref expression, 2);
+                                return ParseInputRecursively(ref expression, isPredicate);
+                            default:
+                                return null;
+                        }
+                    }
                 }
                 else
                 {
-                    switch (expression[0])
+                    if (expression[0] == ' ' || expression[0] == ',' || expression[0] == ')')
                     {
-                        case '>':
-                        case '=':
-                        case '%':
-                        case '&':
-                        case '|':
-                            Elements.Add(expression[0]);
-                            EatMethod(ref expression, 2);
-                            string a1 = expression.Substring(0, expression.IndexOf(')') + 1);
-                            expression = expression.Remove(0, a1.Length);
-                            ParseInputRecursively(ref a1);
-                            string a2 = expression.Substring(0, expression.IndexOf(')') + 1);
-                            expression = expression.Remove(0, a2.Length);
-                            ParseInputRecursively(ref a2);
-                            return ParseInputRecursively(ref expression);
-                        case '~':
-                            Elements.Add(expression[0]);
-                            EatMethod(ref expression, 2);
-                            return ParseInputRecursively(ref expression);
-                        default:
-                            return null;
+                        EatMethod(ref expression);
+                        return ParseInputRecursively(ref expression, isPredicate);
                     }
+
+                    if (currentCharacterType == characterType.Unknown)
+                    {
+                        throw new Exception($"Unknown Character:{expression[0]}" +
+                                               "\n\nThe Predicate contain Invalid Characters\n" +
+                                               "Propositional Variables: English Capital Letter - 0,1\n" +
+                                               "Quantifier: @,!\n" + "Connectives: ~,>,=,&,|\n" +
+                                               "Separators: '(', ',' ,')' ,'.'");
+                    }
+                    else if (currentCharacterType == characterType.PropositionalVariable)
+                    {
+                        var lastElementType = CharacterType(Elements[Elements.Count - 1], true);
+                        if (lastElementType == characterType.Quantifier)
+                        {
+                            expression.Substring(0, expression.IndexOf(".")).ToList().ForEach(x=>Elements.Add(x));
+                            EatMethod(ref expression, expression.IndexOf("(")+1);
+                            return ParseInputRecursively(ref expression, isPredicate);
+                        }
+                        else if(lastElementType == characterType.Predicate)
+                        {
+                            var str = expression.Substring(0, expression.IndexOf(")"));
+                            if (str.Length > 1)
+                            {
+                                str.Split(',').ToList().ForEach(x => Elements.Add(Convert.ToChar(x)));
+                            }
+                            else
+                            {
+                                Elements.Add(expression[0]);
+                            }
+                            EatMethod(ref expression, expression.IndexOf(")") + 1);
+                            return ParseInputRecursively(ref expression, isPredicate);
+                        }
+                    }
+                    else if (currentCharacterType == characterType.Predicate)
+                    {
+                        Elements.Add(expression[0]);
+                        EatMethod(ref expression, 2);
+                        return ParseInputRecursively(ref expression, isPredicate);
+
+                    }
+                    else
+                    {
+                        switch (expression[0])
+                        {
+                            case '>':
+                            case '=':
+                            case '%':
+                            case '&':
+                            case '|':
+                                Elements.Add(expression[0]);
+                                EatMethod(ref expression, 2);
+                                string a1 = expression.Substring(0, expression.IndexOf(')') + 1);
+                                expression = expression.Remove(0, a1.Length);
+                                ParseInputRecursively(ref a1, isPredicate);
+                                string a2 = expression.Substring(0, expression.IndexOf(',') + 1);
+                                expression = expression.Remove(0, a2.Length);
+                                //ParseInputRecursively(ref a2, isPredicate);
+                                return ParseInputRecursively(ref expression, isPredicate);
+                            case '~':
+                                Elements.Add(expression[0]);
+                                EatMethod(ref expression, 2);
+                                return ParseInputRecursively(ref expression, isPredicate);
+                            case '!':
+                            case '@':
+                                Elements.Add(expression[0]);
+                                EatMethod(ref expression, 1);
+                                return ParseInputRecursively(ref expression, isPredicate);
+                            default:
+                                return null;
+                        }
+                    }
+                    return null;
                 }
             }
         }
@@ -120,7 +219,7 @@ namespace LPP
             for (var i = 0; i <= input.Count - 1; i++)
             {
                 var currentCharacter = input[i];
-                if (CharacterType(currentCharacter) == characterType.PropositionalVariable)
+                if (CharacterType(currentCharacter,false) == characterType.PropositionalVariable)
                 {
                     switch (currentCharacter)
                     {
@@ -204,27 +303,55 @@ namespace LPP
             _binaryTree.Root = null;
         }
 
-        private static characterType CharacterType(char character)
+        private static characterType CharacterType(char character, bool predicate)
         {
-            // If the character is Propositional Variables or true/false  
-            if (Char.IsUpper(character) || character == '0' || character == '1')
+            if (!predicate)
             {
-                return characterType.PropositionalVariable;
-            }
-            else if (Connectives.Contains(character))
-            {
-                return characterType.Connectives;
+                // If the character is Propositional Variables or true/false  
+                if (Char.IsUpper(character) || character == '0' || character == '1')
+                {
+                    return characterType.PropositionalVariable;
+                }
+                else if (Connectives.Contains(character))
+                {
+                    return characterType.Connectives;
+                }
+                else
+                {
+                    return characterType.Unknown;
+                }
             }
             else
             {
-                return characterType.Unknown;
+                // If the character is Propositional Variables or true/false  
+                if (Char.IsUpper(character))
+                {
+                    return characterType.Predicate;
+                }else if (Char.IsLower(character))
+                {
+                    return characterType.PropositionalVariable;
+                }
+                else if (Quantifiers.Contains(character))
+                {
+                    return characterType.Quantifier;
+                }else if (Connectives.Contains(character))
+                {
+                    return characterType.Connectives;
+                }
+                else
+                {
+                    return characterType.Unknown;
+                }
             }
+            
         }
 
         enum characterType
         {
             PropositionalVariable,
             Connectives,
+            Quantifier,
+            Predicate,
             Unknown
         }
 

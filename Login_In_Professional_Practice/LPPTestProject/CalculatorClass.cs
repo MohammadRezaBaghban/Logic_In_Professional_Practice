@@ -18,7 +18,7 @@ namespace LPPTestProject
         {
             //Arrange
             var calculator = new Calculator();
-            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.Parse(prefixInput);
             var rootOfComponent = binaryTree.Root;
             
             //Act
@@ -37,7 +37,7 @@ namespace LPPTestProject
         {
             //Arrange
             var calculator = new Calculator();
-            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.Parse(prefixInput);
             var rootOfComponent = binaryTree.Root;
 
             //Act
@@ -56,7 +56,7 @@ namespace LPPTestProject
         {
             //Arrange
             var calculator = new Calculator();
-            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.Parse(prefixInput);
             var rootOfComponent = binaryTree.Root;
 
             //Act
@@ -76,7 +76,7 @@ namespace LPPTestProject
         {
             //Arrange
             var calculator = new Calculator();
-            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.Parse(prefixInput);
             var rootOfComponent = binaryTree.Root;
 
             //Act
@@ -95,7 +95,7 @@ namespace LPPTestProject
         {
             //Arrange
             var calculator = new Calculator();
-            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.Parse(prefixInput);
             var rootOfComponent = binaryTree.Root;
 
             //Act
@@ -112,7 +112,7 @@ namespace LPPTestProject
         {
             //Arrange
             var calculator = new Calculator();
-            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.Parse(prefixInput);
             var rootOfComponent = binaryTree.Root;
 
             //Act
@@ -131,7 +131,7 @@ namespace LPPTestProject
         {
             //Arrange
             var calculator = new Calculator();
-            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.Parse(prefixInput);
             var rootOfComponent = binaryTree.Root;
 
             //Act

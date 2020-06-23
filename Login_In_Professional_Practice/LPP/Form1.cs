@@ -128,7 +128,7 @@ namespace LPP
                 else
                 {
                     _graphImages.Clear();
-                    _binaryTreeNormal = ParsingModule.ParseInput(userInput);
+                    _binaryTreeNormal = ParsingModule.Parse(userInput);
                     var rootOfNormalBinaryTree = _binaryTreeNormal.Root as CompositeComponent;
                     //_tableauxRoot = new TableauxNode(rootOfNormalBinaryTree);
                     _nandify.Calculate(rootOfNormalBinaryTree);
@@ -162,15 +162,15 @@ namespace LPP
                 else
                 {
 
-                    if (userInput.StartsWith("@") || userInput.StartsWith("!"))
+                    if (userInput.Contains("@") || userInput.Contains("!"))
                     {
-                        var sth = ParsingModule.ParseInputPredicate(userInput);
+                        var sth = ParsingModule.Parse(userInput);
                     }
                     else
                     {
                         userInput = $"~({userInput})";
                         _graphImages.Clear();
-                        _binaryTreeNormal = ParsingModule.ParseInput(userInput);
+                        _binaryTreeNormal = ParsingModule.Parse(userInput);
                         _tableauxRoot = new TableauxNode(_binaryTreeNormal.Root as CompositeComponent);
                         _tableauxRoot.IsClosed();
 

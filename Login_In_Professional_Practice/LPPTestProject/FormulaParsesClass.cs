@@ -26,7 +26,7 @@ namespace LPPTestProject
         {
             //Arrange
             var formulaGenerator = new InfixFormulaGenerator();
-            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.Parse(prefixInput);
             var rootOfComponent = binaryTree.Root;
 
             //Act

@@ -32,7 +32,7 @@ namespace LPPTestProject
         {
             //Arrange
             string userInput = $"~({prefixInput.Trim()})";
-            var binaryTreeNormal = ParsingModule.ParseInput(userInput);
+            var binaryTreeNormal = ParsingModule.Parse(userInput);
             var rootOfNormalBinaryTree = binaryTreeNormal.Root as CompositeComponent;
             var tableauxRoot = new TableauxNode(rootOfNormalBinaryTree);
 
@@ -60,7 +60,7 @@ namespace LPPTestProject
         {
             //Arrange
             string userInput = $"~({prefixInput.Trim()})";
-            var binaryTreeNormal = ParsingModule.ParseInput(userInput);
+            var binaryTreeNormal = ParsingModule.Parse(userInput);
             var rootOfNormalBinaryTree = binaryTreeNormal.Root as CompositeComponent;
             var tableauxRoot = new TableauxNode(rootOfNormalBinaryTree);
 

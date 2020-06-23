@@ -6,8 +6,6 @@ namespace LPP.Composite_Pattern.Connectives
     public class Existential: Quantifier
     {
 
-        public List<string> boundVariables;
-
         public Existential(char[] variables)
         {
             this.BoundVariables = variables;

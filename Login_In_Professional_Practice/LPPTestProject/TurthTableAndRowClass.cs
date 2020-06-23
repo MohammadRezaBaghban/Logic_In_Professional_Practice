@@ -29,7 +29,7 @@ namespace LPPTestProject
         public void TruthTable_CalculateTruthTable_HashCodeBeEqualAsExpected(string prefixInput, string hexaHashCode)
         {
             //Arrange
-            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.Parse(prefixInput);
 
             //Act
             var truthTable = new TruthTable(binaryTree);
@@ -43,7 +43,7 @@ namespace LPPTestProject
         public void TruthTable_SimplifyTruthTable_HashCodeBeEqualAsExpected(string prefixInput, string simplifiedTruthTable)
         {
             //Arrange
-            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.Parse(prefixInput);
 
             //Act
             var truthTable = new TruthTable(binaryTree);
@@ -74,7 +74,7 @@ namespace LPPTestProject
         public void TruthTable_DNFProcessing_DNFFormulaAndHashCodeBeAsExpected(string prefixInput)
         {
             //Arrange
-            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.Parse(prefixInput);
 
             //Act
             var truthTable = new TruthTable(binaryTree);
@@ -104,7 +104,7 @@ namespace LPPTestProject
         {
             //Arrange
             var nandify = new Nandify();
-            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.Parse(prefixInput);
 
             //Act
             var truthTable = new TruthTable(binaryTree);
