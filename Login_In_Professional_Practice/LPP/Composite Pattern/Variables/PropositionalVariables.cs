@@ -26,5 +26,17 @@ namespace LPP.Composite_Pattern.Variables
         public Variable[] Get_Distinct_PropositionalVariables() =>
             Variables.Distinct().OrderBy(x => x.Symbol).ToArray();
 
+        public List<Variable> Get_BindVariables() =>
+            Variables.Where(x => x.bindVariable == true).ToList();
+
+        public List<Variable> Get_UnboundVariables() =>
+            Variables.Where(x => x.bindVariable == false).ToList();
+
+        public void ChangeCharacter(char current, char newChar) =>
+            Variables.ForEach(x =>
+            {
+                if (x.bindVariable == false && x.Symbol == current)
+                    x.Symbol = newChar;
+            });
     }
 }

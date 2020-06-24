@@ -13,10 +13,15 @@ namespace LPP.Composite_Pattern.Variables
             ObjectVariables = new PropositionalVariables();
         }
 
-        public string Variables() => ObjectVariables?.Variables
-                .SelectMany(x => x.Symbol.ToString())
-                .Aggregate("", (current, next) => current += $"{next},");
+        public string Variables()
+        {
+            var str = ObjectVariables?.Variables
+                .SelectMany(x => x.Symbol.ToString()).Aggregate("", (current, next) => current += $"{next},");
+            return str.Remove(str.Length - 1);
+        }
 
+        public void Evaluate(IVisitor visitor) => visitor.Visit(this);
         public override string ToString() => $"Predicate {Symbol} - Variables: {this.Variables()} | Parent: {this.Parent.GetType().Name}";
+        public override string GraphVizFormula => $"node{NodeNumber} [ label = \"{Symbol}({Variables()})\" ]";
     }
 }

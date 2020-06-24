@@ -26,7 +26,7 @@ namespace LPP
             BinaryTree root;
             if (input.Contains("@") || input.Contains("!"))
             {
-                root = ParsingModule.ParseInputPredicate(input);
+                root = ParseInputPredicate(input);
             }
             else
             {
@@ -57,7 +57,7 @@ namespace LPP
             ParseRecursively(ref input, isPredicate: true);
             GenerateBinaryTreePredicate(Elements);
             _binaryTree.MakeIt_Non_Modifiable();
-            return BinaryTree.Object;
+            return _binaryTree;
         }
 
         /// <summary>
@@ -95,11 +95,7 @@ namespace LPP
             {
                 switch (expression[0])
                 {
-                    case '>':
-                    case '=':
-                    case '%':
-                    case '&':
-                    case '|':
+                    case '>': case '=': case '%': case '&': case '|':
                         Elements.Add(expression[0]);
                         EatMethod(ref expression, 2);
                         string a1 = expression.Substring(0, expression.IndexOf(')') + 1);
@@ -248,6 +244,7 @@ namespace LPP
         private static void GenerateBinaryTreePredicate(List<char> input)
         {
             Component root = _binaryTree.Root;
+            Component lastQuantifier = null;
             Component lastVariableContainingNode = null;
             for (var i = 0; i <= input.Count - 1; i++)
             {
@@ -256,8 +253,16 @@ namespace LPP
 
                 if (currentCharacterType == characterType.PropositionalVariable)
                 {
-                    var propositionVariable = new Variable(currentCharacter);
-                    (lastVariableContainingNode as IVariableContainer)?.ObjectVariables.Variables.Add(propositionVariable);
+                    Variable propositionVariable = null;
+                    if (lastVariableContainingNode is Universal || lastVariableContainingNode is Existential)
+                        propositionVariable = new Variable(currentCharacter,true);
+                    else if (lastVariableContainingNode is Predicate)
+                    {
+                        propositionVariable = new Variable(currentCharacter, false);
+                        if (_binaryTree.PropositionalVariables.Get_BindVariables().Exists(x => x.Symbol == currentCharacter))
+                            propositionVariable.bindVariable = true;
+                    }
+                    _binaryTree.InsertNode(lastVariableContainingNode, propositionVariable);
                 }
                 else if (currentCharacterType == characterType.Predicate)
                 {

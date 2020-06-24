@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Components;
@@ -28,21 +29,23 @@ namespace LPP
                 SingleComponent singleNode = node as SingleComponent;
                 if (singleNode != null)
                 {
-                    if(singleNode is Variable) 
+
+                    if (singleNode is Variable variable)
+                    {
                         PropositionalVariables.AddPropositionalVariable(singleNode as Variable);
+                        if (Char.IsLower(variable.Symbol))
+                        {
+                            (root as IVariableContainer)?.ObjectVariables.Variables.Add(variable);
+                            return Root;
+                        }
+                        return InsertSingleNode(root, singleNode);
+                    }
                     return InsertSingleNode(root, singleNode);
                 }
-                else
-                {
-                    CompositeComponent composite = node as CompositeComponent;
-                    return InsertCompositeNode(root, composite);
-                }
+                CompositeComponent composite = node as CompositeComponent;
+                return InsertCompositeNode(root, composite);
             }
-            else
-            {
-                return Root;
-            }
-            
+            return Root;
         }
 
         public bool MakeIt_Non_Modifiable()

@@ -161,29 +161,31 @@ namespace LPP
                 }
                 else
                 {
-
+                    BinaryTree binaryTree = null;
+                    _graphImages.Clear();
                     if (userInput.Contains("@") || userInput.Contains("!"))
                     {
-                        var root = ParsingModule.Parse(userInput);
-                        _graphImages.Add(0, GenerateGraphVizBinaryGraph(root.Root.GraphVizFormula, "Normal"));
-                        PbBinaryGraph.ImageLocation = _graphImages[0];
-                        Btn_Image_Open.Enabled = true;
-                        _imageIndex = 0;
+                        binaryTree = ParsingModule.Parse(userInput);
+                        _graphImages.Add(0, GenerateGraphVizBinaryGraph(binaryTree.Root.GraphVizFormula, "Normal"));
                     }
                     else
                     {
                         userInput = $"~({userInput})";
-                        _graphImages.Clear();
-                        _binaryTreeNormal = ParsingModule.Parse(userInput);
-                        _tableauxRoot = new TableauxNode(_binaryTreeNormal.Root as CompositeComponent);
+                        binaryTree = ParsingModule.Parse(userInput);
+                        _tableauxRoot = new TableauxNode(binaryTree.Root as CompositeComponent);
                         _tableauxRoot.IsClosed();
 
                         BtnSemanticTableaux.BackColor = _tableauxRoot.LeafIsClosed == true ? Color.ForestGreen : Color.Tomato;
-                        _graphImages.Add(0, GenerateGraphVizBinaryGraph(_tableauxRoot.GraphVizFormula(), "Normal"));
-                        PbBinaryGraph.ImageLocation = _graphImages[0];
-                        Btn_Image_Open.Enabled = true;
-                        _imageIndex = 0;
+                        _graphImages.Add(0, GenerateGraphVizBinaryGraph(_tableauxRoot.GraphVizFormula(), "Tableaux"));
                     }
+                    _imageIndex = 0;
+                    Btn_Image_Open.Enabled = true;
+                    PbBinaryGraph.ImageLocation = _graphImages[0];
+                    _formulaGenerator.Calculate(binaryTree.Root);
+                    Tb_InfixFormula_Normal.Text = binaryTree.Root.InFixFormula;
+                    //binaryTree.PropositionalVariables.ChangeCharacter('z','u');
+                    //_formulaGenerator.Calculate(binaryTree.Root);
+                    //Tb_InfixFormula_Nandified.Text = binaryTree.Root.InFixFormula;
                 }
             }
             catch (Exception ex)

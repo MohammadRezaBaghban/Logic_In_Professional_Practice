@@ -1,6 +1,7 @@
 ﻿using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Connectives;
+using LPP.Composite_Pattern.Variables;
 using LPP.Modules;
 
 namespace LPP.Visitor_Pattern
@@ -47,6 +48,7 @@ namespace LPP.Visitor_Pattern
         public void Visit(Negation visitable) => visitable.Data = !visitable.LeftNode.Data;
         public void Visit(Universal visitable) => throw new System.NotImplementedException();
         public void Visit(Existential visitable) => throw new System.NotImplementedException();
+        public void Visit(Predicate visitable) => throw new System.NotImplementedException();
 
         public void Visit(TruthTable truthTable)
         {

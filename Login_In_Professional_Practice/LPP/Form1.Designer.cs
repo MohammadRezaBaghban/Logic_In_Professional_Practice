@@ -68,7 +68,7 @@
             this.lb1.Location = new System.Drawing.Point(11, 32);
             this.lb1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lb1.Name = "lb1";
-            this.lb1.Size = new System.Drawing.Size(140, 23);
+            this.lb1.Size = new System.Drawing.Size(235, 40);
             this.lb1.TabIndex = 0;
             this.lb1.Text = "Post-Fix Formula:";
             // 
@@ -76,7 +76,7 @@
             // 
             this.TbFormulaInput.Location = new System.Drawing.Point(208, 26);
             this.TbFormulaInput.Name = "TbFormulaInput";
-            this.TbFormulaInput.Size = new System.Drawing.Size(362, 29);
+            this.TbFormulaInput.Size = new System.Drawing.Size(362, 45);
             this.TbFormulaInput.TabIndex = 1;
             this.TbFormulaInput.Text = "~(|(=(A,~(B)),|(~(|(U,=(T,R))),D))))";
             // 
@@ -95,7 +95,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 142);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(187, 23);
+            this.label1.Size = new System.Drawing.Size(313, 40);
             this.label1.TabIndex = 4;
             this.label1.Text = "Propositional Variables:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -105,7 +105,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(11, 65);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(123, 23);
+            this.label2.Size = new System.Drawing.Size(205, 40);
             this.label2.TabIndex = 7;
             this.label2.Text = "In-Fix Formula:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -115,7 +115,7 @@
             this.Tb_InfixFormula_Normal.Enabled = false;
             this.Tb_InfixFormula_Normal.Location = new System.Drawing.Point(208, 64);
             this.Tb_InfixFormula_Normal.Name = "Tb_InfixFormula_Normal";
-            this.Tb_InfixFormula_Normal.Size = new System.Drawing.Size(362, 29);
+            this.Tb_InfixFormula_Normal.Size = new System.Drawing.Size(362, 45);
             this.Tb_InfixFormula_Normal.TabIndex = 8;
             // 
             // groupBox1
@@ -159,7 +159,7 @@
             this.Tb_InfixFormula_Nandified.Enabled = false;
             this.Tb_InfixFormula_Nandified.Location = new System.Drawing.Point(208, 102);
             this.Tb_InfixFormula_Nandified.Name = "Tb_InfixFormula_Nandified";
-            this.Tb_InfixFormula_Nandified.Size = new System.Drawing.Size(362, 29);
+            this.Tb_InfixFormula_Nandified.Size = new System.Drawing.Size(362, 45);
             this.Tb_InfixFormula_Nandified.TabIndex = 17;
             // 
             // label6
@@ -167,7 +167,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(11, 104);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(130, 23);
+            this.label6.Size = new System.Drawing.Size(218, 40);
             this.label6.TabIndex = 16;
             this.label6.Text = "NAND Formula:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -176,14 +176,14 @@
             // 
             this.TbSimplifiedDNF.Location = new System.Drawing.Point(208, 216);
             this.TbSimplifiedDNF.Name = "TbSimplifiedDNF";
-            this.TbSimplifiedDNF.Size = new System.Drawing.Size(475, 29);
+            this.TbSimplifiedDNF.Size = new System.Drawing.Size(475, 45);
             this.TbSimplifiedDNF.TabIndex = 15;
             // 
             // TbNormalDNF
             // 
             this.TbNormalDNF.Location = new System.Drawing.Point(208, 178);
             this.TbNormalDNF.Name = "TbNormalDNF";
-            this.TbNormalDNF.Size = new System.Drawing.Size(475, 29);
+            this.TbNormalDNF.Size = new System.Drawing.Size(475, 45);
             this.TbNormalDNF.TabIndex = 14;
             // 
             // label5
@@ -191,7 +191,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(12, 219);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(131, 23);
+            this.label5.Size = new System.Drawing.Size(221, 40);
             this.label5.TabIndex = 13;
             this.label5.Text = "Simplified DNF: ";
             // 
@@ -200,7 +200,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 181);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(114, 23);
+            this.label3.Size = new System.Drawing.Size(191, 40);
             this.label3.TabIndex = 12;
             this.label3.Text = "Normal DNF: ";
             // 
@@ -208,7 +208,7 @@
             // 
             this.Tb_TruthTableHashCode.Location = new System.Drawing.Point(426, 140);
             this.Tb_TruthTableHashCode.Name = "Tb_TruthTableHashCode";
-            this.Tb_TruthTableHashCode.Size = new System.Drawing.Size(144, 29);
+            this.Tb_TruthTableHashCode.Size = new System.Drawing.Size(144, 45);
             this.Tb_TruthTableHashCode.TabIndex = 11;
             // 
             // label4
@@ -216,7 +216,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(328, 142);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(92, 23);
+            this.label4.Size = new System.Drawing.Size(154, 40);
             this.label4.TabIndex = 10;
             this.label4.Text = "HashCode:";
             // 
@@ -224,7 +224,7 @@
             // 
             this.TbPropositionalVariables.Location = new System.Drawing.Point(208, 140);
             this.TbPropositionalVariables.Name = "TbPropositionalVariables";
-            this.TbPropositionalVariables.Size = new System.Drawing.Size(100, 29);
+            this.TbPropositionalVariables.Size = new System.Drawing.Size(100, 45);
             this.TbPropositionalVariables.TabIndex = 9;
             // 
             // groupBox2
@@ -243,28 +243,28 @@
             // 
             this.LbHashCodes.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LbHashCodes.FormattingEnabled = true;
-            this.LbHashCodes.ItemHeight = 17;
+            this.LbHashCodes.ItemHeight = 31;
             this.LbHashCodes.Location = new System.Drawing.Point(173, 206);
             this.LbHashCodes.Name = "LbHashCodes";
-            this.LbHashCodes.Size = new System.Drawing.Size(179, 140);
+            this.LbHashCodes.Size = new System.Drawing.Size(179, 128);
             this.LbHashCodes.TabIndex = 17;
             // 
             // LbSimplifiedTruthTable
             // 
             this.LbSimplifiedTruthTable.FormattingEnabled = true;
-            this.LbSimplifiedTruthTable.ItemHeight = 21;
+            this.LbSimplifiedTruthTable.ItemHeight = 38;
             this.LbSimplifiedTruthTable.Location = new System.Drawing.Point(173, 28);
             this.LbSimplifiedTruthTable.Name = "LbSimplifiedTruthTable";
-            this.LbSimplifiedTruthTable.Size = new System.Drawing.Size(179, 172);
+            this.LbSimplifiedTruthTable.Size = new System.Drawing.Size(179, 156);
             this.LbSimplifiedTruthTable.TabIndex = 16;
             // 
             // LbTruthTable
             // 
             this.LbTruthTable.FormattingEnabled = true;
-            this.LbTruthTable.ItemHeight = 21;
+            this.LbTruthTable.ItemHeight = 38;
             this.LbTruthTable.Location = new System.Drawing.Point(6, 27);
             this.LbTruthTable.Name = "LbTruthTable";
-            this.LbTruthTable.Size = new System.Drawing.Size(162, 319);
+            this.LbTruthTable.Size = new System.Drawing.Size(162, 308);
             this.LbTruthTable.TabIndex = 14;
             // 
             // groupBox3
@@ -297,7 +297,7 @@
             this.LbImageName.AutoSize = true;
             this.LbImageName.Location = new System.Drawing.Point(8, 36);
             this.LbImageName.Name = "LbImageName";
-            this.LbImageName.Size = new System.Drawing.Size(86, 23);
+            this.LbImageName.Size = new System.Drawing.Size(144, 40);
             this.LbImageName.TabIndex = 17;
             this.LbImageName.Text = "No Image";
             // 
@@ -334,7 +334,7 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(15F, 38F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.ClientSize = new System.Drawing.Size(713, 630);

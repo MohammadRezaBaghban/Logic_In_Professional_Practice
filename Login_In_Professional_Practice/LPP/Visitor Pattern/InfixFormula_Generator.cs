@@ -2,6 +2,7 @@
 using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Connectives;
+using LPP.Composite_Pattern.Variables;
 using IVisitor = LPP.Composite_Pattern.IVisitor;
 
 namespace LPP.Visitor_Pattern
@@ -35,6 +36,8 @@ namespace LPP.Visitor_Pattern
                     compositeNode.Evaluate(this);
                 }
             }
+            else if(visitable is Predicate predicate)
+                Visit(predicate);
         }
 
         public void Visit(Negation visitable)
@@ -53,16 +56,9 @@ namespace LPP.Visitor_Pattern
         public void Visit(Disjunction visitable) => GenerateInfixGenerator(visitable, '|');
         public void Visit(Conjunction visitable) => GenerateInfixGenerator(visitable, '&');
         public void Visit(Nand visitable) => GenerateInfixGenerator(visitable, '%');
-
-        public void Visit(Universal visitable) =>
-            visitable.InFixFormula =
-                $"∀{visitable.ObjectVariables.Variables.SelectMany(x => x.ToString())}" +
-                $"[{visitable.LeftNode.InFixFormula}]";
-
-        public void Visit(Existential visitable) =>
-            visitable.InFixFormula =
-                $"∃{visitable.ObjectVariables.Variables.SelectMany(x => x.ToString())}" +
-                $"[{visitable.LeftNode.InFixFormula}]";
+        public void Visit(Predicate visitable) => visitable.InFixFormula = $"{visitable.Symbol}({visitable.Variables()})";
+        public void Visit(Universal visitable) => visitable.InFixFormula = $"∀{visitable.Variables()}[{visitable.LeftNode.InFixFormula}]";
+        public void Visit(Existential visitable) => visitable.InFixFormula = $"∃{visitable.Variables()}[{visitable.LeftNode.InFixFormula}]";
 
         /// <summary>
         /// Method for create more intuitive infix formula based on the type of left and right node.

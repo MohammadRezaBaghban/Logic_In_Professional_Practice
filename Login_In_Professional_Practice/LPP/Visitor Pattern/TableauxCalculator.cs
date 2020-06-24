@@ -125,6 +125,7 @@ namespace LPP.Visitor_Pattern
 
         public void Visit(Universal visitable) => throw new NotImplementedException();
         public void Visit(Existential visitable) => throw new NotImplementedException();
+        public void Visit(Predicate visitable) => throw new NotImplementedException();
 
         public void Visit(TableauxNode visitable)
         {
