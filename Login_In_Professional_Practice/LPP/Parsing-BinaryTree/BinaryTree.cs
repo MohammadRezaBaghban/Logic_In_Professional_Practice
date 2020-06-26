@@ -327,7 +327,7 @@ namespace LPP
             }
         }
 
-        public static Component CloneNode(Component node, BinaryTree bt)
+        public static Component CloneNode(Component node, BinaryTree bt,char current ='!',char rename = '!')
         {
             Component newNode;
 
@@ -345,9 +345,30 @@ namespace LPP
                 newNode = new Nand();
             else if (node is TrueFalse)
                 newNode = new TrueFalse(((TrueFalse) node).Data);
+            else if(node is Predicate predicate)
+            {
+                newNode = new Predicate(node.Symbol);
+                predicate.ObjectVariables.Variables.ForEach(x=> ((IVariableContainer) newNode)
+                    .ObjectVariables.AddPropositionalVariable(CloneVariableForPredicate(x,current,rename))
+                );
+            }
+            else if (node is Universal universal)
+            {
+                newNode = new Universal();
+                universal.ObjectVariables.Variables.ForEach(x => ((IVariableContainer)newNode)
+                    .ObjectVariables.AddPropositionalVariable(CloneVariableForPredicate(x, current, rename))
+                );
+            }
+            else if (node is Existential existential)
+            {
+                newNode = new Existential();
+                existential.ObjectVariables.Variables.ForEach(x => ((IVariableContainer)newNode)
+                    .ObjectVariables.AddPropositionalVariable(CloneVariableForPredicate(x, current, rename))
+                );
+            }
             else
             {
-                newNode = new Variable(((Variable) node).Symbol);
+                newNode = new Variable(((Variable) node).Symbol, ((Variable)node).bindVariable);
                 bt.PropositionalVariables.AddPropositionalVariable(newNode as Variable);
             }
 
@@ -362,7 +383,14 @@ namespace LPP
                 {
                     if (node.LeftNode != null)
                     {
-                        newNode.LeftNode = CloneNode(node.LeftNode,bt);
+                        if (node.LeftNode is IVariableContainer)
+                        {
+                            newNode.LeftNode = CloneNode(node.LeftNode, bt,current,rename);
+                        }
+                        else
+                        {
+                            newNode.LeftNode = CloneNode(node.LeftNode, bt);
+                        }
                     }
                     else
                     {
@@ -382,6 +410,14 @@ namespace LPP
 
             newNode.NodeNumber++;
             return newNode;
+        }
+
+        public static Variable CloneVariableForPredicate(Variable v, char current,char rename)
+        {
+            var variable = (Variable)BinaryTree.CloneNode(v, BinaryTree.Object);
+            if (variable.Symbol == current)
+                variable.Symbol = rename;
+            return variable;
         }
     }
 }

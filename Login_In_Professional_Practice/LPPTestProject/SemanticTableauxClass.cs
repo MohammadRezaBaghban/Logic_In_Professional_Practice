@@ -11,6 +11,7 @@ namespace LPPTestProject
 
         [Theory]
         [InlineData(">(P,P)")]
+        [InlineData("|(P,~(P))")]
         [InlineData("|(>(P,Q),P)")]
         [InlineData(">(~(>(P,Q)),P)")]
         [InlineData(">(>(~(P),P),P)")]
@@ -21,6 +22,7 @@ namespace LPPTestProject
         [InlineData(">(~(P),~(>(>(P,Q),P)))")]
         [InlineData(">(~(&(P,Q)),>(P,~(Q)))")]
         [InlineData(">(=(P,Q),=(~(P),~(Q)))")]
+        [InlineData("&(|(A,~(A)), |(B,~(B)))")]
         [InlineData(">(|(P,Q),|(P,&(~(P),Q)))")]
         [InlineData(">(>(P,~(Q)),>(>(P,Q),~(P)))")]
         [InlineData(">(>(>(P,Q),~(P)),>(P,~(Q)))")]
@@ -49,13 +51,16 @@ namespace LPPTestProject
         [InlineData(">(A,B)")]
         [InlineData("|(A,B)")]
         [InlineData("&(A,B)")]
+        [InlineData("&(P,~(P))")]
         [InlineData(">(P,%(P,Q))")]
         [InlineData(">(A,>(A,B))")]
         [InlineData(">(A,&(A,B))")]
         [InlineData(">(|(A,B),A)")]
         [InlineData(">(>(A,B),A)")]
+        [InlineData("~(>(|(P,~(P)),P))")]
         [InlineData(">(&(P,~(Q)),~(P,Q))")]
         [InlineData(">(>(P,Q),|(P,>(Q,R)))")]
+        [InlineData("&(&(>(A,A),|(B,~(B))),~(>(|(C,>(C,D)),|(&(A,C),D))))")]
         public void SemanticTableauxTesting_OnNonTatologiesFormula_RootNotBeingClosed(string prefixInput)
         {
             //Arrange
