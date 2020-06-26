@@ -36,7 +36,7 @@ namespace LPPTestProject
         }
 
         [Theory]
-        [InlineData(">(!x.(@y.(P(x,y))),@q.(!p.(P(p,q))))", "(∃x[∀y[P(x,y)]])>(∀q[∃p[P(p,q)]])")]
+        [InlineData(">(!x.(@y.(P(x,y))),@q.(!p.(P(p,q))))", "(!x[@y[P(x,y)]])>(@q[!p[P(p,q)]])")]
         public void InFixFormulaTesting_OnPredicateFormula_CorrectInfixFormula(string prefixInput, string infixOutput)
         {
             //Arrange

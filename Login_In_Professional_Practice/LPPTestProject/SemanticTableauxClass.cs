@@ -30,7 +30,7 @@ namespace LPPTestProject
         [InlineData(">(>(|(P,Q),R),|(>(P,R),>(Q,R)))")]
         [InlineData("=(&(P,>(Q,R)),>(>(P,Q),&(P,R)))")]
         [InlineData(">(=(P,Q),|(&(P,Q),&(~(P),~(Q))))")]
-        public void SemanticTableauxTesting_OnTautologiesFormula_RootBeingClosed(string prefixInput)
+        public void SemanticTableauxProposition_OnTautologiesFormula_RootBeingClosed(string prefixInput)
         {
             //Arrange
             string userInput = $"~({prefixInput.Trim()})";
@@ -61,7 +61,7 @@ namespace LPPTestProject
         [InlineData(">(&(P,~(Q)),~(P,Q))")]
         [InlineData(">(>(P,Q),|(P,>(Q,R)))")]
         [InlineData("&(&(>(A,A),|(B,~(B))),~(>(|(C,>(C,D)),|(&(A,C),D))))")]
-        public void SemanticTableauxTesting_OnNonTatologiesFormula_RootNotBeingClosed(string prefixInput)
+        public void SemanticTableauxProposition_OnNonTatologiesFormula_RootNotBeingClosed(string prefixInput)
         {
             //Arrange
             string userInput = $"~({prefixInput.Trim()})";
@@ -74,6 +74,23 @@ namespace LPPTestProject
 
             //Assert
             Assert.Equal(false, tableauxRoot.LeafIsClosed);
+        }
+
+        [Theory]
+        [InlineData(">(!x.(@y.(P(x,y))),@q.(!p.(P(p,q))))")]
+        public void SemanticTableauxPredicate_OnTautologiesFormula_RootBeingClosed(string prefixInput)
+        {
+            //Arrange
+            string userInput = $"~({prefixInput.Trim()})";
+            var binaryTreeNormal = ParsingModule.Parse(userInput);
+            var rootOfNormalBinaryTree = binaryTreeNormal.Root as CompositeComponent;
+            var tableauxRoot = new TableauxNode(rootOfNormalBinaryTree);
+
+            //Act
+            tableauxRoot.IsClosed();
+
+            //Assert
+            Assert.Equal(true, tableauxRoot.LeafIsClosed);
         }
 
     }

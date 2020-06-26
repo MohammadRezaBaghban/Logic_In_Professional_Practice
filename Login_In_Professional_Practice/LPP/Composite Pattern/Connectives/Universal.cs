@@ -7,6 +7,7 @@ namespace LPP.Composite_Pattern.Connectives
     public class Universal:CompositeComponent,IVariableContainer
     {
         public PropositionalVariables ObjectVariables { get; set; }
+        public bool GammaProcessed = false;
 
         public Universal()
         {

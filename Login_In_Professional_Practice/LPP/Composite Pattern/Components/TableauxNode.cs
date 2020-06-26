@@ -34,15 +34,18 @@ namespace LPP.Composite_Pattern.Components
         }
 
         /// <summary>
-        /// Used for non-branched a-rules
+        /// Used for non-branched a-rules & gamma-rule
         /// </summary>
         /// <param name="components"></param>
         /// <param name="processed"></param>
         /// <param name="parent"></param>
-        public TableauxNode(List<Component> components, Component processed, TableauxNode parent)
+        /// <param name="ruleType">Alpha or Gamma</param> 
+        public TableauxNode(List<Component> components, Component processed,
+                TableauxNode parent, RuleType ruleType)
         {
             this.Components = new List<Component>();
-            this.Rule_Type = RuleType.RULE_ALPHA;
+            this.ActiveVariables = new List<char>();
+            this.Rule_Type = ruleType;
             this.ParentNode = parent;
             parent.Branched = false;
             parent.LeftNode = this;
@@ -55,11 +58,17 @@ namespace LPP.Composite_Pattern.Components
             {
                 if (component != processed)
                 {
-                    var newNode = BinaryTree.CloneNode(component, BinaryTree.Object);
-                    newNode.Belongs = this;
-                    this.Components.Add(newNode);
+                    component.Belongs = this;
+                    this.Components.Add(component);
                 }
             });
+            if(ruleType == RuleType.RULE_GAMMA)
+            {
+                if (parent.ActiveVariables?.Count != 0 && parent.ActiveVariables!=null)
+                {
+                    parent.ActiveVariables?.ForEach(x => this.ActiveVariables?.Add(x));
+                }
+            }
         }
 
         /// <summary>
@@ -101,7 +110,8 @@ namespace LPP.Composite_Pattern.Components
         /// <param name="parent"></param>
         /// <param name="branched"></param>
         public TableauxNode(Component node, Component processed, TableauxNode parent,bool branched)
-        {            this.Components = new List<Component>();
+        {            
+            this.Components = new List<Component>();
             this.Rule_Type = RuleType.RULE_BETA;
             node.Belongs = this;
             Components.Add(node);
@@ -226,10 +236,8 @@ namespace LPP.Composite_Pattern.Components
             temp += $"node{NodeNumber} [ label = \"{this.Label()}\" shape=rectangle style=filled" +
                     " color=" + (LeafIsClosed ==true ? "red" : "black") +
                     " fillcolor=" + (Rule_Type == RuleType.RULE_ALPHA ? "yellow" :
-                        Rule_Type == RuleType.RULE_BETA ? "palegreen" :
-                        Rule_Type == RuleType.RULE_DELTA ? "skyblue" :
-                        Rule_Type == RuleType.RULE_GAMMA ? "brown1" :
-                        Rule_Type == RuleType.RULE_OMEGA ? "darkorange" :
+                        Rule_Type == RuleType.RULE_BETA ? "palegreen" : Rule_Type == RuleType.RULE_DELTA ? "skyblue" :
+                        Rule_Type == RuleType.RULE_GAMMA ? "brown1" : Rule_Type == RuleType.RULE_OMEGA ? "darkorange" :
                         Rule_Type == RuleType.Rule_Default ? "gray88" :
                         "gray88") + "]";
 
