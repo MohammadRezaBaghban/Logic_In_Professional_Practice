@@ -57,8 +57,8 @@ namespace LPP.Visitor_Pattern
         public void Visit(Conjunction visitable) => GenerateInfixGenerator(visitable, '&');
         public void Visit(Nand visitable) => GenerateInfixGenerator(visitable, '%');
         public void Visit(Predicate visitable) => visitable.InFixFormula = $"{visitable.Symbol}({visitable.Variables()})";
-        public void Visit(Universal visitable) => visitable.InFixFormula = $"∀{visitable.Variables()}[{visitable.LeftNode.InFixFormula}]";
-        public void Visit(Existential visitable) => visitable.InFixFormula = $"∃{visitable.Variables()}[{visitable.LeftNode.InFixFormula}]";
+        public void Visit(Universal visitable) => visitable.InFixFormula = $"@{visitable.Variables()}[{visitable.LeftNode.InFixFormula}]";
+        public void Visit(Existential visitable) => visitable.InFixFormula = $"!{visitable.Variables()}[{visitable.LeftNode.InFixFormula}]";
 
         /// <summary>
         /// Method for create more intuitive infix formula based on the type of left and right node.

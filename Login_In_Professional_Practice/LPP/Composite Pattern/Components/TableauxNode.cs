@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using LPP.Visitor_Pattern;
 
 namespace LPP.Composite_Pattern.Components
@@ -7,6 +8,7 @@ namespace LPP.Composite_Pattern.Components
     {
         //Fields
         public readonly List<Component> Components;
+        public List<char> ActiveVariables;
         public TableauxNode ParentNode;
         public TableauxNode LeftNode;
         public TableauxNode RightNode;
@@ -30,8 +32,15 @@ namespace LPP.Composite_Pattern.Components
             if (parent != null)
                 parent.LeftNode ??= this;
         }
+
+        /// <summary>
+        /// Used for non-branched a-rules
+        /// </summary>
+        /// <param name="components"></param>
+        /// <param name="processed"></param>
+        /// <param name="parent"></param>
         public TableauxNode(List<Component> components, Component processed, TableauxNode parent)
-        { // Used for non-branched a-rules
+        {
             this.Components = new List<Component>();
             this.Rule_Type = RuleType.RULE_ALPHA;
             this.ParentNode = parent;
@@ -39,9 +48,8 @@ namespace LPP.Composite_Pattern.Components
             parent.LeftNode = this;
             components.ForEach(x =>
             {
-                var newNode = BinaryTree.CloneNode(x, BinaryTree.Object);
-                newNode.Belongs = this;
-                this.Components.Add(newNode);
+               x.Belongs = this;
+                this.Components.Add(x);
             });
             parent.Components.ForEach(component =>
             {
@@ -53,12 +61,51 @@ namespace LPP.Composite_Pattern.Components
                 }
             });
         }
-        public TableauxNode(Component node, Component processed, TableauxNode parent,bool branched)
-        { // Used for branched B-rules
+
+        /// <summary>
+        /// // Used for δ(Delta)-rule
+        /// </summary>
+        /// <param name="component"></param>
+        /// <param name="processed"></param>
+        /// <param name="parent"></param>
+        public TableauxNode(Component component, Component processed, TableauxNode parent, char variable)
+        {
             this.Components = new List<Component>();
+            this.ActiveVariables = new List<char>(){variable};
+            this.Rule_Type = RuleType.RULE_DELTA;
+            this.ParentNode = parent;
+            parent.Branched = false;
+            parent.LeftNode = this;
+            component.Belongs = this;
+            this.Components.Add(component);
+            if (parent.ActiveVariables?.Count != 0)
+            {
+                parent.ActiveVariables?.ForEach(x=>this.ActiveVariables.Add(x));
+            }
+            parent.Components.ForEach(node =>
+            {
+                if (node != processed)
+                {
+                    var newNode = BinaryTree.CloneNode(node, BinaryTree.Object);
+                    newNode.Belongs = this;
+                    this.Components.Add(newNode);
+                }
+            });
+        }
+
+        /// <summary>
+        /// // Used for branched B-rules
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="processed"></param>
+        /// <param name="parent"></param>
+        /// <param name="branched"></param>
+        public TableauxNode(Component node, Component processed, TableauxNode parent,bool branched)
+        {            this.Components = new List<Component>();
             this.Rule_Type = RuleType.RULE_BETA;
             node.Belongs = this;
             Components.Add(node);
+
             parent.Components.ForEach(component =>
             {
                 if (component != processed)
@@ -116,7 +163,7 @@ namespace LPP.Composite_Pattern.Components
         {
             if (LeafIsClosed == null)
             {
-                TableauxCalculator.Object.Visit(this);
+                Tableaux.Object.Visit(this);
                 if (Branched == true)
                 {
                     this.LeftNode.IsClosed();
@@ -161,6 +208,11 @@ namespace LPP.Composite_Pattern.Components
             var label = "";
             Components.ForEach(x => { InfixFormulaGenerator.Calculator.Calculate(x); label += x.InFixFormula + ", "; });
 
+            if (this.ActiveVariables?.Count != 0 && this.ActiveVariables!=null)
+            {
+                var vars = this.ActiveVariables.Aggregate("", (current, next) => current += $"{next},");
+                label += $"\n\n vars[{vars.Remove(vars.Length-1)}]";
+            }
             if (this.LeafIsClosed == true)
                 label += "\n\n CLOSED";
             else if (this.LeafIsClosed == false)

@@ -26,14 +26,14 @@ namespace LPP
 
         //Dependencies
         private readonly Nandify _nandify;
-        private readonly TableauxCalculator _tableauxCalculator;
+        private readonly Tableaux _tableaux;
         private readonly InfixFormulaGenerator _formulaGenerator;
 
         public Form1()
         {
             InitializeComponent();
             _formulaGenerator = InfixFormulaGenerator.Calculator;
-            _tableauxCalculator = new TableauxCalculator();
+            _tableaux = new Tableaux();
             _graphImages = new Dictionary<int, string>();
             _nandify = new Nandify();
         }
@@ -165,8 +165,11 @@ namespace LPP
                     _graphImages.Clear();
                     if (userInput.Contains("@") || userInput.Contains("!"))
                     {
+                        userInput = $"~({userInput})";
                         binaryTree = ParsingModule.Parse(userInput);
-                        _graphImages.Add(0, GenerateGraphVizBinaryGraph(binaryTree.Root.GraphVizFormula, "Normal"));
+                        _tableauxRoot = new TableauxNode(binaryTree.Root as CompositeComponent);
+                        _tableauxRoot.IsClosed();
+                        _graphImages.Add(0, GenerateGraphVizBinaryGraph(_tableauxRoot.GraphVizFormula(), "Tableaux"));
                     }
                     else
                     {
@@ -180,6 +183,7 @@ namespace LPP
                     }
                     _imageIndex = 0;
                     Btn_Image_Open.Enabled = true;
+                    Tb_InfixFormula_Normal.Enabled = true;
                     PbBinaryGraph.ImageLocation = _graphImages[0];
                     _formulaGenerator.Calculate(binaryTree.Root);
                     Tb_InfixFormula_Normal.Text = binaryTree.Root.InFixFormula;

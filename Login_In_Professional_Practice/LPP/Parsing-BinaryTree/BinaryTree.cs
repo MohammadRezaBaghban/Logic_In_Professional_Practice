@@ -383,28 +383,14 @@ namespace LPP
                 {
                     if (node.LeftNode != null)
                     {
-                        if (node.LeftNode is IVariableContainer)
-                        {
-                            newNode.LeftNode = CloneNode(node.LeftNode, bt,current,rename);
-                        }
-                        else
-                        {
-                            newNode.LeftNode = CloneNode(node.LeftNode, bt);
-                        }
+                        newNode.LeftNode = node.LeftNode is IVariableContainer ? 
+                            CloneNode(node.LeftNode, bt,current,rename) : CloneNode(node.LeftNode, bt);
                     }
                     else
                     {
                         newNode.LeftNode = node.LeftNode;
                     }
-
-                    if (node.RightNode != null)
-                    {
-                        newNode.RightNode = CloneNode(node.RightNode,bt);
-                    }
-                    else
-                    {
-                        newNode.RightNode = node.RightNode;
-                    }
+                    newNode.RightNode = node.RightNode != null ? CloneNode(node.RightNode,bt) : node.RightNode;
                 }
             }
 

@@ -8,12 +8,18 @@ using LPP.Composite_Pattern.Variables;
 namespace LPP.Visitor_Pattern
 {
 
-    public class TableauxCalculator : IVisitor
+    public class Tableaux : IVisitor
     {
         private BinaryTree _binaryTree;
-        public static TableauxCalculator Object { get; } = new TableauxCalculator();
+        private char[] _variables = new[]
+        {'a','b', 'c', 'd', 'e', 'f', 'g', 'h',
+        'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p',
+        'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
-        public TableauxCalculator() => _binaryTree = new BinaryTree();
+        int _varIndex = 0; 
+        public static Tableaux Object { get; } = new Tableaux();
+
+        public Tableaux() => _binaryTree = new BinaryTree();
 
         public void Calculate(Component visitable)
         {
@@ -83,7 +89,6 @@ namespace LPP.Visitor_Pattern
             }
             else if (mainConnective is Implication implication)
             {// α-rule for ~(>) , elements | Done
-
                 var _q = new Negation();
                 var p = BinaryTree.CloneNode(implication.LeftNode, _binaryTree);
                 _binaryTree.InsertNode(_q, BinaryTree.CloneNode(implication.RightNode, _binaryTree));
@@ -97,7 +102,17 @@ namespace LPP.Visitor_Pattern
                 var nodeRight = new TableauxNode(_q, visitable, tableauxRoot, true);
                 _binaryTree.InsertNode(_p, BinaryTree.CloneNode(conjunction.LeftNode, _binaryTree));
                 _binaryTree.InsertNode(_q, BinaryTree.CloneNode(conjunction.RightNode, _binaryTree));
-            } else if (mainConnective is BiImplication biImplication)
+            } 
+            else if(mainConnective is Universal universal)
+            {// δ(Delta)-rule for ∀
+                var predicate = new Negation();
+                var introducedVariable = _variables[_varIndex++];
+                var leftNode = BinaryTree.CloneNode(universal.LeftNode, _binaryTree,
+                    universal.ObjectVariables.Variables[0].Symbol, introducedVariable);
+                _binaryTree.InsertNode(predicate, leftNode);
+                var newTableauxNode = new TableauxNode(predicate, visitable, tableauxRoot, introducedVariable);
+            }
+            else if (mainConnective is BiImplication biImplication)
             {
                 var converted = ConvertBiImplicationToDisjunction(biImplication);
                 converted.Belongs = visitable.Belongs;
@@ -123,8 +138,18 @@ namespace LPP.Visitor_Pattern
             Calculate(root);
         }
 
-        public void Visit(Universal visitable) => throw new NotImplementedException();
-        public void Visit(Existential visitable) => throw new NotImplementedException();
+        public void Visit(Universal visitable)
+        { 
+            
+        }
+        public void Visit(Existential visitable)
+        {// δ(Delta)-rule for ∃
+            var tableauxRoot = visitable.Belongs;
+            var introducedVariable = _variables[_varIndex++];
+            var predicate = BinaryTree.CloneNode(visitable.LeftNode, _binaryTree,
+                visitable.ObjectVariables.Variables[0].Symbol, introducedVariable);
+            var newTableauxNode = new TableauxNode(predicate, visitable, tableauxRoot, introducedVariable);
+        }
         public void Visit(Predicate visitable) => throw new NotImplementedException();
 
         public void Visit(TableauxNode visitable)
