@@ -163,30 +163,22 @@ namespace LPP
                 {
                     BinaryTree binaryTree = null;
                     _graphImages.Clear();
-                    if (userInput.Contains("@") || userInput.Contains("!"))
-                    {
-                        userInput = $"~({userInput})";
-                        binaryTree = ParsingModule.Parse(userInput);
-                        _tableauxRoot = new TableauxNode(binaryTree.Root as CompositeComponent);
-                        _tableauxRoot.IsClosed();
-                        _graphImages.Add(0, GenerateGraphVizBinaryGraph(_tableauxRoot.GraphVizFormula(), "Tableaux"));
-                    }
-                    else
-                    {
-                        userInput = $"~({userInput})";
-                        binaryTree = ParsingModule.Parse(userInput);
-                        _tableauxRoot = new TableauxNode(binaryTree.Root as CompositeComponent);
-                        _tableauxRoot.IsClosed();
+                    userInput = $"~({userInput})";
+                    binaryTree = ParsingModule.Parse(userInput);
+                    _tableauxRoot = new TableauxNode(binaryTree.Root as CompositeComponent);
+                    _tableauxRoot.IsClosed();
 
-                        BtnSemanticTableaux.BackColor = _tableauxRoot.LeafIsClosed == true ? Color.ForestGreen : Color.Tomato;
-                        _graphImages.Add(0, GenerateGraphVizBinaryGraph(_tableauxRoot.GraphVizFormula(), "Tableaux"));
-                    }
+                    _graphImages.Add(0, GenerateGraphVizBinaryGraph(binaryTree.Root.GraphVizFormula, "Normal"));
+                    _graphImages.Add(1, GenerateGraphVizBinaryGraph(_tableauxRoot.GraphVizFormula(), "Tableaux"));
+                    BtnSemanticTableaux.BackColor = _tableauxRoot.LeafIsClosed == true ? Color.ForestGreen : Color.Tomato;
                     _imageIndex = 0;
+                    BtnImageNext.Enabled = true;
                     Btn_Image_Open.Enabled = true;
                     Tb_InfixFormula_Normal.Enabled = true;
                     PbBinaryGraph.ImageLocation = _graphImages[0];
                     _formulaGenerator.Calculate(binaryTree.Root);
                     Tb_InfixFormula_Normal.Text = binaryTree.Root.InFixFormula;
+
                     //binaryTree.PropositionalVariables.ChangeCharacter('z','u');
                     //_formulaGenerator.Calculate(binaryTree.Root);
                     //Tb_InfixFormula_Nandified.Text = binaryTree.Root.InFixFormula;

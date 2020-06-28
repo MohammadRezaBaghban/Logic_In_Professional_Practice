@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Connectives;
 using LPP.Composite_Pattern.Variables;
 using Component = LPP.Composite_Pattern.Components.Component;
@@ -15,7 +14,7 @@ namespace LPP
     {
 
         private static BinaryTree _binaryTree = new BinaryTree();
-        public static List<char> Elements = new List<char>();
+        public static readonly List<char> Elements = new List<char>();
         private enum characterType { PropositionalVariable, Connectives, Quantifier, Predicate, Unknown }
         public static char[] Connectives = new char[] { '~', '>', '=', '&', '|', '%' };
         public static char[] Quantifiers = new char[] { '!', '@', '.' };
@@ -68,7 +67,7 @@ namespace LPP
         {
             if (string.IsNullOrEmpty(expression))
                 return null;
-            return !isPredicate ? ParseProposition(ref expression, isPredicate) : ParsePredicate(ref expression, isPredicate);
+            return !isPredicate ? ParseProposition(ref expression, false) : ParsePredicate(ref expression, true);
         }
         private static string ParseProposition(ref string expression, bool isPredicate)
         {
@@ -116,7 +115,8 @@ namespace LPP
         }
         private static string ParsePredicate(ref string expression, bool isPredicate)
         {
-            var currentCharacterType = CharacterType(expression[0], isPredicate);
+            var currentChar = expression[0];
+            var currentCharacterType = CharacterType(currentChar, isPredicate);
             if (expression[0] == ' ' || expression[0] == ',' || expression[0] == ')')
             {
                 EatMethod(ref expression);
@@ -178,7 +178,6 @@ namespace LPP
                         ParseRecursively(ref a1, isPredicate);
                         string a2 = expression.Substring(0, expression.IndexOf(',') + 1);
                         expression = expression.Remove(0, a2.Length);
-                        //ParseRecursively(ref a2, isPredicate);
                         return ParseRecursively(ref expression, isPredicate);
                     case '~':
                         Elements.Add(expression[0]);
@@ -244,7 +243,6 @@ namespace LPP
         private static void GenerateBinaryTreePredicate(List<char> input)
         {
             Component root = _binaryTree.Root;
-            Component lastQuantifier = null;
             Component lastVariableContainingNode = null;
             for (var i = 0; i <= input.Count - 1; i++)
             {
@@ -258,7 +256,7 @@ namespace LPP
                         propositionVariable = new Variable(currentCharacter,true);
                     else if (lastVariableContainingNode is Predicate)
                     {
-                        propositionVariable = new Variable(currentCharacter, false);
+                        propositionVariable = new Variable(currentCharacter);
                         if (_binaryTree.PropositionalVariables.Get_BindVariables().Exists(x => x.Symbol == currentCharacter))
                             propositionVariable.bindVariable = true;
                     }

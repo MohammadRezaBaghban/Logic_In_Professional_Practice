@@ -149,7 +149,7 @@ namespace LPP
             else
             {
                 //Try to put the operation on the right side of tree
-                if (root is Negation)
+                if (root is Negation || root is Universal || root is Existential)
                 {
                     if (root.LeftNode == null)
                     {
@@ -224,7 +224,7 @@ namespace LPP
             }                         
 
             //Try to put the single node on the left side of tree as much as possible
-            if (root is Negation || singleNode is Predicate)
+            if (root is Negation || root is Predicate)
             {
                 if (root.LeftNode == null)
                 {

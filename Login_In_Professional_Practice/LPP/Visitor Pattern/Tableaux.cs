@@ -45,8 +45,8 @@ namespace LPP.Visitor_Pattern
             var _p = new Negation();
             var q = BinaryTree.CloneNode(visitable.RightNode, _binaryTree);
             _binaryTree.InsertNode(_p, BinaryTree.CloneNode(visitable.LeftNode, _binaryTree));
-            var nodeLeft = new TableauxNode(_p, visitable, tableauxRoot, true);
-            var nodeRight = new TableauxNode(q, visitable, tableauxRoot, true);
+            var nodeLeft = new TableauxNode(_p, visitable, tableauxRoot, RuleType.RULE_BETA);
+            var nodeRight = new TableauxNode(q, visitable, tableauxRoot, RuleType.RULE_BETA);
         }
 
         public void Visit(Disjunction visitable)
@@ -54,8 +54,8 @@ namespace LPP.Visitor_Pattern
             var tableauxRoot = visitable.Belongs;
             var p = BinaryTree.CloneNode(visitable.LeftNode, _binaryTree);
             var q = BinaryTree.CloneNode(visitable.RightNode, _binaryTree);
-            var nodeLeft = new TableauxNode(p, visitable, tableauxRoot, true);
-            var nodeRight = new TableauxNode(q, visitable, tableauxRoot, true);
+            var nodeLeft = new TableauxNode(p, visitable, tableauxRoot, RuleType.RULE_BETA);
+            var nodeRight = new TableauxNode(q, visitable, tableauxRoot, RuleType.RULE_BETA);
         }
 
         public void Visit(Conjunction visitable)
@@ -72,10 +72,10 @@ namespace LPP.Visitor_Pattern
             var tableauxRoot = visitable.Belongs;
 
             if (mainConnective is Negation doubleNegation)
-            {// Double Negation | Done
+            {// Double Negation | Omega
 
                 var p = BinaryTree.CloneNode(doubleNegation.LeftNode, _binaryTree);
-                var nodeLeft = new TableauxNode(p, visitable, tableauxRoot, false);
+                var nodeLeft = new TableauxNode(p, visitable, tableauxRoot, RuleType.RULE_OMEGA);
             }
             else if (mainConnective is Disjunction disjunction)
             {// α-rule for ~(|) | Done
@@ -97,8 +97,8 @@ namespace LPP.Visitor_Pattern
             {// β-rule for ~(&)
                 var _p = new Negation();
                 var _q = new Negation();
-                var nodeLeft = new TableauxNode(_p, visitable, tableauxRoot, true);
-                var nodeRight = new TableauxNode(_q, visitable, tableauxRoot, true);
+                var nodeLeft = new TableauxNode(_p, visitable, tableauxRoot, RuleType.RULE_BETA);
+                var nodeRight = new TableauxNode(_q, visitable, tableauxRoot, RuleType.RULE_BETA);
                 _binaryTree.InsertNode(_p, BinaryTree.CloneNode(conjunction.LeftNode, _binaryTree));
                 _binaryTree.InsertNode(_q, BinaryTree.CloneNode(conjunction.RightNode, _binaryTree));
             }
