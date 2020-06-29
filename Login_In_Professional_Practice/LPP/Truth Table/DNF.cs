@@ -73,12 +73,12 @@ namespace LPP.Truth_Table
 
         public static string DNFFormula(List<BinaryTree> components)
         {
-            InfixFormulaGenerator formulaGenerator = new InfixFormulaGenerator();
+            
             List<string> normalDNF = new List<string>();
             components.ForEach(x => {
                 if (x != null)
                 {
-                    formulaGenerator.Calculate(x.Root);
+                    InfixFormulaGenerator.Calculator.Calculate(x.Root);
                     normalDNF.Add(x.Root.InFixFormula);
                 }
             });

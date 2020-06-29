@@ -1,6 +1,7 @@
 ﻿using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Connectives;
+using LPP.Composite_Pattern.Variables;
 using LPP.Modules;
 
 namespace LPP.Visitor_Pattern
@@ -45,6 +46,9 @@ namespace LPP.Visitor_Pattern
             visitable.Data = !(visitable.LeftNode.Data && visitable.RightNode.Data);
 
         public void Visit(Negation visitable) => visitable.Data = !visitable.LeftNode.Data;
+        public void Visit(Universal visitable) => throw new System.NotImplementedException();
+        public void Visit(Existential visitable) => throw new System.NotImplementedException();
+        public void Visit(Predicate visitable) => throw new System.NotImplementedException();
 
         public void Visit(TruthTable truthTable)
         {
@@ -54,13 +58,16 @@ namespace LPP.Visitor_Pattern
                 for (var j = 0; j < currentRow.PropositionValues.Length; j++)
                 {
                     truthTable.SetValue_Of_Propositional_Variables(
-                        variable:truthTable.DistinctPropositionalVariables[j],
-                        value: (bool) currentRow.PropositionValues[j]
+                        variable: truthTable.DistinctPropositionalVariables[j],
+                        value: (bool)currentRow.PropositionValues[j]
                         );
                 }
                 this.Calculate(truthTable.RootOfBinaryTree);
                 currentRow.SetValue(truthTable.RootOfBinaryTree.Data);
             }
         }
+
+        public void Visit(TableauxNode visitable) => throw new System.NotImplementedException();
+
     }
 }

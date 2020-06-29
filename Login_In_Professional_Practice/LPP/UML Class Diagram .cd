@@ -3,7 +3,7 @@
   <Class Name="LPP.Form1" Collapsed="true">
     <Position X="22.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIRAAAQiACANEBiAAICAIEAWgQABA4QCETAEAQAQCBE=</HashCode>
+      <HashCode>AIRAQAQiADQNEBCAAICAIEQWgQAJA4QCEXAEAQAQCAE=</HashCode>
       <FileName>Form1.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -39,14 +39,14 @@
   <Class Name="LPP.BinaryTree">
     <Position X="16.5" Y="8" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAgAIAIBEEAAACIAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <HashCode>AAgAIAIBEEAAACIgAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
       <FileName>Parsing-BinaryTree\BinaryTree.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LPP.Composite_Pattern.Components.Component">
     <Position X="9.5" Y="3" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAEAABAAAAAAAAABQAAAAAAAABAAAAAAAAABCgA=</HashCode>
+      <HashCode>AAIAAAEAABAAAAAAAAABwAAAAAAAABAAAAAAAAABCgA=</HashCode>
       <FileName>Composite Pattern\Components\Component.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -117,7 +117,7 @@
   <Class Name="LPP.Visitor_Pattern.InfixFormulaGenerator" BaseTypeListCollapsed="true">
     <Position X="16.5" Y="5.75" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQAAAAACAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAQAAAACCAAAACAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Visitor Pattern\InfixFormula_Generator.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />

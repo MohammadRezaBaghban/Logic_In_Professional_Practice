@@ -1,5 +1,4 @@
-﻿using System.Xml;
-using LPP.Composite_Pattern;
+﻿using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Connectives;
 using LPP.Composite_Pattern.Variables;
@@ -47,8 +46,8 @@ namespace LPP.Visitor_Pattern
             var nandLeftLeft = new Negation();
             var nandLeftRight = new Negation();
 
-            NandInsertNodeSingle(nandLeftLeft, visitable.LeftNode);
-            NandInsertNodeSingle(nandLeftRight, visitable.RightNode);
+            InsertNodeSingle(nandLeftLeft, visitable.LeftNode);
+            InsertNodeSingle(nandLeftRight, visitable.RightNode);
             
             binaryTree.InsertNode(nandRight, visitable.LeftNode);
             binaryTree.InsertNode(nandRight, visitable.RightNode);
@@ -68,7 +67,7 @@ namespace LPP.Visitor_Pattern
             var nandRoot = new Disjunction();
             var nandLeft = new Negation();
 
-            NandInsertNodeSingle(nandLeft, visitable.LeftNode);
+            InsertNodeSingle(nandLeft, visitable.LeftNode);
             binaryTree.InsertNode(nandRoot, nandLeft);
             binaryTree.InsertNode(nandRoot, visitable.RightNode);
 
@@ -85,8 +84,8 @@ namespace LPP.Visitor_Pattern
             var nandLeft = new Nand();
             var nandRight = new Nand();
 
-            NandInsertNodeDouble(nandLeft,visitable.LeftNode);
-            NandInsertNodeDouble(nandRight, visitable.RightNode);
+            InsertNodeDouble(nandLeft,visitable.LeftNode);
+            InsertNodeDouble(nandRight, visitable.RightNode);
 
             binaryTree.InsertNode(nandRoot, nandLeft);
             binaryTree.InsertNode(nandRoot, nandRight);
@@ -100,8 +99,8 @@ namespace LPP.Visitor_Pattern
             var nandRoot = new Negation();
             var nandLeft = new Nand();
 
-            NandInsertNodeSingle(nandLeft, visitable.LeftNode);
-            NandInsertNodeSingle(nandLeft, visitable.RightNode);
+            InsertNodeSingle(nandLeft, visitable.LeftNode);
+            InsertNodeSingle(nandLeft, visitable.RightNode);
             binaryTree.InsertNode(nandRoot, nandLeft);
 
             Calculate(nandRoot);
@@ -114,7 +113,7 @@ namespace LPP.Visitor_Pattern
         {
             var nandRoot = new Nand();
 
-            NandInsertNodeDouble(nandRoot, visitable.LeftNode);
+            InsertNodeDouble(nandRoot, visitable.LeftNode);
 
             binaryTree.Root = nandRoot;
             visitable.Nand = nandRoot;
@@ -127,7 +126,11 @@ namespace LPP.Visitor_Pattern
             visitable.Nand = visitable;
         }
 
-        private void NandInsertNodeSingle(Component root, Component branch)
+        public void Visit(Universal visitable) => throw new System.NotImplementedException();
+        public void Visit(Existential visitable) => throw new System.NotImplementedException();
+        public void Visit(Predicate visitable) => throw new System.NotImplementedException();
+
+        private void InsertNodeSingle(Component root, Component branch)
         {
             if (branch is CompositeComponent composite)
             {
@@ -139,7 +142,7 @@ namespace LPP.Visitor_Pattern
             }
         }
 
-        private void NandInsertNodeDouble(Component root, Component branch)
+        private void InsertNodeDouble(Component root, Component branch)
         {
             if (branch is CompositeComponent composite)
             {
@@ -153,5 +156,6 @@ namespace LPP.Visitor_Pattern
             }
         }
 
+        public void Visit(TableauxNode visitable) => throw new System.NotImplementedException();
     }
 }

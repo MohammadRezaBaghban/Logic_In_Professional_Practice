@@ -1,5 +1,6 @@
 ﻿using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Connectives;
+using LPP.Composite_Pattern.Variables;
 
 namespace LPP.Composite_Pattern
 {
@@ -13,6 +14,8 @@ namespace LPP.Composite_Pattern
         void Visit(Conjunction visitable);
         void Visit(Negation visitable);
         void Visit(Nand visitable);
-
+        void Visit(Universal visitable);
+        void Visit(Existential visitable);
+        void Visit(Predicate visitable);
     }
 }

@@ -29,7 +29,7 @@ namespace LPPTestProject
         public void TruthTable_CalculateTruthTable_HashCodeBeEqualAsExpected(string prefixInput, string hexaHashCode)
         {
             //Arrange
-            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.Parse(prefixInput);
 
             //Act
             var truthTable = new TruthTable(binaryTree);
@@ -43,7 +43,7 @@ namespace LPPTestProject
         public void TruthTable_SimplifyTruthTable_HashCodeBeEqualAsExpected(string prefixInput, string simplifiedTruthTable)
         {
             //Arrange
-            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.Parse(prefixInput);
 
             //Act
             var truthTable = new TruthTable(binaryTree);
@@ -56,6 +56,7 @@ namespace LPPTestProject
 
         [Theory]
         [InlineData("~(|(~(A),|(>(A,~(A)),>(&(>(~(|(C,A)),C),C),C))))")]
+        [InlineData(">(>(|(P,Q),R),|(>(P,R),>(Q,R)))")]
         [InlineData("|(~(>(A,B)),&(A,>(C,B)))")]
         [InlineData("&(>(P,Q),|(Q,P))")]
         [InlineData("&(>(P,Q),>(Q,P))")]
@@ -73,7 +74,7 @@ namespace LPPTestProject
         public void TruthTable_DNFProcessing_DNFFormulaAndHashCodeBeAsExpected(string prefixInput)
         {
             //Arrange
-            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.Parse(prefixInput);
 
             //Act
             var truthTable = new TruthTable(binaryTree);
@@ -97,12 +98,13 @@ namespace LPPTestProject
         [InlineData("|(|(A,B),|(C,|(F,G)))")]
         [InlineData(">(&(A,~(D)),|(B,|(Y,R)))")]
         [InlineData("~(|(|(A,~(B)),|(~(C),D))))")]
-        [InlineData("~(|(=(A,~(B)),|(~(|(U,=(T,R))),D))))")]
+        [InlineData(">(&(|(P,Q),&(>(P,R),>(Q,R))),R)")]
+        [InlineData(">(>(|(P,Q),R),|(>(P,R),>(Q,R)))")]
         public void TruthTable_Nandify_NandTruthTableHashCodeBeAsExpected(string prefixInput)
         {
             //Arrange
             var nandify = new Nandify();
-            var binaryTree = ParsingModule.ParseInput(prefixInput);
+            var binaryTree = ParsingModule.Parse(prefixInput);
 
             //Act
             var truthTable = new TruthTable(binaryTree);

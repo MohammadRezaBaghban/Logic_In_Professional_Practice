@@ -14,9 +14,25 @@ namespace LPP
     {
 
         private static BinaryTree _binaryTree = new BinaryTree();
-        public static List<char> Elements = new List<char>();
-        public static char[] Connectives = new char[] { '~', '>', '=', '&', '|','%' };
+        public static readonly List<char> Elements = new List<char>();
+        private enum characterType { PropositionalVariable, Connectives, Quantifier, Predicate, Unknown }
+        public static char[] Connectives = new char[] { '~', '>', '=', '&', '|', '%' };
+        public static char[] Quantifiers = new char[] { '!', '@', '.' };
         public static int NodeCounter;
+
+        public static BinaryTree Parse(string input)
+        {
+            BinaryTree root;
+            if (input.Contains("@") || input.Contains("!"))
+            {
+                root = ParseInputPredicate(input);
+            }
+            else
+            {
+                root = ParseInputProposition(input);
+            }
+            return root;
+        }
 
         /// <summary>
         /// Parse the input formula and generate binary tree object out of it
@@ -25,134 +41,258 @@ namespace LPP
         /// Generate the binary tree out of the given formula
         ///  <param name="input">prefix abstract proposition formula</param>
         /// <returns>The binaryTree object </returns>
-        public static BinaryTree ParseInput(string input)
+        private static BinaryTree ParseInputProposition(string input)
         {
             EraseParsedList();
-            ParseInputRecursively(ref input);
-            GenerateBinaryTree(Elements);
+            ParseRecursively(ref input, isPredicate: false);
+            GenerateBinaryTreeProposition(Elements);
             _binaryTree.MakeIt_Non_Modifiable();
             return _binaryTree;
         }
 
+        public static BinaryTree ParseInputPredicate(string input)
+        {
+            EraseParsedList();
+            ParseRecursively(ref input, isPredicate: true);
+            GenerateBinaryTreePredicate(Elements);
+            _binaryTree.MakeIt_Non_Modifiable();
+            return _binaryTree;
+        }
 
         /// <summary>
         /// Parse an input in the format of string and extract the list of formula elements
         /// </summary>
         /// <returns>return string excluding processed section</returns>
-        private static string ParseInputRecursively(ref string expression)
+        private static string ParseRecursively(ref string expression, bool isPredicate)
         {
             if (string.IsNullOrEmpty(expression))
-            {
                 return null;
+            return !isPredicate ? ParseProposition(ref expression, false) : ParsePredicate(ref expression, true);
+        }
+        private static string ParseProposition(ref string expression, bool isPredicate)
+        {
+            var currentCharacterType = CharacterType(expression[0], isPredicate);
+            if (expression[0] == ' ' || expression[0] == ',' || expression[0] == ')')
+            {
+                EatMethod(ref expression);
+                return ParseRecursively(ref expression, isPredicate);
+            }
+            if (currentCharacterType == characterType.Unknown)
+            {
+                throw new Exception($"Unknown Character:{expression[0]}" +
+                                       "\n\nThe Propositional formula contain Invalid Characters\n" +
+                                       "Propositional Variables: English Capital Letter - 0,1\n" +
+                                       "Connectives: ~,>,=,&,|\n" + "Separators: '(', ',' ,')'");
+            }
+            else if (currentCharacterType == characterType.PropositionalVariable)
+            {
+                Elements.Add(expression[0]);
+                EatMethod(ref expression);
+                return ParseRecursively(ref expression, isPredicate);
             }
             else
             {
-                if (expression[0] == ' ' || expression[0] == ',' || expression[0] == ')')
+                switch (expression[0])
                 {
-                    EatMethod(ref expression);
-                    return ParseInputRecursively(ref expression);
-                }
-
-                if (CharacterType(expression[0]) == characterType.Unknown)
-                {
-                    throw new Exception($"Unknown Character:{expression[0]}" +
-                                           "\n\nThe formula contain Invalid Characters\n" +
-                                           "Propositional Variables: English Capital Letter - 0,1\n" +
-                                           "Connectives: ~,>,=,&,|\n" +
-                                           "Separators: '(', ',' ,')'");
-                }
-                else if (CharacterType(expression[0]) == characterType.PropositionalVariable)
-                {
-                    Elements.Add(expression[0]);
-                    EatMethod(ref expression);
-                    return ParseInputRecursively(ref expression);
-                }
-                else
-                {
-                    switch (expression[0])
-                    {
-                        case '>':
-                        case '=':
-                        case '%':
-                        case '&':
-                        case '|':
-                            Elements.Add(expression[0]);
-                            EatMethod(ref expression, 2);
-                            string a1 = expression.Substring(0, expression.IndexOf(')') + 1);
-                            expression = expression.Remove(0, a1.Length);
-                            ParseInputRecursively(ref a1);
-                            string a2 = expression.Substring(0, expression.IndexOf(')') + 1);
-                            expression = expression.Remove(0, a2.Length);
-                            ParseInputRecursively(ref a2);
-                            return ParseInputRecursively(ref expression);
-                        case '~':
-                            Elements.Add(expression[0]);
-                            EatMethod(ref expression, 2);
-                            return ParseInputRecursively(ref expression);
-                        default:
-                            return null;
-                    }
+                    case '>': case '=': case '%': case '&': case '|':
+                        Elements.Add(expression[0]);
+                        EatMethod(ref expression, 2);
+                        string a1 = expression.Substring(0, expression.IndexOf(')') + 1);
+                        expression = expression.Remove(0, a1.Length);
+                        ParseRecursively(ref a1, isPredicate);
+                        string a2 = expression.Substring(0, expression.IndexOf(')') + 1);
+                        expression = expression.Remove(0, a2.Length);
+                        ParseRecursively(ref a2, isPredicate);
+                        return ParseRecursively(ref expression, isPredicate);
+                    case '~':
+                        Elements.Add(expression[0]);
+                        EatMethod(ref expression, 2);
+                        return ParseRecursively(ref expression, isPredicate);
+                    default:
+                        return null;
                 }
             }
         }
+        private static string ParsePredicate(ref string expression, bool isPredicate)
+        {
+            var currentChar = expression[0];
+            var currentCharacterType = CharacterType(currentChar, isPredicate);
+            if (expression[0] == ' ' || expression[0] == ',' || expression[0] == ')')
+            {
+                EatMethod(ref expression);
+                return ParseRecursively(ref expression, isPredicate);
+            }
 
+            if (currentCharacterType == characterType.Unknown)
+            {
+                throw new Exception($"Unknown Character:{expression[0]}" +
+                                       "\n\nThe Predicate contain Invalid Characters\n" +
+                                       "Propositional Variables: English Capital Letter - 0,1\n" +
+                                       "Quantifier: @,!\n" + "Connectives: ~,>,=,&,|\n" +
+                                       "Separators: '(', ',' ,')' ,'.'");
+            }
+            else if (currentCharacterType == characterType.PropositionalVariable)
+            {
+                var lastElementType = CharacterType(Elements[Elements.Count - 1], true);
+                if (lastElementType == characterType.Quantifier)
+                {
+                    expression.Substring(0, expression.IndexOf(".", StringComparison.Ordinal)).ToList().ForEach(x => Elements.Add(x));
+                    EatMethod(ref expression, expression.IndexOf("(", StringComparison.Ordinal) + 1);
+                    return ParseRecursively(ref expression, isPredicate);
+                }
+                else if (lastElementType == characterType.Predicate)
+                {
+                    var str = expression.Substring(0, expression.IndexOf(")", StringComparison.Ordinal));
+                    if (str.Length > 1)
+                    {
+                        str.Split(',').ToList().ForEach(x => Elements.Add(Convert.ToChar(x)));
+                    }
+                    else
+                    {
+                        Elements.Add(expression[0]);
+                    }
+                    EatMethod(ref expression, expression.IndexOf(")", StringComparison.Ordinal) + 1);
+                    return ParseRecursively(ref expression, isPredicate);
+                }
+            }
+            else if (currentCharacterType == characterType.Predicate)
+            {
+                Elements.Add(expression[0]);
+                EatMethod(ref expression, 2);
+                return ParseRecursively(ref expression, isPredicate);
+
+            }
+            else
+            {
+                switch (expression[0])
+                {
+                    case '>':
+                    case '=':
+                    case '%':
+                    case '&':
+                    case '|':
+                        Elements.Add(expression[0]);
+                        EatMethod(ref expression, 2);
+                        string a1 = expression.Substring(0, expression.IndexOf(')') + 1);
+                        expression = expression.Remove(0, a1.Length);
+                        ParseRecursively(ref a1, isPredicate);
+                        string a2 = expression.Substring(0, expression.IndexOf(',') + 1);
+                        ParseRecursively(ref a2, isPredicate);
+                        expression = expression.Remove(0, a2.Length);
+                        return ParseRecursively(ref expression, isPredicate);
+                    case '~':
+                        Elements.Add(expression[0]);
+                        EatMethod(ref expression, 2);
+                        return ParseRecursively(ref expression, isPredicate);
+                    case '!':
+                    case '@':
+                        Elements.Add(expression[0]);
+                        EatMethod(ref expression, 1);
+                        return ParseRecursively(ref expression, isPredicate);
+                    default:
+                        return null;
+                }
+            }
+            return null;
+        }
 
         /// <summary>
         /// Interact with BinaryTree instance to generate a binary tree based on element
         /// </summary>
         /// <param name="input">list of elements in the binary tree</param>
         /// <returns>The root of binary tree</returns>
-        private static void GenerateBinaryTree(List<char> input)
+        private static void GenerateBinaryTreeProposition(List<char> input)
         {
             Component root = _binaryTree.Root;
             for (var i = 0; i <= input.Count - 1; i++)
             {
                 var currentCharacter = input[i];
-                if (CharacterType(currentCharacter) == characterType.PropositionalVariable)
+                var currentCharacterType = CharacterType(currentCharacter, false);
+                if (currentCharacterType == characterType.PropositionalVariable)
                 {
-                    switch (currentCharacter)
+                    if (currentCharacter == '0')
                     {
-                        // Values
-                        case '0':
-                            _binaryTree.InsertNode(root, new TrueFalse(false));
-                            break;
-                        case '1':
-                            _binaryTree.InsertNode(root, new TrueFalse(true));
-                            break;
-
-                        //Variables                    
-                        default:
-                            var propositionVariable = new Variable(currentCharacter);
-                            _binaryTree.InsertNode(root, propositionVariable);
-                            break;
+                        _binaryTree.InsertNode(root, new TrueFalse(false));
+                    }
+                    else if (currentCharacter == '1')
+                    {
+                        _binaryTree.InsertNode(root, new TrueFalse(true));
+                    }
+                    else
+                    {
+                        var propositionVariable = new Variable(currentCharacter);
+                        _binaryTree.InsertNode(root, propositionVariable);
                     }
                 }
-                else
+                else if (currentCharacterType == characterType.Connectives)
                 {
-                    switch (currentCharacter)
+                    if (currentCharacter == '>')
+                        root = _binaryTree.InsertNode(root, new Implication());
+                    else if (currentCharacter == '=')
+                        root = _binaryTree.InsertNode(root, new BiImplication());
+                    else if (currentCharacter == '%')
+                        root = _binaryTree.InsertNode(root, new Nand());
+                    else if (currentCharacter == '&')
+                        root = _binaryTree.InsertNode(root, new Conjunction());
+                    else if (currentCharacter == '|')
+                        root = _binaryTree.InsertNode(root, new Disjunction());
+                    else if (currentCharacter == '~') root = _binaryTree.InsertNode(root, new Negation());
+                }
+            }
+            NodeCounter = 0;
+        }
+        private static void GenerateBinaryTreePredicate(List<char> input)
+        {
+            Component root = _binaryTree.Root;
+            Component lastVariableContainingNode = null;
+            for (var i = 0; i <= input.Count - 1; i++)
+            {
+                var currentCharacter = input[i];
+                var currentCharacterType = CharacterType(currentCharacter, true);
+
+                 if (currentCharacterType == characterType.PropositionalVariable)
+                {
+                    Variable propositionVariable = null;
+                    if (lastVariableContainingNode is Universal || lastVariableContainingNode is Existential)
+                        propositionVariable = new Variable(currentCharacter,true);
+                    else if (lastVariableContainingNode is Predicate)
                     {
-                        //Two Operands Connectives
-                        case '>':
-                            root = _binaryTree.InsertNode(root, new Implication());
-                            break;
-                        case '=':
-                            root = _binaryTree.InsertNode(root, new BiImplication());
-                            break;
-                        case '%':
-                            root = _binaryTree.InsertNode(root, new Nand());
-                            break;
-                        case '&':
-                            root = _binaryTree.InsertNode(root, new Conjunction());
-                            break;
-                        case '|':
-                            root = _binaryTree.InsertNode(root, new Disjunction());
-                            break;
-
-
-                        //One Operand Connective
-                        case '~':
-                            root = _binaryTree.InsertNode(root, new Negation());
-                            break;
+                        propositionVariable = new Variable(currentCharacter);
+                        if (_binaryTree.PropositionalVariables.Get_BindVariables().Exists(x => x.Symbol == currentCharacter))
+                            propositionVariable.bindVariable = true;
+                    }
+                    _binaryTree.InsertNode(lastVariableContainingNode, propositionVariable);
+                }
+                else if (currentCharacterType == characterType.Predicate)
+                {
+                    lastVariableContainingNode = new Predicate(currentCharacter);
+                    root = _binaryTree.InsertNode(root, lastVariableContainingNode);
+                }
+                else if (currentCharacterType == characterType.Connectives)
+                {
+                    if (currentCharacter == '>')
+                        root = _binaryTree.InsertNode(root, new Implication());
+                    else if (currentCharacter == '=')
+                        root = _binaryTree.InsertNode(root, new BiImplication());
+                    else if (currentCharacter == '%')
+                        root = _binaryTree.InsertNode(root, new Nand());
+                    else if (currentCharacter == '&')
+                        root = _binaryTree.InsertNode(root, new Conjunction());
+                    else if (currentCharacter == '|')
+                        root = _binaryTree.InsertNode(root, new Disjunction());
+                    else if (currentCharacter == '~') root = _binaryTree.InsertNode(root, new Negation());
+                }
+                else if (currentCharacterType == characterType.Quantifier)
+                {
+                    if (currentCharacter == '@')
+                    {
+                        lastVariableContainingNode = new Universal();
+                        root = _binaryTree.InsertNode(root, lastVariableContainingNode);
+                    }
+                    else if (currentCharacter == '!')
+                    {
+                        lastVariableContainingNode = new Existential();
+                        root = _binaryTree.InsertNode(root, lastVariableContainingNode);
                     }
                 }
             }
@@ -167,23 +307,13 @@ namespace LPP
         /// <returns></returns>
         private static void EatMethod(ref string input, int count = 0)
         {
-            if (!String.IsNullOrEmpty(input))
-            {
-                if (count == 0)
-                {
-                    input = input.Remove(0, 1);
-                }
-                else
-                {
-                    input = input.Remove(0, count);
-                }
-            }
+            if (!String.IsNullOrEmpty(input)) input = input.Remove(0, count == 0 ? 1 : count);
         }
 
         /// <summary>
         /// Clear previous parsed formula and its associated binary tree
         /// </summary>
-        /// Should be called before any external call of ParseInputRecursively
+        /// Should be called before any external call of ParseRecursively
         private static void EraseParsedList()
         {
             _binaryTree = new BinaryTree();
@@ -192,28 +322,49 @@ namespace LPP
             _binaryTree.Root = null;
         }
 
-        private static characterType CharacterType(char character)
+        private static characterType CharacterType(char character, bool predicate)
         {
-            // If the character is Propositional Variables or true/false  
-            if (Char.IsUpper(character) || character == '0' || character == '1')
+            if (!predicate)
             {
-                return characterType.PropositionalVariable;
-            }
-            else if (Connectives.Contains(character))
-            {
-                return characterType.Connectives;
+                // If the character is Propositional Variables or true/false  
+                if (Char.IsUpper(character) || character == '0' || character == '1')
+                {
+                    return characterType.PropositionalVariable;
+                }
+                else if (Connectives.Contains(character))
+                {
+                    return characterType.Connectives;
+                }
+                else
+                {
+                    return characterType.Unknown;
+                }
             }
             else
             {
-                return characterType.Unknown;
+                // If the character is Propositional Variables or true/false  
+                if (Char.IsUpper(character))
+                {
+                    return characterType.Predicate;
+                }
+                else if (Char.IsLower(character))
+                {
+                    return characterType.PropositionalVariable;
+                }
+                else if (Quantifiers.Contains(character))
+                {
+                    return characterType.Quantifier;
+                }
+                else if (Connectives.Contains(character))
+                {
+                    return characterType.Connectives;
+                }
+                else
+                {
+                    return characterType.Unknown;
+                }
             }
-        }
 
-        enum characterType
-        {
-            PropositionalVariable,
-            Connectives,
-            Unknown
         }
     }
 }

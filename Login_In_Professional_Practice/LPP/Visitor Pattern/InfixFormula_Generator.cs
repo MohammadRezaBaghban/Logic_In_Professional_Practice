@@ -1,6 +1,8 @@
-﻿using LPP.Composite_Pattern;
+﻿using System.Linq;
+using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Connectives;
+using LPP.Composite_Pattern.Variables;
 using IVisitor = LPP.Composite_Pattern.IVisitor;
 
 namespace LPP.Visitor_Pattern
@@ -10,6 +12,8 @@ namespace LPP.Visitor_Pattern
     /// </summary>
     public class InfixFormulaGenerator:IVisitor
     {
+        public static InfixFormulaGenerator Calculator { get; } = new InfixFormulaGenerator();
+
         /// <summary>
         /// Recursive Traversing Method for calculating the InFix formula of abstract Proposition. 
         /// </summary>
@@ -32,6 +36,8 @@ namespace LPP.Visitor_Pattern
                     compositeNode.Evaluate(this);
                 }
             }
+            else if(visitable is Predicate predicate)
+                Visit(predicate);
         }
 
         public void Visit(Negation visitable)
@@ -45,11 +51,14 @@ namespace LPP.Visitor_Pattern
                 visitable.InFixFormula = $"¬{visitable.LeftNode.InFixFormula}";
             }
         }
-        public void Visit(BiImplication visitable) => GenerateInfixGenerator(visitable, '⇔');
-        public void Visit(Implication visitable) => GenerateInfixGenerator(visitable, '⇒');
-        public void Visit(Disjunction visitable) => GenerateInfixGenerator(visitable, '⋁');
-        public void Visit(Conjunction visitable) => GenerateInfixGenerator(visitable, '⋀');
+        public void Visit(BiImplication visitable) => GenerateInfixGenerator(visitable, '=');
+        public void Visit(Implication visitable) => GenerateInfixGenerator(visitable, '>');
+        public void Visit(Disjunction visitable) => GenerateInfixGenerator(visitable, '|');
+        public void Visit(Conjunction visitable) => GenerateInfixGenerator(visitable, '&');
         public void Visit(Nand visitable) => GenerateInfixGenerator(visitable, '%');
+        public void Visit(Predicate visitable) => visitable.InFixFormula = $"{visitable.Symbol}({visitable.Variables()})";
+        public void Visit(Universal visitable) => visitable.InFixFormula = $"@{visitable.Variables()}[{visitable.LeftNode.InFixFormula}]";
+        public void Visit(Existential visitable) => visitable.InFixFormula = $"!{visitable.Variables()}[{visitable.LeftNode.InFixFormula}]";
 
         /// <summary>
         /// Method for create more intuitive infix formula based on the type of left and right node.

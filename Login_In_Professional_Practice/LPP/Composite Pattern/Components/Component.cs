@@ -1,14 +1,16 @@
-﻿using LPP.Modules;
+﻿using System.Collections.Generic;
 
 namespace LPP.Composite_Pattern.Components
 {
     public abstract class Component
     {
         public Component Parent;
-
         public Component LeftNode;
-
         public Component RightNode;
+
+        public TableauxNode Belongs;
+
+        public List<Component> nextStep;
 
         //This needs to be be adjusted
         public int NodeNumber { get; set; } = ++ParsingModule.NodeCounter;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Components;
@@ -13,7 +14,9 @@ namespace LPP
     public class BinaryTree
     {
         public Component Root;
+        public static BinaryTree Object { get; } = new BinaryTree();
         public PropositionalVariables PropositionalVariables = null;
+
         private bool _nonModifiable = false;
 
         public BinaryTree() => PropositionalVariables = new PropositionalVariables();
@@ -26,21 +29,23 @@ namespace LPP
                 SingleComponent singleNode = node as SingleComponent;
                 if (singleNode != null)
                 {
-                    if(singleNode is Variable) 
+
+                    if (singleNode is Variable variable)
+                    {
                         PropositionalVariables.AddPropositionalVariable(singleNode as Variable);
+                        if (Char.IsLower(variable.Symbol))
+                        {
+                            (root as IVariableContainer)?.ObjectVariables.Variables.Add(variable);
+                            return Root;
+                        }
+                        return InsertSingleNode(root, singleNode);
+                    }
                     return InsertSingleNode(root, singleNode);
                 }
-                else
-                {
-                    CompositeComponent composite = node as CompositeComponent;
-                    return InsertCompositeNode(root, composite);
-                }
+                CompositeComponent composite = node as CompositeComponent;
+                return InsertCompositeNode(root, composite);
             }
-            else
-            {
-                return Root;
-            }
-            
+            return Root;
         }
 
         public bool MakeIt_Non_Modifiable()
@@ -63,10 +68,10 @@ namespace LPP
                 return Root;
             }
 
-            if (newNode is Negation)
+            if (newNode is Negation || newNode is Universal || newNode is Existential)
             {
                 //Try to put the function on the left side of tree
-                if (root is Negation)
+                if (root is Negation || root is Universal || root is Existential)
                 {
                     if (root.LeftNode == null)
                     {
@@ -144,7 +149,7 @@ namespace LPP
             else
             {
                 //Try to put the operation on the right side of tree
-                if (root is Negation)
+                if (root is Negation || root is Universal || root is Existential)
                 {
                     if (root.LeftNode == null)
                     {
@@ -174,7 +179,7 @@ namespace LPP
                         {
                             root.RightNode = newNode;
                             root.RightNode.Parent = root;
-                        }
+                        }else
                         {
                             if (root.Parent != null)
                             {
@@ -216,10 +221,10 @@ namespace LPP
                 this.Root = singleNode;
                 this.Root = Root as SingleComponent;
                 return Root;
-            }
+            }                         
 
             //Try to put the single node on the left side of tree as much as possible
-            if (root is Negation)
+            if (root is Negation || root is Predicate)
             {
                 if (root.LeftNode == null)
                 {
@@ -322,7 +327,7 @@ namespace LPP
             }
         }
 
-        public static Component CloneNode(Component node, BinaryTree bt)
+        public static Component CloneNode(Component node, BinaryTree bt,char current ='!',char rename = '!')
         {
             Component newNode;
 
@@ -340,9 +345,30 @@ namespace LPP
                 newNode = new Nand();
             else if (node is TrueFalse)
                 newNode = new TrueFalse(((TrueFalse) node).Data);
+            else if(node is Predicate predicate)
+            {
+                newNode = new Predicate(node.Symbol);
+                predicate.ObjectVariables.Variables.ForEach(x=> ((IVariableContainer) newNode)
+                    .ObjectVariables.AddPropositionalVariable(CloneVariableForPredicate(x,current,rename))
+                );
+            }
+            else if (node is Universal universal)
+            {
+                newNode = new Universal();
+                universal.ObjectVariables.Variables.ForEach(x => ((IVariableContainer)newNode)
+                    .ObjectVariables.AddPropositionalVariable(CloneVariableForPredicate(x, current, rename))
+                );
+            }
+            else if (node is Existential existential)
+            {
+                newNode = new Existential();
+                existential.ObjectVariables.Variables.ForEach(x => ((IVariableContainer)newNode)
+                    .ObjectVariables.AddPropositionalVariable(CloneVariableForPredicate(x, current, rename))
+                );
+            }
             else
             {
-                newNode = new Variable(((Variable) node).Symbol);
+                newNode = new Variable(((Variable) node).Symbol, ((Variable)node).bindVariable);
                 bt.PropositionalVariables.AddPropositionalVariable(newNode as Variable);
             }
 
@@ -357,26 +383,27 @@ namespace LPP
                 {
                     if (node.LeftNode != null)
                     {
-                        newNode.LeftNode = CloneNode(node.LeftNode,bt);
+                        newNode.LeftNode = node.LeftNode is IVariableContainer ? 
+                            CloneNode(node.LeftNode, bt,current,rename) : CloneNode(node.LeftNode, bt, current,rename);
                     }
                     else
                     {
                         newNode.LeftNode = node.LeftNode;
                     }
-
-                    if (node.RightNode != null)
-                    {
-                        newNode.RightNode = CloneNode(node.RightNode,bt);
-                    }
-                    else
-                    {
-                        newNode.RightNode = node.RightNode;
-                    }
+                    newNode.RightNode = node.RightNode != null ? CloneNode(node.RightNode,bt, current, rename) : node.RightNode;
                 }
             }
 
             newNode.NodeNumber++;
             return newNode;
+        }
+
+        public static Variable CloneVariableForPredicate(Variable v, char current,char rename)
+        {
+            var variable = (Variable)BinaryTree.CloneNode(v, BinaryTree.Object);
+            if (variable.Symbol == current)
+                variable.Symbol = rename;
+            return variable;
         }
     }
 }

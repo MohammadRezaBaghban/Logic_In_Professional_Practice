@@ -6,8 +6,11 @@ namespace LPP.Composite_Pattern.Variables
 {
     public class Variable : SingleComponent, IEquatable<Variable>
     {
-        public Variable(char symbol) =>
-            (IsPropositionalVariable, InFixFormula, Symbol, NodeNumber) = (true, symbol.ToString(), symbol, ++ParsingModule.NodeCounter);
+
+        public bool bindVariable = false;
+
+        public Variable(char symbol, bool bind = false) =>
+            (InFixFormula, Symbol, NodeNumber,bindVariable) = (symbol.ToString(), symbol, ++ParsingModule.NodeCounter,bind);
 
         public bool Equals(Variable other) => this.Symbol.Equals(other.Symbol);
 
