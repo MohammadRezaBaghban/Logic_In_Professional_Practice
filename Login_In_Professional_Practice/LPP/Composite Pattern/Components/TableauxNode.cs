@@ -49,11 +49,6 @@ namespace LPP.Composite_Pattern.Components
             this.ParentNode = parent;
             parent.Branched = false;
             parent.LeftNode = this;
-            components.ForEach(x =>
-            {
-                x.Belongs = this;
-                this.Components.Add(x);
-            });
             parent.Components.ForEach(component =>
             {
                 if (component != processed)
@@ -61,6 +56,11 @@ namespace LPP.Composite_Pattern.Components
                     component.Belongs = this;
                     this.Components.Add(component);
                 }
+            });
+            components.ForEach(x =>
+            {
+                x.Belongs = this;
+                this.Components.Add(x);
             });
             if (parent.ActiveVariables?.Count != 0 && parent.ActiveVariables != null)
             {
@@ -83,7 +83,6 @@ namespace LPP.Composite_Pattern.Components
             parent.Branched = false;
             parent.LeftNode = this;
             component.Belongs = this;
-            this.Components.Add(component);
             if (parent.ActiveVariables?.Count != 0)
             {
                 parent.ActiveVariables?.ForEach(x => this.ActiveVariables.Add(x));
@@ -97,6 +96,7 @@ namespace LPP.Composite_Pattern.Components
                     this.Components.Add(newNode);
                 }
             });
+            this.Components.Add(component);
         }
 
         /// <summary>
@@ -112,8 +112,6 @@ namespace LPP.Composite_Pattern.Components
             this.ActiveVariables = new List<char>();
             this.Rule_Type = ruleType;
             node.Belongs = this;
-            Components.Add(node);
-
             parent.Components.ForEach(component =>
             {
                 if (component != processed)
@@ -123,6 +121,7 @@ namespace LPP.Composite_Pattern.Components
                     this.Components.Add(newNode);
                 }
             });
+            Components.Add(node);
             parent.Branched = (ruleType == RuleType.RULE_BETA) ? true : false;
             this.ParentNode = parent;
             if (parent.LeftNode == null) parent.LeftNode = this;
@@ -223,7 +222,7 @@ namespace LPP.Composite_Pattern.Components
 
             if (this.ActiveVariables?.Count != 0 && this.ActiveVariables != null)
             {
-                var vars = this.ActiveVariables.Aggregate("", (current, next) => current += $"{next},");
+                var vars = this.ActiveVariables.Aggregate("", (current, next) => current += $"{next},\n");
                 label += $"\n\n vars[{vars.Remove(vars.Length - 1)}]";
             }
             if (this.LeafIsClosed == true)
