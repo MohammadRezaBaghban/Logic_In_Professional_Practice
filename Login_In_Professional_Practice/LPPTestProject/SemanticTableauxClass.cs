@@ -1,6 +1,5 @@
 ﻿using LPP;
 using LPP.Composite_Pattern.Components;
-using LPP.Visitor_Pattern;
 using Xunit;
 
 namespace LPPTestProject
@@ -74,6 +73,8 @@ namespace LPPTestProject
 
         [Theory]
         [InlineData(">(!x.(@y.(P(x,y))),@q.(!p.(P(p,q))))")]
+        [InlineData("=(@x.(&(F(x),G(x))),&(@x.(F(x)),@x.(G(x))))")]
+        [InlineData("&(|(~(@x.(&(F(x), G(x)))),&(@x.(F(x)), @x.(G(x)))),|(@x.(&(F(x),G(x))),~(&(@x.(F(x)),@x.(G(x))))))")]
         public void SemanticTableauxPredicate_OnTautologiesFormula_RootBeingClosed(string prefixInput)
         {
             //Arrange

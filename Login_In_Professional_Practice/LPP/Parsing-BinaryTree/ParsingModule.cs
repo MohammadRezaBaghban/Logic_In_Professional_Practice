@@ -177,6 +177,7 @@ namespace LPP
                         expression = expression.Remove(0, a1.Length);
                         ParseRecursively(ref a1, isPredicate);
                         string a2 = expression.Substring(0, expression.IndexOf(',') + 1);
+                        ParseRecursively(ref a2, isPredicate);
                         expression = expression.Remove(0, a2.Length);
                         return ParseRecursively(ref expression, isPredicate);
                     case '~':
@@ -249,7 +250,7 @@ namespace LPP
                 var currentCharacter = input[i];
                 var currentCharacterType = CharacterType(currentCharacter, true);
 
-                if (currentCharacterType == characterType.PropositionalVariable)
+                 if (currentCharacterType == characterType.PropositionalVariable)
                 {
                     Variable propositionVariable = null;
                     if (lastVariableContainingNode is Universal || lastVariableContainingNode is Existential)
