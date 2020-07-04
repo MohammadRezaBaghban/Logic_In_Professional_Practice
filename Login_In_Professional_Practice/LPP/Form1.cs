@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using LPP.Composite_Pattern.Components;
-using LPP.Modules;
 using LPP.Truth_Table;
 using LPP.Visitor_Pattern;
 
@@ -71,7 +70,6 @@ namespace LPP
             TbPropositionalVariables.Text = _binaryTreeNormal.PropositionalVariables.Get_Distinct_PropositionalVariables()
                 .SelectMany(x => x.Symbol.ToString()).Aggregate("", (current, next) => current + next);
 
-            //BtnSemanticTableaux.BackColor = _tableauxRoot.LeafIsClosed == true ? Color.ForestGreen : Color.Tomato;
             BtnParseRecursively.BackColor = _truthTable.GetHexadecimalHashCode() == _truthTableNand.GetHexadecimalHashCode()
                     ? Color.MediumSeaGreen : Color.PaleVioletRed;
         }
@@ -80,7 +78,6 @@ namespace LPP
             _graphImages.Add(0, GenerateGraphVizBinaryGraph(root.GraphVizFormula, "Normal"));
             _graphImages.Add(1, GenerateGraphVizBinaryGraph(root.Nand.GraphVizFormula, "NAND"));
             _graphImages.Add(2, GenerateGraphVizBinaryGraph(_truthTable.DnfNormalBinaryTree?.Root.GraphVizFormula, "DNF"));
-            //_graphImages.Add(3, GenerateGraphVizBinaryGraph(_tableauxRoot.GraphVizFormula(), "Tableaux"));
 
             LbImageName.Text = _graphImages[0].Substring(0, _graphImages[0].IndexOf("."));
             PbBinaryGraph.ImageLocation = _graphImages[0];
@@ -130,9 +127,7 @@ namespace LPP
                     _graphImages.Clear();
                     _binaryTreeNormal = ParsingModule.Parse(userInput);
                     var rootOfNormalBinaryTree = _binaryTreeNormal.Root as CompositeComponent;
-                    //_tableauxRoot = new TableauxNode(rootOfNormalBinaryTree);
                     _nandify.Calculate(rootOfNormalBinaryTree);
-                    //_tableauxRoot.IsClosed();
 
                     _truthTable = new TruthTable(_binaryTreeNormal);
                     _truthTableNand = new TruthTable(Nandify.binaryTree);
@@ -161,10 +156,9 @@ namespace LPP
                 }
                 else
                 {
-                    BinaryTree binaryTree = null;
                     _graphImages.Clear();
                     userInput = $"~({userInput})";
-                    binaryTree = ParsingModule.Parse(userInput);
+                    var binaryTree = ParsingModule.Parse(userInput);
                     _tableauxRoot = new TableauxNode(binaryTree.Root as CompositeComponent);
                     _tableauxRoot.IsClosed();
 
@@ -178,16 +172,11 @@ namespace LPP
                     PbBinaryGraph.ImageLocation = _graphImages[0];
                     _formulaGenerator.Calculate(binaryTree.Root);
                     Tb_InfixFormula_Normal.Text = binaryTree.Root.InFixFormula;
-
-                    //binaryTree.PropositionalVariables.ChangeCharacter('z','u');
-                    //_formulaGenerator.Calculate(binaryTree.Root);
-                    //Tb_InfixFormula_Nandified.Text = binaryTree.Root.InFixFormula;
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($@"{ex.Message}");
-
             }
         }
 
@@ -197,7 +186,7 @@ namespace LPP
         }
         private void Btn_Image_Next_Click(object sender, EventArgs e)
         {
-            if (_imageIndex < numberOfImage-1)
+            if (_imageIndex < numberOfImage-1 && _imageIndex+1<_graphImages.Count)
             {
                 _imageIndex++;
             }
@@ -207,21 +196,22 @@ namespace LPP
             }
             var imageName = _graphImages[_imageIndex];
             PbBinaryGraph.ImageLocation = imageName;
-            LbImageName.Text = _graphImages[_imageIndex].Substring(0, imageName.IndexOf("."));
+            LbImageName.Text = _graphImages[_imageIndex].Substring(0, imageName.IndexOf(".", StringComparison.Ordinal));
         }
         private void Btn_Image_Previous_Click(object sender, EventArgs e)
         {
-            if (_imageIndex > 0)
+
+            if (_imageIndex > 0 && _imageIndex -1 > 0)
             {
                 _imageIndex--;
             }
             else
             {
-                _imageIndex = numberOfImage-1;
+                _imageIndex = _graphImages.Count- 1;
             }
             var imageName = _graphImages[_imageIndex];
             PbBinaryGraph.ImageLocation = imageName;
-            LbImageName.Text = _graphImages[_imageIndex].Substring(0, imageName.IndexOf("."));
+            LbImageName.Text = _graphImages[_imageIndex].Substring(0, imageName.IndexOf(".", StringComparison.Ordinal));
         }
     }
 }

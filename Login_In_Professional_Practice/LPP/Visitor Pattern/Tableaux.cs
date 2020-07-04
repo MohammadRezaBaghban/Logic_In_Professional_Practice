@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Connectives;
 using LPP.Composite_Pattern.Variables;
@@ -10,25 +9,23 @@ namespace LPP.Visitor_Pattern
 
     public class Tableaux : IVisitor
     {
-        private BinaryTree _binaryTree;
-        private char[] _variables = new[]
+        private readonly BinaryTree _binaryTree;
+        private readonly char[] _variables = new[]
         {'a','b', 'c', 'd', 'e', 'f', 'g', 'h',
         'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p',
         'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
         ,'1','2','3','4','5','6','7','8','9'};//Sometimes I need more variable than alphabet
 
-        public static int VarIndex = 0;
+        public static int VarIndex;
         public static Tableaux Object { get; } = new Tableaux();
 
         public Tableaux() => _binaryTree = new BinaryTree();
 
         public void Calculate(Component visitable)
         {
-            if (!(visitable is SingleComponent))
-            {
-                CompositeComponent compositeNode = visitable as CompositeComponent;
-                compositeNode.Evaluate(this);
-            }
+            if (visitable is SingleComponent) return;
+            CompositeComponent compositeNode = visitable as CompositeComponent;
+            compositeNode?.Evaluate(this);
         }
 
         public void Visit(BiImplication visitable)
