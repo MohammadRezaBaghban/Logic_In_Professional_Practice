@@ -17,7 +17,7 @@ namespace LPP.Visitor_Pattern
         'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
         ,'1','2','3','4','5','6','7','8','9'};//Sometimes I need more variable than alphabet
 
-        int _varIndex = 0;
+        public static int VarIndex = 0;
         public static Tableaux Object { get; } = new Tableaux();
 
         public Tableaux() => _binaryTree = new BinaryTree();
@@ -106,7 +106,7 @@ namespace LPP.Visitor_Pattern
             else if (mainConnective is Universal universal)
             {// δ(Delta)-rule for @
                 var predicate = new Negation();
-                var introducedVariable = _variables[_varIndex++];
+                var introducedVariable = _variables[VarIndex++];
                 var leftNode = BinaryTree.CloneNode(universal.LeftNode, _binaryTree,
                     current: universal.ObjectVariables.Variables[0].Symbol, rename: introducedVariable);
                 _binaryTree.InsertNode(predicate, leftNode);
@@ -179,7 +179,7 @@ namespace LPP.Visitor_Pattern
         public void Visit(Existential visitable)
         {// δ(Delta)-rule for ∃
             var tableauxRoot = visitable.Belongs;
-            var introducedVariable = _variables[_varIndex++];
+            var introducedVariable = _variables[VarIndex++];
             var predicate = BinaryTree.CloneNode(visitable.LeftNode, _binaryTree,
                 current: visitable.ObjectVariables.Variables[0].Symbol, rename: introducedVariable);
             var newTableauxNode = new TableauxNode(predicate, visitable, tableauxRoot, introducedVariable);

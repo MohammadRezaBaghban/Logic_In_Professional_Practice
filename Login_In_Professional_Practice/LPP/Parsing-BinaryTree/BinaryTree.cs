@@ -381,14 +381,13 @@ namespace LPP
             {
                 if(node is Negation)
                 {
-                    newNode.LeftNode = node.LeftNode;
+                    newNode.LeftNode = CloneNode(node.LeftNode, bt, current, rename);
                 }
                 else
                 {
                     if (node.LeftNode != null)
                     {
-                        newNode.LeftNode = node.LeftNode is IVariableContainer ? 
-                            CloneNode(node.LeftNode, bt,current,rename) : CloneNode(node.LeftNode, bt, current,rename);
+                        newNode.LeftNode = CloneNode(node.LeftNode, bt,current,rename);
                     }
                     else
                     {

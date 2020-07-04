@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LPP.Composite_Pattern.Connectives;
 using LPP.Composite_Pattern.Variables;
+using LPP.Visitor_Pattern;
 using Component = LPP.Composite_Pattern.Components.Component;
 
 namespace LPP
@@ -94,7 +95,11 @@ namespace LPP
             {
                 switch (expression[0])
                 {
-                    case '>': case '=': case '%': case '&': case '|':
+                    case '>':
+                    case '=':
+                    case '%':
+                    case '&':
+                    case '|':
                         Elements.Add(expression[0]);
                         EatMethod(ref expression, 2);
                         string a1 = expression.Substring(0, expression.IndexOf(')') + 1);
@@ -250,11 +255,11 @@ namespace LPP
                 var currentCharacter = input[i];
                 var currentCharacterType = CharacterType(currentCharacter, true);
 
-                 if (currentCharacterType == characterType.PropositionalVariable)
+                if (currentCharacterType == characterType.PropositionalVariable)
                 {
                     Variable propositionVariable = null;
                     if (lastVariableContainingNode is Universal || lastVariableContainingNode is Existential)
-                        propositionVariable = new Variable(currentCharacter,true);
+                        propositionVariable = new Variable(currentCharacter, true);
                     else if (lastVariableContainingNode is Predicate)
                     {
                         propositionVariable = new Variable(currentCharacter);
@@ -319,6 +324,7 @@ namespace LPP
             _binaryTree = new BinaryTree();
             Elements.Clear();
             NodeCounter = 0;
+            Tableaux.VarIndex = 0;
             _binaryTree.Root = null;
         }
 

@@ -76,6 +76,7 @@ namespace LPPTestProject
         [InlineData(">(!x.(@y.(P(x,y))),@q.(!p.(P(p,q))))")]
         [InlineData("=(@x.(&(F(x),G(x))),&(@x.(F(x)),@x.(G(x))))")]
         [InlineData(">(!y.(!z.(@x.(&(>(F(x),G(y)),>(G(z),F(x)))))),@x.(!y.(>(F(x),G(y)))))")]
+        [InlineData(">(!x.(!z.(&(O(x,z),&(G(x),~(G(z)))))),!v.(!w.(&(O(v,w),&(G(v),~(G(w)))))))")]
         [InlineData("&(|(~(@x.(&(F(x), G(x)))),&(@x.(F(x)), @x.(G(x)))),|(@x.(&(F(x),G(x))),~(&(@x.(F(x)),@x.(G(x))))))")]
         public void SemanticTableauxPredicate_OnTautologiesFormula_RootBeingClosed(string prefixInput)
         {
