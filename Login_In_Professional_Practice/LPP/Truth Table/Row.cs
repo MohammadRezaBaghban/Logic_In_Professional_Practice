@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace LPP.Modules
 {
     public class Row : ICloneable
     {
-        public bool?[] PropositionValues;
+        public readonly bool?[] PropositionValues;
         public bool? Result { get; private set; } = null;
 
-        public int NumberOFOnes
+        public int NumberOfOnes
         {
             get
             {
-                return PropositionValues.Count(x => x.Value == true);
+                return PropositionValues.Count(x => x != null && x.Value);
             }
         }
 

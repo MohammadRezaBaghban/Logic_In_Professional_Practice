@@ -3,7 +3,7 @@
   <Class Name="LPP.Form1" Collapsed="true">
     <Position X="22.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIRAQAQiADQNEBCAAICAIEQWgQAJA4QCEXAEAQAQCAE=</HashCode>
+      <HashCode>AIRAQAAiADQNEBCAAICAAEQWgQALA4QCETAAAQAQCIE=</HashCode>
       <FileName>Form1.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -13,7 +13,7 @@
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAIAAAgAASAAABAAAAACAAAgAAQCAAAAA=</HashCode>
+      <HashCode>AAAgAAAAGEwAAAAAgAASAAAAABAAICCAAAAAUCAAAAA=</HashCode>
       <FileName>Parsing-BinaryTree\ParsingModule.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -39,14 +39,14 @@
   <Class Name="LPP.BinaryTree">
     <Position X="16.5" Y="8" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAgAIAIBEEAAACIgAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <HashCode>AAgAAAIBEEAIACIgAAAAAAAAAACAAAAAAAABAAAAAAA=</HashCode>
       <FileName>Parsing-BinaryTree\BinaryTree.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LPP.Composite_Pattern.Components.Component">
     <Position X="9.5" Y="3" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAIAAAEAABAAAAAAAAABwAAAAAAAABAAAAAAAAABCgA=</HashCode>
+      <HashCode>AAAAAAEAABAAAAAAAAABwAAAAAAAABAAAAAAAAABCgA=</HashCode>
       <FileName>Composite Pattern\Components\Component.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -60,7 +60,7 @@
   <Class Name="LPP.Composite_Pattern.Components.SingleComponent">
     <Position X="12.25" Y="4.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAABAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
       <FileName>Composite Pattern\Components\SingleComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -88,7 +88,7 @@
   <Class Name="LPP.Composite_Pattern.Connectives.Negation">
     <Position X="6.5" Y="7" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Composite Pattern\Connectives\Negation.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -102,7 +102,7 @@
   <Class Name="LPP.Composite_Pattern.Variables.Variable">
     <Position X="11.25" Y="7" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAABAAAAAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>Composite Pattern\Variables\Variable.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -132,15 +132,15 @@
   <Class Name="LPP.Modules.Row">
     <Position X="4" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAkAFAAAAAAQAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAgAFAAAAAAQAAAAAAEAAAAAAAAAAABA=</HashCode>
       <FileName>Truth Table\Row.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LPP.Modules.TruthTable">
+  <Class Name="LPP.Truth_Table.TruthTable">
     <Position X="0.5" Y="0.5" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>OAAABQBAAAAAQAAEAAAAAEBIAAAEIIjAACAAAICIAAA=</HashCode>
+      <HashCode>IIAABQAAAIAAQAgEEBAAAEAIAAAEIICAJCAAAIAIAAA=</HashCode>
       <FileName>Truth Table\TruthTable.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -152,7 +152,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Interface Name="LPP.Composite_Pattern.IVisitor">
+  <Interface Name="LPP.Visitor_Pattern.IVisitor">
     <Position X="16.5" Y="4.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>

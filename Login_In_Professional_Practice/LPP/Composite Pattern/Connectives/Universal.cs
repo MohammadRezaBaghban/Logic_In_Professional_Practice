@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Variables;
+using LPP.Visitor_Pattern;
 
 namespace LPP.Composite_Pattern.Connectives
 {
@@ -19,20 +20,18 @@ namespace LPP.Composite_Pattern.Connectives
         public string Variables() {
             var str = ObjectVariables?.Variables
                 .SelectMany(x => x.Symbol.ToString()).Aggregate("", (current, next) => current += $"{next},");
-            return str.Remove(str.Length - 1);
+            return str?.Remove(str.Length - 1);
         }
 
     public override string GraphVizFormula
         {
             get
             {
-                string temp = "";
+                var temp = "";
                 temp += $"node{NodeNumber} [ label = \"{Symbol}({Variables()})\" ]";
-                if (LeftNode != null)
-                {
-                    temp += $"\nnode{NodeNumber} -- node{LeftNode.NodeNumber}\n";
-                    temp += LeftNode.GraphVizFormula;
-                }
+                if (LeftNode == null) return temp;
+                temp += $"\nnode{NodeNumber} -- node{LeftNode.NodeNumber}\n";
+                temp += LeftNode.GraphVizFormula;
                 return temp;
             }
         }

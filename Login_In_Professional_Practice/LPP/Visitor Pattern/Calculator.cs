@@ -2,7 +2,7 @@
 using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Connectives;
 using LPP.Composite_Pattern.Variables;
-using LPP.Modules;
+using LPP.Truth_Table;
 
 namespace LPP.Visitor_Pattern
 {
@@ -59,15 +59,12 @@ namespace LPP.Visitor_Pattern
                 {
                     truthTable.SetValue_Of_Propositional_Variables(
                         variable: truthTable.DistinctPropositionalVariables[j],
-                        value: (bool)currentRow.PropositionValues[j]
+                        (bool)currentRow.PropositionValues[j]
                         );
                 }
                 this.Calculate(truthTable.RootOfBinaryTree);
                 currentRow.SetValue(truthTable.RootOfBinaryTree.Data);
             }
         }
-
-        public void Visit(TableauxNode visitable) => throw new System.NotImplementedException();
-
     }
 }

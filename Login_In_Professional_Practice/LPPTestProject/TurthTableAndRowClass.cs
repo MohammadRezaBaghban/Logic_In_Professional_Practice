@@ -1,6 +1,4 @@
 ﻿using LPP;
-using LPP.Composite_Pattern;
-using LPP.Modules;
 using LPP.Truth_Table;
 using LPP.Visitor_Pattern;
 using Xunit;
@@ -49,8 +47,8 @@ namespace LPPTestProject
             var truthTable = new TruthTable(binaryTree);
 
             //Assert
-            var actualSimplified = DeleteCharacters(truthTable.SimplifiedToString(),new string[]{"\n"," ",});
-            var expectedSimplified = DeleteCharacters(simplifiedTruthTable, new string[] { "\n", " ", });
+            var actualSimplified = DeleteCharacters(truthTable.SimplifiedToString(),new[]{"\n"," ",});
+            var expectedSimplified = DeleteCharacters(simplifiedTruthTable, new[] { "\n", " ", });
             Assert.Equal(actualSimplified, expectedSimplified);
         }
 
@@ -78,15 +76,13 @@ namespace LPPTestProject
 
             //Act
             var truthTable = new TruthTable(binaryTree);
-            truthTable.ProcessDNF();
-            if (truthTable.DNF_Normal_Components.Count != 0)
-            {
-                var truthTableDNF = new TruthTable(truthTable.DNF_Normal_BinaryTree);
+            truthTable.ProcessDnf();
+            if (truthTable.DnfNormalComponents.Count == 0) return;
+            var truthTableDnf = new TruthTable(truthTable.DnfNormalBinaryTree);
 
-                //Assert
-                Assert.Equal(truthTableDNF.GetHexadecimalHashCode(), truthTable.GetHexadecimalHashCode());
-                Assert.Equal(truthTableDNF.GetHexadecimalSimplifiedHashCode(), truthTable.GetHexadecimalSimplifiedHashCode());
-            }
+            //Assert
+            Assert.Equal(truthTableDnf.GetHexadecimalHashCode(), truthTable.GetHexadecimalHashCode());
+            Assert.Equal(truthTableDnf.GetHexadecimalSimplifiedHashCode(), truthTable.GetHexadecimalSimplifiedHashCode());
         }
 
         [Theory]

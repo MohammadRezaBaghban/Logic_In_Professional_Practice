@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using LPP.Composite_Pattern;
 using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Connectives;
 using LPP.Composite_Pattern.Variables;
@@ -15,9 +13,9 @@ namespace LPP
     {
         public Component Root;
         public static BinaryTree Object { get; } = new BinaryTree();
-        public PropositionalVariables PropositionalVariables = null;
+        public readonly PropositionalVariables PropositionalVariables;
 
-        private bool _nonModifiable = false;
+        private bool _nonModifiable;
 
         public BinaryTree() => PropositionalVariables = new PropositionalVariables();
 
@@ -42,7 +40,7 @@ namespace LPP
                     }
                     return InsertSingleNode(root, singleNode);
                 }
-                CompositeComponent composite = node as CompositeComponent;
+                var composite = node as CompositeComponent;
                 return InsertCompositeNode(root, composite);
             }
             return Root;
@@ -50,21 +48,16 @@ namespace LPP
 
         public bool MakeIt_Non_Modifiable()
         {
-            if (!_nonModifiable)
-            {
-                
-                _nonModifiable = true;
-                return _nonModifiable;
-            }
-            return true;
+            if (_nonModifiable) return true;
+            _nonModifiable = true;
+            return _nonModifiable;
         }
 
         private Component InsertCompositeNode(Component root, Component newNode)
         {
             if (root == null)
             {
-                this.Root = newNode as CompositeComponent;
-                root = Root;
+                Root = newNode as CompositeComponent;
                 return Root;
             }
 
@@ -128,17 +121,14 @@ namespace LPP
                             {
                                 return InsertNode(root.Parent, newNode);
                             }
-                            else
-                            {
-                                //Specifically be useful for DNF where tree be created from bottom to top
-                                var newRoot = new Conjunction();
-                                root.Parent = newRoot;
-                                newRoot.LeftNode = root;
-                                root = newRoot;
-                                root.RightNode = newNode;
-                                Root = root;
-                                return newNode.Parent;
-                            }
+                            //Specifically be useful for DNF where tree be created from bottom to top
+                            var newRoot = new Conjunction();
+                            root.Parent = newRoot;
+                            newRoot.LeftNode = root;
+                            root = newRoot;
+                            root.RightNode = newNode;
+                            Root = root;
+                            return newNode.Parent;
                         }
                     }
                 }
@@ -281,50 +271,42 @@ namespace LPP
             }
         }
 
-        public static BinaryTree DNFBinaryTree(List<BinaryTree> nodes)
+        public static BinaryTree DnfBinaryTree(List<BinaryTree> nodes)
         {
-            BinaryTree binaryTree = null;
-            Component _dnfRoot = null;
-            if (nodes.Count == 1)
+            if (nodes.Count != 1)
             {
-                return nodes[0];
-            }
-            else
-            {
-                if (binaryTree == null)
-                {
-                    binaryTree = new BinaryTree();
-                    binaryTree.InsertNode(_dnfRoot, new Disjunction());
-                    _dnfRoot = binaryTree.Root;
-                }
+                var binaryTree = new BinaryTree();
+                binaryTree.InsertNode(null, new Disjunction());
+                var dnfRoot = binaryTree.Root;
 
                 foreach (var node in nodes)
                 {
                     binaryTree.PropositionalVariables.Variables.AddRange(node.PropositionalVariables.Variables);
                     var root = node.Root;
-                    if (_dnfRoot.LeftNode != null && _dnfRoot.RightNode != null)
+                    if (dnfRoot.LeftNode != null && dnfRoot.RightNode != null)
                     {
                         var newRoot = new Disjunction();
-                        _dnfRoot.Parent = newRoot;
-                        newRoot.LeftNode = _dnfRoot;
-                        _dnfRoot = newRoot;
-                        _dnfRoot.RightNode = root;
+                        dnfRoot.Parent = newRoot;
+                        newRoot.LeftNode = dnfRoot;
+                        dnfRoot = newRoot;
+                        dnfRoot.RightNode = root;
                         binaryTree.Root = newRoot;
                     }
                     else
                     {
-                        if (_dnfRoot.LeftNode == null)
+                        if (dnfRoot.LeftNode == null)
                         {
-                            _dnfRoot.LeftNode = root;
+                            dnfRoot.LeftNode = root;
                         }
                         else
                         {
-                            _dnfRoot.RightNode = root;
+                            dnfRoot.RightNode = root;
                         }
                     }
                 }
                 return binaryTree;
             }
+            return nodes[0];
         }
 
         public static Component CloneNode(Component node, BinaryTree bt,char current ='!',char rename = '!')
@@ -372,7 +354,7 @@ namespace LPP
             }
             else
             {
-                newNode = new Variable(((Variable) node).Symbol, ((Variable)node).bindVariable);
+                newNode = new Variable(((Variable) node).Symbol, ((Variable)node).BindVariable);
                 bt.PropositionalVariables.AddPropositionalVariable(newNode as Variable);
             }
 
@@ -396,12 +378,11 @@ namespace LPP
                     newNode.RightNode = node.RightNode != null ? CloneNode(node.RightNode,bt, current, rename) : node.RightNode;
                 }
             }
-
             newNode.NodeNumber++;
             return newNode;
         }
 
-        public static Variable CloneVariableForPredicate(Variable v, char current,char rename)
+        private static Variable CloneVariableForPredicate(Variable v, char current,char rename)
         {
             var variable = (Variable)BinaryTree.CloneNode(v, BinaryTree.Object);
             if (variable.Symbol == current)

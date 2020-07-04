@@ -1,4 +1,6 @@
-﻿namespace LPP.Composite_Pattern.Components
+﻿using LPP.Visitor_Pattern;
+
+namespace LPP.Composite_Pattern.Components
 {
     public abstract class CompositeComponent : Component
     {
@@ -8,7 +10,7 @@
         {
             get
             {
-                string temp = "";
+                var temp = "";
                 temp += $"node{NodeNumber} [ label = \"{Symbol}\" ]";
                 if (LeftNode != null)
                 {

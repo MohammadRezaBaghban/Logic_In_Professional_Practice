@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using LPP.Composite_Pattern;
-using LPP.Composite_Pattern.Components;
+﻿using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Connectives;
 using LPP.Composite_Pattern.Variables;
-using IVisitor = LPP.Composite_Pattern.IVisitor;
+using IVisitor = LPP.Visitor_Pattern.IVisitor;
 
 namespace LPP.Visitor_Pattern
 {

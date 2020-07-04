@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LPP.Truth_Table;
 
 namespace LPP.Modules
 {
@@ -37,7 +38,7 @@ namespace LPP.Modules
 
             for (int i = 0; i <= _numberOfVariables; i++)
             {
-                var rowsWithSpecificNumberOfOnes = rowsWithTrueValue.Where(x => x.NumberOFOnes == i)
+                var rowsWithSpecificNumberOfOnes = rowsWithTrueValue.Where(x => x.NumberOfOnes == i)
                                                                              .Select(x=>x.Clone())
                                                                              .Cast<Row>().ToList();
                 if (rowsWithSpecificNumberOfOnes.Count != 0)
@@ -46,7 +47,7 @@ namespace LPP.Modules
 
             for (int i = 0; i <= _numberOfVariables; i++)
             {
-                var rowsWithSpecificNumberOfZeros = rowsWithFalseValue.Where(x => x.NumberOFOnes == i)
+                var rowsWithSpecificNumberOfZeros = rowsWithFalseValue.Where(x => x.NumberOfOnes == i)
                                                                               .Select(x => x.Clone())
                                                                               .Cast<Row>().ToList();
                 if (rowsWithSpecificNumberOfZeros.Count!=0)

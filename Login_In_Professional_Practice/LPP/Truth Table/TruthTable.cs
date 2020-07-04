@@ -3,29 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Variables;
-using LPP.Truth_Table;
+using LPP.Modules;
 using LPP.Visitor_Pattern;
 
-namespace LPP.Modules
+namespace LPP.Truth_Table
 {
     public class TruthTable
     {
         public Row[] NormalRows;
-        public TruthTable DnftTruthTable;
+        public TruthTable DnfTruthTable;
         public List<Row> SimplifiedRows;
-        public List<BinaryTree> DNF_Normal_Components;
-        public List<BinaryTree> DNF_Simplified_Components;
-        public BinaryTree DNF_Normal_BinaryTree;
-        public BinaryTree DNF_Simplified_BinaryTree;
+        public List<BinaryTree> DnfNormalComponents;
+        public List<BinaryTree> DnfSimplifiedComponents;
+        public BinaryTree DnfNormalBinaryTree;
+        public BinaryTree DnfSimplifiedBinaryTree;
 
-        public BinaryTree binaryTree;
+        public readonly BinaryTree BinaryTree;
         public int NumberOfVariables { get; }
         public CompositeComponent RootOfBinaryTree { get; }
-        public Variable[] DistinctPropositionalVariables;
+        public readonly Variable[] DistinctPropositionalVariables;
 
         public TruthTable(BinaryTree binaryTree)
         {
-            this.binaryTree = binaryTree;
+            this.BinaryTree = binaryTree;
             this.SimplifiedRows = new List<Row>();
             this.RootOfBinaryTree = binaryTree.Root as CompositeComponent;
             DistinctPropositionalVariables = binaryTree.PropositionalVariables.Get_Distinct_PropositionalVariables();
@@ -64,7 +64,7 @@ namespace LPP.Modules
             calculator.Visit(this);
         }
 
-        public void SimplifyRows()
+        private void SimplifyRows()
         {
             var simplifiedTruthTable = new Simplification(this);
             SimplifiedRows = simplifiedTruthTable.RecursiveSimplification();
@@ -72,19 +72,19 @@ namespace LPP.Modules
 
         public void SetValue_Of_Propositional_Variables(Variable variable, bool value)
         {
-            binaryTree.PropositionalVariables.SetValue_Of_Propositional_Variables(symbol: variable.Symbol, value: value);
+            BinaryTree.PropositionalVariables.SetValue_Of_Propositional_Variables(symbol: variable.Symbol, value: value);
         }
 
-        public void ProcessDNF()
+        public void ProcessDnf()
         {
-            var variables = binaryTree.PropositionalVariables.Get_Distinct_PropositionalVariables_Chars();
-            DNF_Normal_Components = DNF.ProcessDNF(NormalRows.ToList(), variables);
-            DNF_Simplified_Components = DNF.ProcessDNF(SimplifiedRows, variables);
-            if (DNF_Normal_Components.Count != 0)
+            var variables = BinaryTree.PropositionalVariables.Get_Distinct_PropositionalVariables_Chars();
+            DnfNormalComponents = Dnf.ProcessDnf(NormalRows.ToList(), variables);
+            DnfSimplifiedComponents = Dnf.ProcessDnf(SimplifiedRows, variables);
+            if (DnfNormalComponents.Count != 0)
             {
-                DNF_Normal_BinaryTree = BinaryTree.DNFBinaryTree(DNF_Normal_Components);
-                DNF_Simplified_BinaryTree = BinaryTree.DNFBinaryTree(DNF_Simplified_Components);
-                DnftTruthTable = new TruthTable(DNF_Normal_BinaryTree);
+                DnfNormalBinaryTree = BinaryTree.DnfBinaryTree(DnfNormalComponents);
+                DnfSimplifiedBinaryTree = BinaryTree.DnfBinaryTree(DnfSimplifiedComponents);
+                DnfTruthTable = new TruthTable(DnfNormalBinaryTree);
             }
         }
 
@@ -102,9 +102,9 @@ namespace LPP.Modules
             return headOfTruthTable + rowsOfTruthTable;
         }
 
-        public string GetHexadecimalHashCode() => Convert.ToInt64(GetHashCode().ToString(), 2).ToString("X");
+        public string GetHexadecimalHashCode() => Convert.ToInt64(GetHashCode(), 2).ToString("X");
 
-        public string GetHexadecimalSimplifiedHashCode() => Convert.ToInt64(GetHashCodeSimplified().ToString(), 2).ToString("X");
+        public string GetHexadecimalSimplifiedHashCode() => Convert.ToInt64(GetHashCodeSimplified(), 2).ToString("X");
 
         public string GetHashCode() => NormalRows.Reverse().Aggregate("", (current, next) => current + binaryValue(next.Result).ToString());
 

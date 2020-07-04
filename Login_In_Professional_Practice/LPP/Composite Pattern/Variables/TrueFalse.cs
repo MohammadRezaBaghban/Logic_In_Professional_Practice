@@ -5,7 +5,6 @@ namespace LPP.Composite_Pattern.Variables
 {
     class TrueFalse:SingleComponent
     {
-
         public TrueFalse(bool data)
         {
             Data = data;

@@ -8,11 +8,11 @@ namespace LPP.Composite_Pattern.Components
     {
         //Fields
         public readonly List<Component> Components;
-        public List<char> ActiveVariables;
+        public readonly List<char> ActiveVariables;
+        public readonly RuleType Rule_Type;
         public TableauxNode ParentNode;
         public TableauxNode LeftNode;
         public TableauxNode RightNode;
-        public RuleType Rule_Type;
         public bool? LeafIsClosed;
 
         //Properties
@@ -24,7 +24,7 @@ namespace LPP.Composite_Pattern.Components
         public TableauxNode(Component root, TableauxNode parent = null)
         {
             Components = new List<Component>();
-            this.Rule_Type = RuleType.Rule_Default;
+            this.Rule_Type = RuleType.RuleDefault;
             this.ParentNode = parent;
             this.Branched = false;
             root.Belongs = this;
@@ -36,9 +36,9 @@ namespace LPP.Composite_Pattern.Components
         /// <summary>
         /// Used for non-branched a-rules & gamma-rule
         /// </summary>
-        /// <param name="components"></param>
-        /// <param name="processed"></param>
-        /// <param name="parent"></param>
+        /// <param name="components" />
+        /// <param name="processed" />
+        /// <param name="parent" />
         /// <param name="ruleType">Alpha or Gamma</param> 
         public TableauxNode(List<Component> components, Component processed,
                 TableauxNode parent, RuleType ruleType)
@@ -79,7 +79,7 @@ namespace LPP.Composite_Pattern.Components
         {
             this.Components = new List<Component>();
             this.ActiveVariables = new List<char>() { variable };
-            this.Rule_Type = RuleType.RULE_DELTA;
+            this.Rule_Type = RuleType.RuleDelta;
             this.ParentNode = parent;
             parent.Branched = false;
             parent.LeftNode = this;
@@ -107,7 +107,6 @@ namespace LPP.Composite_Pattern.Components
         /// <param name="node"></param>
         /// <param name="processed"></param>
         /// <param name="parent"></param>
-        /// <param name="branched"></param>
         public TableauxNode(Component node, Component processed, TableauxNode parent, RuleType ruleType)
         {
             this.Components = new List<Component>();
@@ -124,10 +123,10 @@ namespace LPP.Composite_Pattern.Components
                 }
             });
             Components.Add(node);
-            parent.Branched = (ruleType == RuleType.RULE_BETA) ? true : false;
+            parent.Branched = (ruleType == RuleType.RuleBeta);
             this.ParentNode = parent;
             if (parent.LeftNode == null) parent.LeftNode = this;
-            else if (parent.RightNode == null && ruleType == RuleType.RULE_BETA) parent.RightNode = this;
+            else if (parent.RightNode == null && ruleType == RuleType.RuleBeta) parent.RightNode = this;
 
             if (parent.ActiveVariables?.Count != 0 && parent.ActiveVariables != null)
             {
@@ -140,55 +139,54 @@ namespace LPP.Composite_Pattern.Components
         {
             if (LeafIsClosed != true)
             {
-                this.Components.ForEach(x => InfixFormulaGenerator.Calculator.Calculate(x));
-                if (this.LeftNode == null && this.RightNode == null)
+                Components.ForEach(x => InfixFormulaGenerator.Calculator.Calculate(x));
+                if (LeftNode == null && this.RightNode == null)
                 {// Node has not being Processed
                     if (Components.Count > 1)
                     {
                         FindContradiction();
                         if (Branched == false && LeftNode == null)
                         {
-                            this.LeafIsClosed = false;
+                            LeafIsClosed = false;
                         }
                         else
                         {
-                            if (this.LeafIsClosed != true)
+                            if (LeafIsClosed != true)
                             {
-                                this.Evaluate();
+                                Evaluate();
                             }
                         }
                     }
                     else
                     {
                         //Root of Tableaux Node
-                        this.Evaluate();
+                        Evaluate();
                     }
                 }
                 else
                 {
                     //Node Has already Processed and simplified
-                    this.LeafIsClosed = Branched == false
-                        ? LeftNode.LeafIsClosed
-                        : LeftNode.LeafIsClosed == true && this.RightNode.LeafIsClosed == true;
+                    if (LeftNode != null)
+                        this.LeafIsClosed = Branched == false
+                            ? LeftNode.LeafIsClosed
+                            : LeftNode.LeafIsClosed == true && this.RightNode.LeafIsClosed == true;
                 }
             }
         }
         private void Evaluate()
         {
-            if (LeafIsClosed == null)
+            if (LeafIsClosed != null) return;
+            Tableaux.Object.Visit(this);
+            if (Branched == true)
             {
-                Tableaux.Object.Visit(this);
-                if (Branched == true)
-                {
-                    this.LeftNode.IsClosed();
-                    this.RightNode.IsClosed();
-                }
-                else if (Branched == false && this.LeftNode != null)
-                {
-                    this.LeftNode.IsClosed();
-                }
-                IsClosed();
+                this.LeftNode.IsClosed();
+                this.RightNode.IsClosed();
             }
+            else if (Branched == false)
+            {
+                LeftNode?.IsClosed();
+            }
+            IsClosed();
         }
         private void FindContradiction()
         {
@@ -217,14 +215,14 @@ namespace LPP.Composite_Pattern.Components
             }
         }
 
-        public string Label()
+        private string Label()
         {
             var label = "";
             Components.ForEach(x => { InfixFormulaGenerator.Calculator.Calculate(x); label += x.InFixFormula + ",\n"; });
 
             if (this.ActiveVariables?.Count != 0 && this.ActiveVariables != null)
             {
-                var vars = this.ActiveVariables.Aggregate("", (current, next) => current += $"{next},");
+                var vars = this.ActiveVariables.Aggregate("", (current, next) => current + $"{next},");
                 label += $"\n\n vars[{vars.Remove(vars.Length - 1)}]";
             }
             if (this.LeafIsClosed == true)
@@ -239,10 +237,9 @@ namespace LPP.Composite_Pattern.Components
             string temp = "";
             temp += $"node{NodeNumber} [ label = \"{this.Label()}\" shape=rectangle style=filled" +
                     " color=" + (LeafIsClosed == true ? "red" : "black") +
-                    " fillcolor=" + (Rule_Type == RuleType.RULE_ALPHA ? "yellow" :
-                        Rule_Type == RuleType.RULE_BETA ? "palegreen" : Rule_Type == RuleType.RULE_DELTA ? "skyblue" :
-                        Rule_Type == RuleType.RULE_GAMMA ? "brown1" : Rule_Type == RuleType.RULE_OMEGA ? "darkorange" :
-                        Rule_Type == RuleType.Rule_Default ? "gray88" :
+                    " fillcolor=" + (Rule_Type == RuleType.RuleAlpha ? "yellow" :
+                        Rule_Type == RuleType.RuleBeta ? "palegreen" : Rule_Type == RuleType.RuleDelta ? "skyblue" :
+                        Rule_Type == RuleType.RuleGamma ? "brown1" : Rule_Type == RuleType.RuleOmega ? "darkorange" :
                         "gray88") + "]";
 
             if (LeftNode != null)
@@ -257,9 +254,7 @@ namespace LPP.Composite_Pattern.Components
             }
             return temp;
         }
-
-
     }
 
-    public enum RuleType { RULE_ALPHA, RULE_BETA, RULE_DELTA, RULE_GAMMA, RULE_OMEGA, Rule_Default };
+    public enum RuleType { RuleAlpha, RuleBeta, RuleDelta, RuleGamma, RuleOmega, RuleDefault };
 }
