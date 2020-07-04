@@ -66,6 +66,7 @@ namespace LPP.Composite_Pattern.Components
             {
                 parent.ActiveVariables?.ForEach(x => this.ActiveVariables?.Add(x));
             }
+            Components.Sort(new ComponentComparer());
         }
 
         /// <summary>
@@ -97,6 +98,7 @@ namespace LPP.Composite_Pattern.Components
                 }
             });
             this.Components.Add(component);
+            Components.Sort(new ComponentComparer());
         }
 
         /// <summary>
@@ -131,7 +133,7 @@ namespace LPP.Composite_Pattern.Components
             {
                 parent.ActiveVariables?.ForEach(x => this.ActiveVariables?.Add(x));
             }
-
+            Components.Sort(new ComponentComparer());
         }
 
         public void IsClosed()
@@ -218,11 +220,11 @@ namespace LPP.Composite_Pattern.Components
         public string Label()
         {
             var label = "";
-            Components.ForEach(x => { InfixFormulaGenerator.Calculator.Calculate(x); label += x.InFixFormula + ", "; });
+            Components.ForEach(x => { InfixFormulaGenerator.Calculator.Calculate(x); label += x.InFixFormula + ",\n"; });
 
             if (this.ActiveVariables?.Count != 0 && this.ActiveVariables != null)
             {
-                var vars = this.ActiveVariables.Aggregate("", (current, next) => current += $"{next},\n");
+                var vars = this.ActiveVariables.Aggregate("", (current, next) => current += $"{next},");
                 label += $"\n\n vars[{vars.Remove(vars.Length - 1)}]";
             }
             if (this.LeafIsClosed == true)

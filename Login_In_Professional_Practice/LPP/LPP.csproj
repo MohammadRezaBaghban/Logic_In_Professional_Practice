@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Composite Pattern\Components\ComponentComparer.cs" />
     <Compile Include="Composite Pattern\Components\IVariableContainer.cs" />
     <Compile Include="Composite Pattern\Connectives\BiImplication.cs" />
     <Compile Include="Composite Pattern\Connectives\Conjunction.cs" />

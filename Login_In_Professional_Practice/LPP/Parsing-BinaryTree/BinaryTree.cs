@@ -339,8 +339,11 @@ namespace LPP
                 newNode = new Conjunction();
             else if (node is Disjunction)
                 newNode = new Disjunction();
-            else if (node is Negation)
+            else if (node is Negation negation)
+            {
                 newNode = new Negation();
+                ((Negation)newNode).GammaProcessed = negation.GammaProcessed;
+            }
             else if (node is Nand)
                 newNode = new Nand();
             else if (node is TrueFalse)
@@ -358,6 +361,7 @@ namespace LPP
                 universal.ObjectVariables.Variables.ForEach(x => ((IVariableContainer)newNode)
                     .ObjectVariables.AddPropositionalVariable(CloneVariableForPredicate(x, current, rename))
                 );
+                ((Universal) newNode).GammaProcessed = universal.GammaProcessed;
             }
             else if (node is Existential existential)
             {
