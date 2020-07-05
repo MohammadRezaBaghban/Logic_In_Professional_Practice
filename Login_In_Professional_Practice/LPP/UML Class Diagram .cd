@@ -3,17 +3,23 @@
   <Class Name="LPP.Form1" Collapsed="true">
     <Position X="22.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIRAQAAiADQNEBCAAICAAEQWgQALA4QCETAAAQAQCIE=</HashCode>
-      <FileName>Form1.cs</FileName>
+      <HashCode>AIAAQAAgADQIEBCAAACAAEAWgQAAAAQCATAAAAAACAA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.ParsingModule" Collapsed="true">
-    <Position X="22.25" Y="1.5" Width="1.5" />
+  <Class Name="LPP.ParsingModule">
+    <Position X="19.75" Y="4" Width="4" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
+    <NestedTypes>
+      <Enum Name="LPP.ParsingModule.CharacterType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Parsing-BinaryTree\ParsingModule.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAgAAAAGEwAAAAAgAASAAAAABAAICCAAAAAUCAAAAA=</HashCode>
+      <HashCode>AAAgAAAAGEwAAAAAgAASAAAAAAAAACCAAAAAUCAAAAA=</HashCode>
       <FileName>Parsing-BinaryTree\ParsingModule.cs</FileName>
     </TypeIdentifier>
   </Class>

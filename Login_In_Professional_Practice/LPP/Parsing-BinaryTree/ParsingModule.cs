@@ -13,7 +13,7 @@ namespace LPP
     /// </summary>
     public static class ParsingModule
     {
-
+        private static Component lastVariableContainingNode = null;
         private static BinaryTree _binaryTree = new BinaryTree();
         private static readonly List<char> Elements = new List<char>();
         private enum CharacterType { PropositionalVariable, Connectives, Quantifier, Predicate, Unknown }
@@ -21,36 +21,23 @@ namespace LPP
         private static readonly char[] Quantifiers = new char[] { '!', '@', '.' };
         public static int NodeCounter;
 
-        public static BinaryTree Parse(string input)
-        {
-            var root = input.Contains("@") || input.Contains("!")
-                ? ParseInputPredicate(input)
-                : ParseInputProposition(input);
-            return root;
-        }
 
         /// <summary>
         /// Parse the input formula and generate binary tree object out of it
         /// </summary>
-        /// It will parse the given formula recursively to extract formula elements
-        /// Generate the binary tree out of the given formula
-        ///  <param name="input">prefix abstract proposition formula</param>
-        /// <returns>The binaryTree object </returns>
-        private static BinaryTree ParseInputProposition(string input)
+        /// It will parse the given formula (Proposition or Predicate) recursively and extract formula elements
+        /// abd Generate the binary tree out of the given formula
+        ///  <param name="input">prefix proposition or predicate formula</param>
+        /// <returns>The BinaryTree object </returns>
+        public static BinaryTree Parse(string input)
         {
             EraseParsedList();
-            ParseRecursively(ref input, isPredicate: false);
-            GenerateBinaryTreeProposition(Elements);
-            _binaryTree.MakeIt_Non_Modifiable();
-            return _binaryTree;
-        }
+            var isPredicate = input.Contains("@") || input.Contains("!");
+            ParseRecursively(ref input, isPredicate);
+            
+            if (isPredicate) GenerateBinaryTreePredicate();
+            else GenerateBinaryTreeProposition();
 
-        private static BinaryTree ParseInputPredicate(string input)
-        {
-            EraseParsedList();
-            ParseRecursively(ref input, isPredicate: true);
-            GenerateBinaryTreePredicate(Elements);
-            _binaryTree.MakeIt_Non_Modifiable();
             return _binaryTree;
         }
 
@@ -58,12 +45,11 @@ namespace LPP
         /// Parse an input in the format of string and extract the list of formula elements
         /// </summary>
         /// <returns>return string excluding processed section</returns>
-        private static string ParseRecursively(ref string expression, bool isPredicate)
-        {
-            if (string.IsNullOrEmpty(expression))
-                return null;
-            return !isPredicate ? ParseProposition(ref expression, false) : ParsePredicate(ref expression, true);
-        }
+        private static string ParseRecursively(ref string expression, bool isPredicate) =>
+            string.IsNullOrEmpty(expression) ? null :
+            !isPredicate ? ParseProposition(ref expression, false) :
+            ParsePredicate(ref expression, true);
+        
         private static string ParseProposition(ref string expression, bool isPredicate)
         {
             var currentCharacterType = TypeOfCharacter(expression[0], isPredicate);
@@ -138,7 +124,8 @@ namespace LPP
                     EatMethod(ref expression, expression.IndexOf("(", StringComparison.Ordinal) + 1);
                     return ParseRecursively(ref expression, isPredicate);
                 }
-                else if (lastElementType == CharacterType.Predicate)
+
+                if (lastElementType == CharacterType.Predicate)
                 {
                     var str = expression.Substring(0, expression.IndexOf(")", StringComparison.Ordinal));
                     if (str.Length > 1)
@@ -158,7 +145,6 @@ namespace LPP
                 Elements.Add(expression[0]);
                 EatMethod(ref expression, 2);
                 return ParseRecursively(ref expression, isPredicate);
-
             }
             else
             {
@@ -195,16 +181,15 @@ namespace LPP
         }
 
         /// <summary>
-        /// Interact with BinaryTree instance to generate a binary tree based on element
+        /// Generate a binary tree based for a proposition formula
         /// </summary>
-        /// <param name="input">list of elements in the binary tree</param>
         /// <returns>The root of binary tree</returns>
-        private static void GenerateBinaryTreeProposition(List<char> input)
+        private static void GenerateBinaryTreeProposition()
         {
             Component root = _binaryTree.Root;
-            for (var i = 0; i <= input.Count - 1; i++)
+            for (var i = 0; i <= Elements.Count - 1; i++)
             {
-                var currentCharacter = input[i];
+                var currentCharacter = Elements[i];
                 var currentCharacterType = TypeOfCharacter(currentCharacter, false);
                 if (currentCharacterType == CharacterType.PropositionalVariable)
                 {
@@ -224,28 +209,22 @@ namespace LPP
                 }
                 else if (currentCharacterType == CharacterType.Connectives)
                 {
-                    if (currentCharacter == '>')
-                        root = _binaryTree.InsertNode(root, new Implication());
-                    else if (currentCharacter == '=')
-                        root = _binaryTree.InsertNode(root, new BiImplication());
-                    else if (currentCharacter == '%')
-                        root = _binaryTree.InsertNode(root, new Nand());
-                    else if (currentCharacter == '&')
-                        root = _binaryTree.InsertNode(root, new Conjunction());
-                    else if (currentCharacter == '|')
-                        root = _binaryTree.InsertNode(root, new Disjunction());
-                    else if (currentCharacter == '~') root = _binaryTree.InsertNode(root, new Negation());
+                    root = GenerateOperatorObject(currentCharacter, root);
                 }
             }
             NodeCounter = 0;
         }
-        private static void GenerateBinaryTreePredicate(List<char> input)
+
+        /// <summary>
+        /// Generate a binary tree based for a Predicate formula
+        /// </summary>
+        /// <returns>The root of binary tree</returns>
+        private static void GenerateBinaryTreePredicate()
         {
             Component root = _binaryTree.Root;
-            Component lastVariableContainingNode = null;
-            for (var i = 0; i <= input.Count - 1; i++)
+            for (var i = 0; i <= Elements.Count - 1; i++)
             {
-                var currentCharacter = input[i];
+                var currentCharacter = Elements[i];
                 var currentCharacterType = TypeOfCharacter(currentCharacter, true);
 
                 if (currentCharacterType == CharacterType.PropositionalVariable)
@@ -266,32 +245,9 @@ namespace LPP
                     lastVariableContainingNode = new Predicate(currentCharacter);
                     root = _binaryTree.InsertNode(root, lastVariableContainingNode);
                 }
-                else if (currentCharacterType == CharacterType.Connectives)
+                else if (currentCharacterType == CharacterType.Connectives || currentCharacterType == CharacterType.Quantifier)
                 {
-                    if (currentCharacter == '>')
-                        root = _binaryTree.InsertNode(root, new Implication());
-                    else if (currentCharacter == '=')
-                        root = _binaryTree.InsertNode(root, new BiImplication());
-                    else if (currentCharacter == '%')
-                        root = _binaryTree.InsertNode(root, new Nand());
-                    else if (currentCharacter == '&')
-                        root = _binaryTree.InsertNode(root, new Conjunction());
-                    else if (currentCharacter == '|')
-                        root = _binaryTree.InsertNode(root, new Disjunction());
-                    else if (currentCharacter == '~') root = _binaryTree.InsertNode(root, new Negation());
-                }
-                else if (currentCharacterType == CharacterType.Quantifier)
-                {
-                    if (currentCharacter == '@')
-                    {
-                        lastVariableContainingNode = new Universal();
-                        root = _binaryTree.InsertNode(root, lastVariableContainingNode);
-                    }
-                    else if (currentCharacter == '!')
-                    {
-                        lastVariableContainingNode = new Existential();
-                        root = _binaryTree.InsertNode(root, lastVariableContainingNode);
-                    }
+                    root = GenerateOperatorObject(currentCharacter, root);
                 }
             }
             NodeCounter = 0;
@@ -319,6 +275,7 @@ namespace LPP
             NodeCounter = 0;
             Tableaux.VarIndex = 0;
             _binaryTree.Root = null;
+            lastVariableContainingNode = null;
         }
 
         private static CharacterType TypeOfCharacter(char character, bool predicate)
@@ -326,18 +283,17 @@ namespace LPP
             if (!predicate)
             {
                 // If the character is Propositional Variables or true/false  
-                if (Char.IsUpper(character) || character == '0' || character == '1')
+                if (char.IsUpper(character) || character == '0' || character == '1')
                 {
                     return CharacterType.PropositionalVariable;
                 }
-
                 return Connectives.Contains(character) ? CharacterType.Connectives : CharacterType.Unknown;
             }
 
             // If the character is Propositional Variables or true/false  
-            if (Char.IsUpper(character))
+            if (char.IsUpper(character))
                 return CharacterType.Predicate;
-            if (Char.IsLower(character))
+            if (char.IsLower(character))
                 return CharacterType.PropositionalVariable;
             if (Quantifiers.Contains(character))
                 return CharacterType.Quantifier;
@@ -345,6 +301,33 @@ namespace LPP
                 return CharacterType.Connectives;
             return CharacterType.Unknown;
 
+        }
+
+        private static Component GenerateOperatorObject(char operatorCharacter, Component root)
+        {
+            switch (operatorCharacter)
+            {
+                case '>':
+                    return _binaryTree.InsertNode(root, new Implication());
+                case '=':
+                    return _binaryTree.InsertNode(root, new BiImplication());
+                case '%':
+                    return  _binaryTree.InsertNode(root, new Nand());
+                case '&':
+                    return _binaryTree.InsertNode(root, new Conjunction());
+                case '|':
+                    return _binaryTree.InsertNode(root, new Disjunction());
+                case '~':
+                    return _binaryTree.InsertNode(root, new Negation());
+                case '@':
+                    lastVariableContainingNode = new Universal();
+                    return _binaryTree.InsertNode(root, lastVariableContainingNode);
+                case '!':
+                    lastVariableContainingNode = new Existential();
+                    return _binaryTree.InsertNode(root, lastVariableContainingNode);
+                default:
+                    return null;
+            }
         }
     }
 }
