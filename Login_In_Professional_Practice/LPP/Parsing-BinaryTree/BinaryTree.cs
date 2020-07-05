@@ -14,7 +14,6 @@ namespace LPP
         public Component Root;
         public static BinaryTree Object { get; } = new BinaryTree();
         public readonly PropositionalVariables PropositionalVariables;
-
         private bool _nonModifiable;
 
         public BinaryTree() => PropositionalVariables = new PropositionalVariables();
@@ -22,28 +21,22 @@ namespace LPP
         //Methods & Functions
         public Component InsertNode(Component root, Component node)
         {
-            if (_nonModifiable ==false)
+            if (_nonModifiable) return Root;
+            if (node is SingleComponent singleNode)
             {
-                SingleComponent singleNode = node as SingleComponent;
-                if (singleNode != null)
-                {
 
-                    if (singleNode is Variable variable)
-                    {
-                        PropositionalVariables.AddPropositionalVariable(singleNode as Variable);
-                        if (Char.IsLower(variable.Symbol))
-                        {
-                            (root as IVariableContainer)?.ObjectVariables.Variables.Add(variable);
-                            return Root;
-                        }
-                        return InsertSingleNode(root, singleNode);
-                    }
-                    return InsertSingleNode(root, singleNode);
+                if (singleNode is Variable variable)
+                {
+                    PropositionalVariables.AddPropositionalVariable(singleNode as Variable);
+
+                    if (!Char.IsLower(variable.Symbol)) return InsertSingleNode(root, singleNode);
+                    (root as IVariableContainer)?.ObjectVariables.Variables.Add(variable);
+                    return Root;
                 }
-                var composite = node as CompositeComponent;
-                return InsertCompositeNode(root, composite);
+                return InsertSingleNode(root, singleNode);
             }
-            return Root;
+            var composite = node as CompositeComponent;
+            return InsertCompositeNode(root, composite);
         }
 
         public bool MakeIt_Non_Modifiable()
@@ -52,6 +45,7 @@ namespace LPP
             _nonModifiable = true;
             return _nonModifiable;
         }
+
 
         private Component InsertCompositeNode(Component root, Component newNode)
         {
@@ -72,12 +66,7 @@ namespace LPP
                         root.LeftNode.Parent = root;
                     }
                     else
-                    {
-                        if (root.Parent != null)
-                        {
-                            return InsertNode(root.Parent, newNode);
-                        }
-                    }
+                        return root.Parent != null ? InsertNode(root.Parent, newNode) : newNode;
                 }
                 else
                 {
@@ -95,12 +84,7 @@ namespace LPP
                             root.RightNode.Parent = root;
                         }
                         else
-                        {
-                            if (root.Parent != null)
-                            {
-                                return InsertNode(root.Parent, newNode);
-                            }
-                        }
+                            return root.Parent != null ? InsertNode(root.Parent, newNode) : newNode;
                     }
                     else
                     {
@@ -118,10 +102,9 @@ namespace LPP
                         else
                         {
                             if (root.Parent != null)
-                            {
                                 return InsertNode(root.Parent, newNode);
-                            }
-                            //Specifically be useful for DNF where tree be created from bottom to top
+
+                            //Specifically be used for DNF where tree be created from bottom to top
                             var newRoot = new Conjunction();
                             root.Parent = newRoot;
                             newRoot.LeftNode = root;
@@ -132,8 +115,6 @@ namespace LPP
                         }
                     }
                 }
-
-
                 return newNode;
             }
             else
@@ -147,12 +128,7 @@ namespace LPP
                         root.LeftNode.Parent = root;
                     }
                     else
-                    {
-                        if (root.Parent != null)
-                        {
-                            return InsertNode(root.Parent, newNode);
-                        }
-                    }
+                        return root.Parent != null ? InsertNode(root.Parent, newNode) : newNode;
                 }
                 else
                 {
@@ -169,14 +145,9 @@ namespace LPP
                         {
                             root.RightNode = newNode;
                             root.RightNode.Parent = root;
-                        }else
-                        {
-                            if (root.Parent != null)
-                            {
-                                return InsertNode(root.Parent, newNode);
-                            }
-
                         }
+                        else
+                            return root.Parent != null ? InsertNode(root.Parent, newNode) : newNode;
                     }
                     else
                     {
@@ -191,25 +162,19 @@ namespace LPP
                             root.RightNode.Parent = root;
                         }
                         else
-                        {
-                            if (root.Parent != null)
-                            {
-                                return InsertNode(root.Parent, newNode);
-                            }
-                        }
+                            return root.Parent != null ? InsertNode(root.Parent, newNode) : newNode;
                     }
-
                 }
-
                 return newNode;
             }
         }
+
         private Component InsertSingleNode(Component root, SingleComponent singleNode)
         {
             if (root == null)
             {
-                this.Root = singleNode;
-                this.Root = Root as SingleComponent;
+                Root = singleNode;
+                Root = Root as SingleComponent;
                 return Root;
             }                         
 
@@ -222,18 +187,8 @@ namespace LPP
                     root.LeftNode.Parent = root;
                     return singleNode.Parent;
                 }
-                else
-                {
-                    //If both left and right node were full, insert it to the parent
-                    if (root.Parent != null)
-                    {
-                        return InsertNode(root.Parent, singleNode);
-                    }
-                    else
-                    {
-                        return singleNode.Parent;
-                    }
-                }
+                //If both left and right node were full, insert it to the parent
+                return root.Parent != null ? InsertNode(root.Parent, singleNode) : singleNode.Parent;
             }
             else
             {
@@ -243,70 +198,62 @@ namespace LPP
                     root.LeftNode.Parent = root;
                     return singleNode.Parent;
                 }
-                else if (root.RightNode == null)
+
+                if (root.RightNode == null)
                 {
                     root.RightNode = singleNode;
                     root.RightNode.Parent = root;
                     return singleNode.Parent;
                 }
-                else
-                {
-                    //If both left and right node were full, insert it to the parent
-                    if (root.Parent != null)
-                    {
-                        return InsertNode(root.Parent, singleNode);
-                    }
-                    else
-                    {
-                        //Specifically be useful for DNF where tree be created from bottom to top
-                        var newRoot = new Conjunction();
-                        root.Parent = newRoot;
-                        newRoot.LeftNode = root;
-                        root = newRoot;
-                        root.RightNode = singleNode;
-                        Root = root;
-                        return singleNode.Parent;
-                    }
-                }
+
+                //If both left and right node were full, insert it to the parent
+                if (root.Parent != null)
+                    return InsertNode(root.Parent, singleNode);
+
+                //Specifically be useful for DNF where tree be created from bottom to top
+                var newRoot = new Conjunction();
+                root.Parent = newRoot;
+                newRoot.LeftNode = root;
+                root = newRoot;
+                root.RightNode = singleNode;
+                Root = root;
+                return singleNode.Parent;
             }
         }
 
         public static BinaryTree DnfBinaryTree(List<BinaryTree> nodes)
         {
-            if (nodes.Count != 1)
-            {
-                var binaryTree = new BinaryTree();
-                binaryTree.InsertNode(null, new Disjunction());
-                var dnfRoot = binaryTree.Root;
+            if (nodes.Count == 1) return nodes[0];
+            var binaryTree = new BinaryTree();
+            binaryTree.InsertNode(null, new Disjunction());
+            var dnfRoot = binaryTree.Root;
 
-                foreach (var node in nodes)
+            foreach (var node in nodes)
+            {
+                binaryTree.PropositionalVariables.Variables.AddRange(node.PropositionalVariables.Variables);
+                var root = node.Root;
+                if (dnfRoot.LeftNode != null && dnfRoot.RightNode != null)
                 {
-                    binaryTree.PropositionalVariables.Variables.AddRange(node.PropositionalVariables.Variables);
-                    var root = node.Root;
-                    if (dnfRoot.LeftNode != null && dnfRoot.RightNode != null)
+                    var newRoot = new Disjunction();
+                    dnfRoot.Parent = newRoot;
+                    newRoot.LeftNode = dnfRoot;
+                    dnfRoot = newRoot;
+                    dnfRoot.RightNode = root;
+                    binaryTree.Root = newRoot;
+                }
+                else
+                {
+                    if (dnfRoot.LeftNode == null)
                     {
-                        var newRoot = new Disjunction();
-                        dnfRoot.Parent = newRoot;
-                        newRoot.LeftNode = dnfRoot;
-                        dnfRoot = newRoot;
-                        dnfRoot.RightNode = root;
-                        binaryTree.Root = newRoot;
+                        dnfRoot.LeftNode = root;
                     }
                     else
                     {
-                        if (dnfRoot.LeftNode == null)
-                        {
-                            dnfRoot.LeftNode = root;
-                        }
-                        else
-                        {
-                            dnfRoot.RightNode = root;
-                        }
+                        dnfRoot.RightNode = root;
                     }
                 }
-                return binaryTree;
             }
-            return nodes[0];
+            return binaryTree;
         }
 
         public static Component CloneNode(Component node, BinaryTree bt,char current ='!',char rename = '!')
@@ -361,20 +308,11 @@ namespace LPP
             newNode.Parent = node.Parent;
             if(node is CompositeComponent)
             {
-                if(node is Negation)
-                {
+                if (node is Negation)
                     newNode.LeftNode = CloneNode(node.LeftNode, bt, current, rename);
-                }
                 else
                 {
-                    if (node.LeftNode != null)
-                    {
-                        newNode.LeftNode = CloneNode(node.LeftNode, bt,current,rename);
-                    }
-                    else
-                    {
-                        newNode.LeftNode = node.LeftNode;
-                    }
+                    newNode.LeftNode = node.LeftNode != null ? CloneNode(node.LeftNode, bt,current,rename) : node.LeftNode;
                     newNode.RightNode = node.RightNode != null ? CloneNode(node.RightNode,bt, current, rename) : node.RightNode;
                 }
             }

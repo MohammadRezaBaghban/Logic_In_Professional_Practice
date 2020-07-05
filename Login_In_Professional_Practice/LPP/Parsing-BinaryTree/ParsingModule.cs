@@ -37,7 +37,7 @@ namespace LPP
             
             if (isPredicate) GenerateBinaryTreePredicate();
             else GenerateBinaryTreeProposition();
-
+            _binaryTree.MakeIt_Non_Modifiable();
             return _binaryTree;
         }
 
