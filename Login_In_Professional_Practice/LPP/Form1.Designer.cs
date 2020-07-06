@@ -78,7 +78,7 @@
             this.TbFormulaInput.Name = "TbFormulaInput";
             this.TbFormulaInput.Size = new System.Drawing.Size(362, 45);
             this.TbFormulaInput.TabIndex = 1;
-            this.TbFormulaInput.Text = "~(|(=(A,~(B)),|(~(|(U,=(T,R))),D))))";
+            this.TbFormulaInput.Text = "~(|(=(A,~(B)),|(~(|(C,=(D,B))),D))))";
             // 
             // BtnParseRecursively
             // 

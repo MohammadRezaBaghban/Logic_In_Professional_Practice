@@ -1,18 +1,16 @@
 ﻿using System;
 using LPP.Composite_Pattern.Components;
-using LPP.Modules;
 
 namespace LPP.Composite_Pattern.Variables
 {
     public class Variable : SingleComponent, IEquatable<Variable>
     {
 
-        public bool bindVariable = false;
-
+        public bool BindVariable;
         public Variable(char symbol, bool bind = false) =>
-            (InFixFormula, Symbol, NodeNumber,bindVariable) = (symbol.ToString(), symbol, ++ParsingModule.NodeCounter,bind);
+            (InFixFormula, Symbol, NodeNumber,BindVariable) = (symbol.ToString(), symbol, ++ParsingModule.NodeCounter,bind);
 
-        public bool Equals(Variable other) => this.Symbol.Equals(other.Symbol);
+        public bool Equals(Variable other) => other != null && Symbol.Equals(other.Symbol);
 
 
         public override bool Equals(object obj)
@@ -23,6 +21,6 @@ namespace LPP.Composite_Pattern.Variables
             return Equals((Variable)obj);
         }
 
-        public override int GetHashCode() => (int) Symbol;
+        public override int GetHashCode() => Symbol;
     }
 }

@@ -2,7 +2,7 @@
 using LPP.Composite_Pattern.Connectives;
 using LPP.Composite_Pattern.Variables;
 
-namespace LPP.Composite_Pattern
+namespace LPP.Visitor_Pattern
 {
     public interface IVisitor
     {
