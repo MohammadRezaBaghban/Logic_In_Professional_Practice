@@ -105,7 +105,7 @@ namespace LPPTestProject
             //Act
             var truthTable = new TruthTable(binaryTree);
             nandify.Calculate(binaryTree.Root);
-            var truthTableNand = new TruthTable(Nandify.binaryTree);
+            var truthTableNand = new TruthTable(Nandify.BinaryTree);
 
             //Assert
             Assert.Equal(truthTable.GetHexadecimalHashCode(),truthTableNand.GetHexadecimalHashCode());

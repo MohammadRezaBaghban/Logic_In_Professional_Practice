@@ -130,7 +130,7 @@ namespace LPP
                     _nandify.Calculate(rootOfNormalBinaryTree);
 
                     _truthTable = new TruthTable(_binaryTreeNormal);
-                    _truthTableNand = new TruthTable(Nandify.binaryTree);
+                    _truthTableNand = new TruthTable(Nandify.BinaryTree);
                     _truthTable.ProcessDnf();
 
                     PopulateTextBoxesWithValues(rootOfNormalBinaryTree);

@@ -7,6 +7,7 @@ namespace LPP.Composite_Pattern.Components
     public class TableauxNode
     {
         //Fields
+        public enum RuleType { RuleAlpha, RuleBeta, RuleDelta, RuleGamma, RuleOmega, RuleDefault };
         public readonly List<Component> Components;
         public readonly List<char> ActiveVariables;
         public readonly RuleType Rule_Type;
@@ -94,10 +95,10 @@ namespace LPP.Composite_Pattern.Components
                 {
                     var newNode = BinaryTree.CloneNode(node, BinaryTree.Object);
                     newNode.Belongs = this;
-                    this.Components.Add(newNode);
+                    Components.Add(newNode);
                 }
             });
-            this.Components.Add(component);
+            Components.Add(component);
             Components.Sort(new ComponentComparer());
         }
 
@@ -119,7 +120,7 @@ namespace LPP.Composite_Pattern.Components
                 {
                     var newNode = BinaryTree.CloneNode(component, BinaryTree.Object);
                     newNode.Belongs = this;
-                    this.Components.Add(newNode);
+                    Components.Add(newNode);
                 }
             });
             Components.Add(node);
@@ -128,7 +129,7 @@ namespace LPP.Composite_Pattern.Components
             if (parent.LeftNode == null) parent.LeftNode = this;
             else if (parent.RightNode == null && ruleType == RuleType.RuleBeta) parent.RightNode = this;
 
-            if (parent.ActiveVariables?.Count != 0 && parent.ActiveVariables != null)
+            if (parent.ActiveVariables?.Count != 0)
             {
                 parent.ActiveVariables?.ForEach(x => this.ActiveVariables?.Add(x));
             }
@@ -204,7 +205,7 @@ namespace LPP.Composite_Pattern.Components
                         this.LeafIsClosed = true;
                         break;
                     }
-                    else if (Components[i] is SingleComponent)
+                    if (Components[i] is SingleComponent)
                     {
                         node1Formula = Components[i] is SingleComponent ? $"¬{node1Formula}" : $"¬({node1Formula})";
                         if (node1Formula != node2Formula) continue;
@@ -255,6 +256,4 @@ namespace LPP.Composite_Pattern.Components
             return temp;
         }
     }
-
-    public enum RuleType { RuleAlpha, RuleBeta, RuleDelta, RuleGamma, RuleOmega, RuleDefault };
 }

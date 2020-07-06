@@ -27,7 +27,7 @@ namespace LPP.Truth_Table
         {
             var bt = new BinaryTree();
             var root = bt.Root;
-            
+
             if (row.PropositionValues.Count(x => x != null) > 1)
             {
                 root = bt.InsertNode(root, new Conjunction());
@@ -62,11 +62,8 @@ namespace LPP.Truth_Table
                     bt.InsertNode(root, variable);
                     return bt;
                 }
-                else
-                {
-                    return null;
-                }
-                
+                return null;
+
             }
         }
 
@@ -75,11 +72,9 @@ namespace LPP.Truth_Table
             
             List<string> normalDNF = new List<string>();
             components.ForEach(x => {
-                if (x != null)
-                {
-                    InfixFormulaGenerator.Calculator.Calculate(x.Root);
-                    normalDNF.Add(x.Root.InFixFormula);
-                }
+                if (x == null) return;
+                InfixFormulaGenerator.Calculator.Calculate(x.Root);
+                normalDNF.Add(x.Root.InFixFormula);
             });
             return string.Join(" ⋁ ", normalDNF);
         }

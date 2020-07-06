@@ -300,9 +300,9 @@ namespace LPP
                 );
             }
             else
-            {
+            {//
                 newNode = new Variable(((Variable) node).Symbol, ((Variable)node).BindVariable);
-                bt.PropositionalVariables.AddPropositionalVariable(newNode as Variable);
+                bt.PropositionalVariables.AddPropositionalVariable((Variable) newNode);
             }
 
             newNode.Parent = node.Parent;
@@ -320,9 +320,9 @@ namespace LPP
             return newNode;
         }
 
-        private static Variable CloneVariableForPredicate(Variable v, char current,char rename)
+        private static Variable CloneVariableForPredicate(Component v, char current,char rename)
         {
-            var variable = (Variable)BinaryTree.CloneNode(v, BinaryTree.Object);
+            var variable = (Variable)CloneNode(v, Object);
             if (variable.Symbol == current)
                 variable.Symbol = rename;
             return variable;

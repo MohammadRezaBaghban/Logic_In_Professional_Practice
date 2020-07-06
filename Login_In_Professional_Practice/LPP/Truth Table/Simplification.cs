@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using LPP.Truth_Table;
+using LPP.Modules;
 
-namespace LPP.Modules
+namespace LPP.Truth_Table
 {
     /// <summary>
     /// A class for for simplifying truth table using Quine-McCluskey Minimization algorithm
@@ -38,9 +38,9 @@ namespace LPP.Modules
 
             for (int i = 0; i <= _numberOfVariables; i++)
             {
-                var rowsWithSpecificNumberOfOnes = rowsWithTrueValue.Where(x => x.NumberOfOnes == i)
-                                                                             .Select(x=>x.Clone())
-                                                                             .Cast<Row>().ToList();
+                var rowsWithSpecificNumberOfOnes = rowsWithTrueValue
+                    .Where(x => x.NumberOfOnes == i).Select(x=>x.Clone()).Cast<Row>().ToList();
+
                 if (rowsWithSpecificNumberOfOnes.Count != 0)
                     _groupedOnes.Add(rowsWithSpecificNumberOfOnes);
             }
@@ -63,9 +63,7 @@ namespace LPP.Modules
             if (row1 == null || row2 == null ||
                 row1.Result != row2.Result ||
                 row1.PropositionValues.Length != row2.PropositionValues.Length)
-            {
                 return -1;
-            }
 
             var numberOfDifference = 0;
             var indexOfDifference = -1;
@@ -130,9 +128,7 @@ namespace LPP.Modules
                 if(nextStep.Count!=0) stepList.Add(nextStep.ToList());
             }
             else
-            {
                 stepList.Add(list);
-            }
         }
     }
 }

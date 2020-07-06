@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LPP.Composite_Pattern.Components;
 using LPP.Composite_Pattern.Connectives;
 using LPP.Composite_Pattern.Variables;
+using static LPP.Composite_Pattern.Components.TableauxNode;
 
 namespace LPP.Visitor_Pattern
 {
@@ -10,8 +11,7 @@ namespace LPP.Visitor_Pattern
     public class Tableaux : IVisitor
     {
         private readonly BinaryTree _binaryTree;
-        private readonly char[] _variables = new[]
-        {'a','b', 'c', 'd', 'e', 'f', 'g', 'h',
+        private readonly char[] _variables = {'a','b', 'c', 'd', 'e', 'f', 'g', 'h',
         'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p',
         'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
         ,'1','2','3','4','5','6','7','8','9'};//Sometimes I need more variable than alphabet
