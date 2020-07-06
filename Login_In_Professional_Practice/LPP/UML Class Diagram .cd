@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
-  <Class Name="LPP.Form1" Collapsed="true">
-    <Position X="38.25" Y="0.5" Width="1.5" />
+  <Class Name="LPP.Form1">
+    <Position X="31.25" Y="7.25" Width="3" />
     <TypeIdentifier>
       <HashCode>AIAAQAAgADQIEBCAAACAAEAWgQAAAAQCATAAAAAACAA=</HashCode>
       <FileName>Form1.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.ParsingModule" Collapsed="true">
-    <Position X="34.75" Y="1.5" Width="1.5" />
+  <Class Name="LPP.ParsingModule">
+    <Position X="3" Y="10.25" Width="3" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
@@ -24,27 +24,27 @@
       <FileName>Parsing-BinaryTree\ParsingModule.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.Program" Collapsed="true">
-    <Position X="36.5" Y="1.5" Width="1.5" />
+  <Class Name="LPP.Program">
+    <Position X="34.75" Y="12" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Program.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.Properties.Resources" Collapsed="true">
-    <Position X="31.25" Y="2.5" Width="1.5" />
+  <Class Name="LPP.Properties.Resources">
+    <Position X="34.75" Y="7.25" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.Properties.Settings" Collapsed="true">
-    <Position X="36.5" Y="2.5" Width="1.5" />
+  <Class Name="LPP.Properties.Settings">
+    <Position X="34.75" Y="10" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="LPP.BinaryTree">
-    <Position X="31.25" Y="6.5" Width="1.5" />
+    <Position X="6.25" Y="10.25" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAgAAAIBEEAIACIgAAAAAAAAAACAAAAAAAABAAAAAAA=</HashCode>
       <FileName>Parsing-BinaryTree\BinaryTree.cs</FileName>
@@ -115,53 +115,53 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="LPP.Composite_Pattern.Variables.TrueFalse">
-    <Position X="25.75" Y="6.5" Width="1.5" />
+    <Position X="25.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Composite Pattern\Variables\TrueFalse.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.Visitor_Pattern.InfixFormulaGenerator" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="31.25" Y="1.5" Width="1.5" />
+  <Class Name="LPP.Visitor_Pattern.InfixFormulaGenerator" BaseTypeListCollapsed="true">
+    <Position X="24.75" Y="15.25" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAQAAAACCAAAACAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Visitor Pattern\InfixFormula_Generator.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LPP.Modules.Row" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="33" Y="2.5" Width="1.5" />
+  <Class Name="LPP.Modules.Row" BaseTypeListCollapsed="true">
+    <Position X="13.5" Y="12.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAgAFAAAAAAQAAAAAAEAAAAAAAAAAABA=</HashCode>
       <FileName>Truth Table\Row.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LPP.Truth_Table.TruthTable" Collapsed="true">
-    <Position X="34.75" Y="3.5" Width="1.5" />
+  <Class Name="LPP.Truth_Table.TruthTable">
+    <Position X="9.75" Y="10.25" Width="3.25" />
     <TypeIdentifier>
       <HashCode>IIAABQAAAIAAQAgEEBAAAEAIAAAEIICAJCAAAIAIAAA=</HashCode>
       <FileName>Truth Table\TruthTable.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LPP.Visitor_Pattern.Calculator" BaseTypeListCollapsed="true">
-    <Position X="23.5" Y="14.75" Width="1.5" />
+    <Position X="28.25" Y="14.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Visitor Pattern\Calculator.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LPP.Composite_Pattern.Components.ComponentComparer" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="34.75" Y="0.5" Width="1.5" />
+  <Class Name="LPP.Composite_Pattern.Components.ComponentComparer" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="16" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
       <FileName>Composite Pattern\Components\ComponentComparer.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LPP.Composite_Pattern.Components.TableauxNode" Collapsed="true">
-    <Position X="33" Y="3.5" Width="1.5" />
+  <Class Name="LPP.Composite_Pattern.Components.TableauxNode">
+    <Position X="20" Y="10.25" Width="2.5" />
     <NestedTypes>
       <Enum Name="LPP.Composite_Pattern.Components.TableauxNode.RuleType" Collapsed="true">
         <TypeIdentifier>
@@ -205,30 +205,30 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LPP.Composite_Pattern.Variables.PropositionalVariables" Collapsed="true">
-    <Position X="38.25" Y="1.5" Width="1.5" />
+  <Class Name="LPP.Composite_Pattern.Variables.PropositionalVariables">
+    <Position X="6.25" Y="14.25" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAABABAAAAAAwAAAAAAAAAAAAAAAAAAAAAQAAAAAAAI=</HashCode>
       <FileName>Composite Pattern\Variables\PropositionalVariables.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.Truth_Table.Dnf" Collapsed="true">
-    <Position X="36.5" Y="0.5" Width="1.5" />
+  <Class Name="LPP.Truth_Table.Dnf">
+    <Position X="17" Y="10.25" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AIAAAAAAAAABABCAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>Truth Table\DNF.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.Modules.RowComparer" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="34.75" Y="2.5" Width="1.5" />
+  <Class Name="LPP.Modules.RowComparer" BaseTypeListCollapsed="true">
+    <Position X="13.5" Y="16" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>Truth Table\RowComparer.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LPP.Truth_Table.Simplification" Collapsed="true">
-    <Position X="38.25" Y="2.5" Width="1.5" />
+  <Class Name="LPP.Truth_Table.Simplification">
+    <Position X="13.5" Y="10.25" Width="2.75" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
@@ -237,31 +237,31 @@
       <FileName>Truth Table\Simplification.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LPP.Visitor_Pattern.Nandify" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="33" Y="1.5" Width="1.5" />
+  <Class Name="LPP.Visitor_Pattern.Nandify" BaseTypeListCollapsed="true">
+    <Position X="28.25" Y="11.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAAAAAwAAAAAAAAAACAAAAAAAAAAAAAACAA=</HashCode>
       <FileName>Visitor Pattern\Nandify.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LPP.Visitor_Pattern.Tableaux" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="31.25" Y="3.5" Width="1.5" />
+  <Class Name="LPP.Visitor_Pattern.Tableaux" BaseTypeListCollapsed="true">
+    <Position X="24.25" Y="11.5" Width="3.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAAAQiAAAAAAAAACAAAAAAAAAAAiAAABA=</HashCode>
       <FileName>Visitor Pattern\Tableaux.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
   <Interface Name="LPP.Visitor_Pattern.IVisitor">
-    <Position X="24.75" Y="13.25" Width="1.5" />
+    <Position X="26" Y="9.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Visitor Pattern\IVisitor.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="LPP.Composite_Pattern.Components.IVariableContainer" Collapsed="true">
-    <Position X="31.25" Y="4.75" Width="1.5" />
+  <Interface Name="LPP.Composite_Pattern.Components.IVariableContainer">
+    <Position X="15.75" Y="4.75" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
       <FileName>Composite Pattern\Components\IVariableContainer.cs</FileName>
