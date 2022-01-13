@@ -1,3 +1,19 @@
+# Developer Feeling
+I had a prodigious chance to finally enter to the research area of computer science upon **#Satisfiability** context of **#Mathematical_Logic** where I design, implement and test a software application which is capable of evaluating the validity of any given Propositional or Predicate logical formula using analytical #Semantic_Tableaux method of **#Proof_Theory**. Furthermore, for the sake of efficiency, a bunch of **#Optimization_Minimization** algorithms like #Quine_McCluskey in #Dynamic_Programming approach have been implemented widely to enhance calculation performance.
+
+Despite its challenging research aspect, the project was a gargantuan praiseworthy trial in designing a fully-fledge #Object_Oriented software where I tackle them by extensive usage of **Visitor, Composite, Strategy** and other #Design_Patterns next to applying **#SOLID principles** to the whole software design to not only deliver a working software but attain a maintainable, extensible and flexible software design. (32 classes | ~3K code lines)
+
+Finally, various #Data_Structures (BinaryTrees, Dictionaries, Multi-dimensional and Jagged Arrays, etc.) have been widely used for #Algorithm_Design where software properly offers 94% code-coverage through using more than 130 unit-tests to verify the validity of the calculations.
+
+# Screenshots
+- Application Interface
+![Application Interface](https://i.ibb.co/18pykfC/LPP-GUI.png)
+
+- Class Diagrams
+![Class Diagram](https://i.ibb.co/cX7gTwT/LPP-UML-Class-Diagram.png)
+
+
+
 # Logic_In_Professional_Practice
 Applications of Logic &amp; Set Theory in Professional Practice
 
